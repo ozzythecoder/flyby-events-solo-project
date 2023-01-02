@@ -24,8 +24,7 @@ router.get('/byGuest', (request, response) => {
     const queryText = `
       SELECT * FROM event
         JOIN user_event ON user_event.event_id = event.id
-        JOIN "user" ON user_event.user_id = "user".id
-        WHERE "user".id = $1
+        WHERE ("user".id = $1) OR (event.host_id = $1)
     ;`;
 
     pool
