@@ -1,5 +1,5 @@
 const express = require('express');
-const { rejectUnathenticated } = require('../modules/authentication-middleware');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 const router = express.Router();
 
@@ -12,10 +12,11 @@ router.get('/byHost', (request, response) => {
         response.send(databaseResponse.rows)
       })
       .catch(err => { console.log('Error in GET /byHost', err); response.sendStatus(500) })
-  } else { response.sendStatus(401) }
+  }
 })
 
 router.get('/byGuest', (request, response) => {
+  // TODO: TEST ⚠️
 
   if (request.isAuthenticated()) {
 
@@ -29,13 +30,42 @@ router.get('/byGuest', (request, response) => {
 
     pool
       .query(queryText, [user_id])
-      .then(databaseResponse => {
+      .then( databaseResponse => {
         console.log('Getting all events with userID', user_id);
         response.send(databaseResponse.rows)
       })
-      .catch(err => { console.log('Error in GET /byGuest', err); response.sendStatus(500) })
+      .catch( err => { console.log('Error in GET /byGuest', err); response.sendStatus(500) })
 
   }
+})
+
+router.post('/addGuest', (request, response) => {
+
+  if (request.isAuthenticated()) {
+
+    const { username, event_id } = request.body;
+
+    // ⚠️ TODO: Modify query to prevent duplicates
+    const queryText = `
+      INSERT INTO user_event
+        (user_id, event_id, guest_state, is_read)
+      VALUES
+        ( (SELECT id FROM "user" WHERE username = $1), $2, 'pending', 'false')
+    ;`;
+
+    // ⚠️ TODO: Add user feature to block incoming invitations
+
+    pool
+      .query(
+        queryText,
+        [ username, event_id ]
+      )
+      .then( () => { console.log('added user', username, 'to event with id', event_id); response.sendStatus(201) })
+      .catch(err => { console.log('Error in POST /addGuest', err); response.sendStatus(500) })
+
+  }
+
+
 })
 
 router.post('/newEvent', (request, response) => {
@@ -57,7 +87,7 @@ router.post('/newEvent', (request, response) => {
         queryText,
         [ name, date, time, location, description, ticket_link, visible, host_id ]
       )
-      .then(databaseResponse => { console.log('New event posted'); response.sendStatus(201) })
+      .then( () => { console.log('New event posted'); response.sendStatus(201) })
       .catch(err => { console.log('Error in POST /newEvent', err); response.sendStatus(500) })
     
   }
