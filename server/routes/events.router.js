@@ -15,6 +15,30 @@ router.get('/byHost', (request, response) => {
   } else { response.sendStatus(401) }
 })
 
+router.get('/byGuest', (request, response) => {
+
+  if (request.isAuthenticated()) {
+
+    const user_id = request.user.id
+
+    const queryText = `
+      SELECT * FROM event
+        JOIN user_event ON user_event.event_id = event.id
+        JOIN "user" ON user_event.user_id = "user".id
+        WHERE "user".id = $1
+    ;`;
+
+    pool
+      .query(queryText, [user_id])
+      .then(databaseResponse => {
+        console.log('Getting all events with userID', user_id);
+        response.send(databaseResponse.rows)
+      })
+      .catch(err => { console.log('Error in GET /byGuest', err); response.sendStatus(500) })
+
+  }
+})
+
 router.post('/newEvent', (request, response) => {
 
   if (request.isAuthenticated()) {
@@ -23,10 +47,10 @@ router.post('/newEvent', (request, response) => {
     const host_id = request.user.id;
     
     const queryText = `
-    INSERT INTO event
-      (name, date, time, location, description, ticket_link, visible, host_id)
-    VALUES
-      ($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO event
+        (name, date, time, location, description, ticket_link, visible, host_id)
+      VALUES
+        ($1, $2, $3, $4, $5, $6, $7, $8)
     ;`;
 
     pool
