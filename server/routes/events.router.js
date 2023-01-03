@@ -25,8 +25,7 @@ router.get('/eventsByGuest', (request, response) => {
     const queryText = `
       SELECT event.*, user_event.guest_state FROM event
         JOIN user_event ON user_event.event_id = event.id
-        JOIN "user" on "user".id = user_event.user_id
-        WHERE ("user".id = $1) OR (event.host_id = $1)
+        WHERE (user_event.user_id = $1)
         ORDER BY user_event.guest_state DESC
     ;`;
 
@@ -116,5 +115,55 @@ router.post('/createEvent', (request, response) => {
     
   }
 });
+
+router.put('/editEvent', (request, response) => {
+
+  if (request.isAuthenticated()) {
+
+    // check if user is authorized to edit event
+    pool.query('SELECT host_id FROM event WHERE id = $1', [request.body.event_id])
+      .then(databaseResponse => {
+        if (databaseResponse.rows[0].host_id === request.user.id) {
+
+          const event = [
+            request.body.name,
+            request.body.date,
+            request.body.time,
+            request.body.location,
+            request.body.description,
+            request.body.ticket_link,
+            request.body.visible,
+            request.body.event_id
+          ]
+
+          console.log(event);
+
+          const queryText = `
+            UPDATE event
+            SET name = $1, date = $2, time = $3, location = $4, description = $5, ticket_link = $6, visible = $7
+            WHERE id = $8
+          ;`;
+        
+          pool
+            .query(queryText, event)
+            .then(databaseResponse => {
+              console.log('Updated event');
+              response.sendStatus(200);
+            })
+            .catch(err => {
+              console.log('Failed to update event:', err)
+              response.sendStatus(500);
+            })
+
+
+        } else {
+          console.log('User unauthorized', request.user.id)
+          response.sendStatus(401)
+        }
+      }) // end authorization query
+      .catch(err => { console.log('Error in /editEvent:', err); response.sendStatus(500) })
+
+  }
+})
 
 module.exports = router;
