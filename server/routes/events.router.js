@@ -93,14 +93,14 @@ router.post('/addGuest', (request, response) => {
 
   if (request.isAuthenticated()) {
 
-    const { username, event_id } = request.body;
+    const { user_id, event_id } = request.body;
 
     // ⚠️ TODO: Modify query to prevent duplicates
     const queryText = `
       INSERT INTO user_event
         (user_id, event_id, guest_state, is_read)
       VALUES
-        ( (SELECT id FROM "user" WHERE username = $1), $2, 'pending', 'false')
+        ($1, $2, 'pending', 'false')
     ;`;
 
     // ⚠️ TODO: Add user feature to block incoming invitations
@@ -108,7 +108,7 @@ router.post('/addGuest', (request, response) => {
     pool
       .query(
         queryText,
-        [ username, event_id ]
+        [ user_id, event_id ]
       )
       .then( () => { console.log('added user', username, 'to event with id', event_id); response.sendStatus(201) })
       .catch(err => { console.log('Error in POST /addGuest', err); response.sendStatus(500) })
@@ -191,7 +191,7 @@ router.put('/editEvent', (request, response) => {
   }
 })
 
-router.delete('/:idToDelete', (request, response) => {
+router.delete('/deleteEvent/:idToDelete', (request, response) => {
 
   if (request.isAuthenticated()) {
     const { idToDelete } = request.params
@@ -224,6 +224,41 @@ router.delete('/:idToDelete', (request, response) => {
       })
   }
 
+})
+
+router.delete('/deleteGuest', (request, response) => {
+
+  if (request.isAuthenticated()) {
+
+    const { event_id } = request.body;
+
+    pool.query('SELECT * FROM event WHERE id = $1', [event_id])
+      .then(databaseResponse => {
+        if (databaseResponse.rows[0].host_id === request.user.id) {
+
+          const { guestIdToDelete } = request.body;
+          const queryText = 'DELETE FROM user_event WHERE user_id = $1 AND event_id = $2';
+
+          pool.query(queryText, [guestIdToDelete, event_id])
+            .then(() => {
+              console.log('User', guestIdToDelete, 'deleted from event', event_id);
+              response.sendStatus(200)
+            })
+            .catch(err => {
+              console.log('Error deleting event', err);
+              response.sendStatus(500);
+            })
+
+        } else {
+          console.log('Unauthorized user');
+          response.sendStatus(401);
+        }
+      })
+      .catch(err => {
+        console.log('Error authorizing user to delete guest', err);
+        response.sendStatus(500);
+      })
+  }
 })
 
 
