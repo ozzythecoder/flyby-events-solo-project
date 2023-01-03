@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
@@ -171,7 +172,7 @@ router.put('/editEvent', (request, response) => {
         
           pool
             .query(queryText, event)
-            .then(databaseResponse => {
+            .then(() => {
               console.log('Updated event');
               response.sendStatus(200);
             })
@@ -189,5 +190,41 @@ router.put('/editEvent', (request, response) => {
       .catch(err => { console.log('Error in /editEvent:', err); response.sendStatus(500) })
   }
 })
+
+router.delete('/:idToDelete', (request, response) => {
+
+  if (request.isAuthenticated()) {
+    const { idToDelete } = request.params
+
+    pool
+      .query('SELECT * FROM event WHERE id = $1', [ idToDelete ])
+      .then(databaseResponse => {
+        if (databaseResponse.rows[0].host_id === request.user.id) {
+
+          pool
+            .query('DELETE FROM event WHERE id = $1', [ idToDelete ])
+            .then(() => {
+              console.log('Deleted event');
+              response.sendStatus(200);
+            })
+            .catch(err => {
+              console.log('Error deleting event', err)
+              response.sendStatus(500);
+            })
+
+        } else {
+          console.log('Unauthorized user')
+          response.sendStatus(401);
+        }
+
+      })
+      .catch(err => {
+        console.log('Error authorizing user to delete event', err)
+        response.sendStatus(500);
+      })
+  }
+
+})
+
 
 module.exports = router;
