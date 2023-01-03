@@ -232,7 +232,7 @@ router.delete('/deleteGuest', (request, response) => {
 
     const { event_id } = request.body;
 
-    pool.query('SELECT * FROM event WHERE id = $1', [event_id])
+    pool.query('SELECT host_id FROM event WHERE id = $1', [event_id])
       .then(databaseResponse => {
         if (databaseResponse.rows[0].host_id === request.user.id) {
 
@@ -261,5 +261,28 @@ router.delete('/deleteGuest', (request, response) => {
   }
 })
 
+router.delete('/removeEventFromMyEvents', (request, response) => {
+
+  if (request.isAuthenticated()) {
+
+    const user_id = request.user.id;
+    const { event_id } = request.body;
+
+    pool
+      .query(
+        'DELETE FROM user_event WHERE user_id = $1 AND event_id = $2',
+        [user_id, event_id]
+      )
+      .then(() => {
+        console.log('Deleted user', user_id, 'from event', event_id);
+        response.sendStatus(200)
+      })
+      .catch(err => {
+        console.log('Error deleting user from event')
+        response.sendStatus(500)
+      })
+  }
+
+})
 
 module.exports = router;
