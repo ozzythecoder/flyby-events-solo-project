@@ -63,6 +63,31 @@ router.get('/guestsByEvent', (request, response) => {
   }
 })
 
+router.post('/addToMyEvents', (request, response) => {
+
+  if (request.isAuthenticated()) {
+
+    const user_id = request.user.id
+    const { event_id } = request.body;
+
+    const queryText = `
+      INSERT INTO user_event
+        (user_id, event_id, guest_state, is_read)
+      VALUES
+        ($1, $2, 'added', 'true')
+    ;`;
+
+    pool
+      .query(queryText, [user_id, event_id])
+      .then(databaseResponse => {
+        console.log('Added to events');
+        response.sendStatus(201);
+      })
+      .catch(err => { console.log('POST /addToMyEvents', err); response.sendStatus(500) })
+
+  }
+})
+
 router.post('/addGuest', (request, response) => {
 
   if (request.isAuthenticated()) {
@@ -162,7 +187,6 @@ router.put('/editEvent', (request, response) => {
         }
       }) // end authorization query
       .catch(err => { console.log('Error in /editEvent:', err); response.sendStatus(500) })
-
   }
 })
 
