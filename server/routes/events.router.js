@@ -3,7 +3,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 const pool = require('../modules/pool');
 const router = express.Router();
 
-router.get('/byHost', (request, response) => {
+router.get('/eventsByHost', (request, response) => {
 
   if (request.isAuthenticated()) {
     pool
@@ -15,7 +15,7 @@ router.get('/byHost', (request, response) => {
   }
 })
 
-router.get('/byGuest', (request, response) => {
+router.get('/eventsByGuest', (request, response) => {
   // TODO: TEST ⚠️
 
   if (request.isAuthenticated()) {
@@ -23,10 +23,11 @@ router.get('/byGuest', (request, response) => {
     const user_id = request.user.id
 
     const queryText = `
-      SELECT event.* FROM event
+      SELECT event.*, user_event.guest_state FROM event
         JOIN user_event ON user_event.event_id = event.id
         JOIN "user" on "user".id = user_event.user_id
         WHERE ("user".id = $1) OR (event.host_id = $1)
+        ORDER BY user_event.guest_state DESC
     ;`;
 
     pool
@@ -36,6 +37,29 @@ router.get('/byGuest', (request, response) => {
         response.send(databaseResponse.rows)
       })
       .catch( err => { console.log('Error in GET /byGuest', err); response.sendStatus(500) })
+
+  }
+})
+
+router.get('/guestsByEvent', (request, response) => {
+  
+  if (request.isAuthenticated()) {
+
+    const { event_id } = request.body
+
+    const queryText = `
+      SELECT "user".username, "user".profile_img_url, user_event.guest_state FROM "user"
+        JOIN user_event ON user_event.user_id = "user".id
+        JOIN event ON event.id = user_event.event_id
+        WHERE event.id = $1
+    `;
+
+    pool.query(queryText, [event_id])
+      .then( databaseResponse => {
+        console.log('Getting guests for event with ID', event_id)
+        response.send(databaseResponse.rows)
+      })
+      .catch( err => { console.log('Error in GET /guestsByEvent', err); response.sendStatus(500) })
 
   }
 })
@@ -66,10 +90,9 @@ router.post('/addGuest', (request, response) => {
 
   }
 
-
 })
 
-router.post('/newEvent', (request, response) => {
+router.post('/createEvent', (request, response) => {
 
   if (request.isAuthenticated()) {
 
