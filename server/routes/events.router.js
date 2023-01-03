@@ -17,7 +17,6 @@ router.get('/eventsByHost', (request, response) => {
 })
 
 router.get('/eventsByGuest', (request, response) => {
-  // TODO: TEST ⚠️
 
   if (request.isAuthenticated()) {
 
@@ -103,7 +102,7 @@ router.post('/addGuest', (request, response) => {
         ($1, $2, 'pending', 'false')
     ;`;
 
-    // ⚠️ TODO: Add user feature to block incoming invitations
+    // ⚠️ STRETCH: Add user feature to block incoming invitations
 
     pool
       .query(
@@ -151,6 +150,7 @@ router.put('/editEvent', (request, response) => {
       .then(databaseResponse => {
         if (databaseResponse.rows[0].host_id === request.user.id) {
 
+          // Maybe a cleaner way to do this?
           const event = [
             request.body.name,
             request.body.date,
@@ -188,6 +188,31 @@ router.put('/editEvent', (request, response) => {
         }
       }) // end authorization query
       .catch(err => { console.log('Error in /editEvent:', err); response.sendStatus(500) })
+  }
+})
+
+router.put('/editStatus', (request, response) => {
+
+  if (request.isAuthenticated()) {
+
+    const user_id = request.user.id;
+    const { event_id, guest_state } = request.body;
+
+    const queryText = `
+      UPDATE user_event
+        SET guest_state = $1
+        WHERE event_id = $2 AND user_id = $3
+    ;`;
+
+    pool.query(queryText, [guest_state, user_id, event_id])
+      .then( () => {
+        console.log('Updated guest status');
+        response.sendStatus(200)
+      })
+      .catch(err => {
+        console.log('Error updating guest status', err);
+        response.sendStatus(500)
+      })
   }
 })
 
