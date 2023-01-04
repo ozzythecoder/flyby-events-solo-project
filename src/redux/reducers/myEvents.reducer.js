@@ -1,8 +1,8 @@
-const myEvents = (state = [], action) => {
+const myEventsReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET_MY_EVENTS':  return action.payload;
+    case 'SET_MY_EVENTS': return action.payload;
     default: return state;
   }
 }
 
-export default myEvents;
+export default myEventsReducer;
