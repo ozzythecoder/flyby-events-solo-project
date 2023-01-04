@@ -4,11 +4,11 @@ import { put, takeLatest } from 'redux-saga/effects'
 function* fetchAllEvents() {
   try {
 
-    const events = yield axios.get('/allEvents')
-    yield put({ type: 'SET_ALL_EVENTS', payload: events })
+    const events = yield axios.get('api/events/allEvents')
+    yield put({ type: 'SET_ALL_EVENTS', payload: events.data })
 
   } catch (error) {
-    console.log('Error fetching all events');
+    console.log('Error fetching all events', error);
   }
 
 }
