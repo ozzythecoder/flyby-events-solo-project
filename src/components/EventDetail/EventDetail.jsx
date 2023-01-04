@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import EventDetailItem from "../EventDetailItem/EventDetailItem";
+
 export default function EventDetail() {
   const dispatch = useDispatch();
   const { eventID } = useParams();
@@ -20,16 +22,7 @@ export default function EventDetail() {
         <b>Go Back</b>
       </p>
       {thisEvent.map((event, index) => {
-        return event.visible ? (
-          <div>
-            <p>{event.name}</p>
-            <p>{event.date}</p>
-            <p>{event.time}</p>
-            <p>{event.location}</p>
-            <p>{event.description}</p>
-            <p>{event.ticket_link || 'none'}</p>
-          </div>
-        ) : (<>Sorry, you do not have access to this event.</>)
+        return (<EventDetailItem key={index} event={event} />)
       })}
     </div>
   );
