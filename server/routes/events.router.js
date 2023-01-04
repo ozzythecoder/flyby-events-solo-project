@@ -4,6 +4,16 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 const pool = require('../modules/pool');
 const router = express.Router();
 
+router.get('/allEvents', (request, response) => {
+
+  if (request.isAuthenticated()) {
+    pool 
+      .query(`SELECT * FROM event`)
+      .then(databaseResponse => response.send(databaseResponse.rows))
+      .catch(err => { console.log('allEvents', err); response.sendStatus(500) })
+  }
+})
+
 router.get('/eventsByHost', (request, response) => {
 
   if (request.isAuthenticated()) {
