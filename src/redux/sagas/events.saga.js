@@ -13,8 +13,18 @@ function* fetchAllEvents() {
 
 }
 
+function* fetchMyEvents() {
+  try {
+    const myEvents = yield axios.get('/api/events/eventsByGuest')
+    yield ({ type: 'SET_MY_EVENTS', payload: myEvents.data })
+  } catch (error) {
+    console.log('Error fetching events', error)
+  }
+}
+
 function* eventsSaga() {
   yield takeLatest('FETCH_ALL_EVENTS', fetchAllEvents)
+  yield takeLatest('FETCH_MY_EVENTS', fetchMyEvents)
 }
 
 export default eventsSaga;

@@ -5,4 +5,6 @@ const eventsReducer = (state = [], action) => {
   }
 }
 
+
+
 export default eventsReducer;

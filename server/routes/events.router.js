@@ -1,4 +1,3 @@
-const { response } = require('express');
 const express = require('express');
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
