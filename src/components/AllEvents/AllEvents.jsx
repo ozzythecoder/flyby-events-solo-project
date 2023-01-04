@@ -5,15 +5,16 @@ export default function AllEvents() {
 
   const dispatch = useDispatch();
 
-  const allEvents = useSelector(store => store.myEvents)
+  const myEvents = useSelector(store => store.myEvents)
 
   useEffect(() => {
+    dispatch({ type: 'FETCH_ALL_EVENTS' })
     dispatch({ type: 'FETCH_MY_EVENTS' })
   }, [])
 
   return (
     <div>
-      { allEvents.map(event => {
+      { myEvents.map(event => {
         return (
           <div>
             <p><b>{event.name}</b></p>
