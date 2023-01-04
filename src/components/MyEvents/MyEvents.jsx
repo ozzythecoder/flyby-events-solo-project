@@ -19,7 +19,10 @@ export default function AllEvents() {
           return (
             <div key={index}>
               <p>
+                <a href= {`/#/event/${event.id}`}>
+
                 <b>{event.name}</b>
+                </a>
               </p>
               <p>{event.date}</p>
               <p>{event.location}</p>
