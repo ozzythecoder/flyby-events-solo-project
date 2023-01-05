@@ -14,7 +14,6 @@ export default function EventDetail() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_MY_EVENTS" });
-    dispatch({ type: 'FETCH_EVENT_GUESTS', payload: 7 })
   }, []);
 
   return (

@@ -8,16 +8,16 @@ export default function EventDetailItem({ event }) {
   const user = useSelector((store) => store.user);
   const guests = useSelector(store => store.guests);
 
-  const hostView = event.hostid === user.id
+  const hostView = event.hostid !== user.id
 
   useEffect(() => {
-
+    dispatch({ type: 'FETCH_EVENT_GUESTS', payload: event.id })
   }, [])
 
   return (
     <div>
       
-      <div>{hostView && <p>Can be edited</p>}</div>
+      <div>{hostView ? <p>Can be edited</p> : <p><b>Add to events</b></p>}</div>
 
       {event.visible ? (
         <div>
