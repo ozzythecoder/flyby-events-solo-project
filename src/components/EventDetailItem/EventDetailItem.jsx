@@ -8,7 +8,7 @@ export default function EventDetailItem({ event }) {
   const user = useSelector((store) => store.user);
   const guests = useSelector(store => store.guests);
 
-  const hostView = event.hostid !== user.id //! CHANGE
+  const hostView = event.hostid === user.id
 
   useEffect(() => {
 
@@ -16,7 +16,9 @@ export default function EventDetailItem({ event }) {
 
   return (
     <div>
+      
       <div>{hostView && <p>Can be edited</p>}</div>
+
       {event.visible ? (
         <div>
           <p>{event.name}</p>
@@ -29,12 +31,18 @@ export default function EventDetailItem({ event }) {
       ) : (
         <>Sorry, you do not have access to this event.</>
       )}
+
       {hostView && (
         <div>
           <h3>Guest List</h3>
-          {JSON.stringify(guests)}
+          {guests.map((guest, index) => {
+            return (
+              <div key={index}>{guest.username}: {guest.guest_state}</div>
+            )
+          })}
         </div>
       )}
+
     </div>
   );
 }
