@@ -9,7 +9,7 @@ export default function CreateEventPreview() {
   const { eventToSubmit } = useSelector((store) => store.events);
 
   const createEvent = () => {
-
+    dispatch({ type: 'ADD_NEW_EVENT', payload: eventToSubmit })
   }
 
   const goBack = () => { history.goBack(); }
