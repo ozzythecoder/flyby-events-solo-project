@@ -6,11 +6,12 @@ export default function EventDetailItem({ event }) {
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.user);
+  const guests = useSelector(store => store.guests);
 
-  const hostView = event.hostid !== user.id
+  const hostView = event.hostid !== user.id //! CHANGE
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_EVENT_GUESTS', payload: event.id })
+
   }, [])
 
   return (
@@ -31,7 +32,7 @@ export default function EventDetailItem({ event }) {
       {hostView && (
         <div>
           <h3>Guest List</h3>
-
+          {JSON.stringify(guests)}
         </div>
       )}
     </div>

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import errors from './errors.reducer';
 import user from './user.reducer';
+import guests from './guests.reducer';
 import events from './events.reducer'
 import myEvents from './myEvents.reducer';
 
@@ -12,6 +13,7 @@ import myEvents from './myEvents.reducer';
 // This is what we get when we use 'state' inside of 'mapStateToProps'
 const rootReducer = combineReducers({
   myEvents,
+  guests,
   events,
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in

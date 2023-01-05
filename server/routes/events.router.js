@@ -53,7 +53,7 @@ router.get('/guestsByEvent', (request, response) => {
   
   if (request.isAuthenticated()) {
 
-    const { event_id } = request.body
+    const { event_id } = request.query
 
     const queryText = `
       SELECT "user".username, "user".profile_img_url, user_event.guest_state FROM "user"
