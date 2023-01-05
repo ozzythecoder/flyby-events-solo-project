@@ -13,6 +13,28 @@ router.get('/allEvents', (request, response) => {
   }
 })
 
+router.get('/allUsers', (request, response) => {
+
+  if (request.isAuthenticated()) {
+    pool
+      .query(`SELECT username, id FROM "user"`)
+      .then(databaseResponse => response.send(databaseResponse.rows))
+      .catch(err => { console.log('/allUsers', err); response.sendStatus(500)})
+  }
+})
+
+router.get('/userByUsername', (request, response) => {
+  if (request.isAuthenticated()) {
+
+    const { username } = request.query
+
+    pool
+      .query(`SELECT id FROM "user" WHERE username = $1`, [username])
+      .then(databaseResponse => response.send(databaseResponse.rows))
+      .catch(err => { console.log('/userByUsername', err); response.sendStatus(500)})
+  }
+})
+
 router.get('/eventsByHost', (request, response) => {
 
   if (request.isAuthenticated()) {

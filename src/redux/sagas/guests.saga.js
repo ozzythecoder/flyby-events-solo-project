@@ -11,11 +11,32 @@ function* fetchEventGuests(action) {
   } catch (error) {
     console.log('fetchEventGuests saga', error)
   }
+}
 
+function* addEventGuest(action) {
+  try {
+
+  } catch (error) {
+  }
+  
+}
+
+function* findGuestByUsername(action) {
+  try {
+    const guestObj = yield axios.get('/api/events/userByUsername',
+    { params: { username: action.payload } })
+
+    const guestId = guestObj.data[0].id
+
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function* guestsSaga() {
   yield takeLatest('FETCH_EVENT_GUESTS', fetchEventGuests)
+  yield takeLatest('FIND_GUEST_BY_USERNAME', findGuestByUsername)
+  yield takeLatest('ADD_EVENT_GUEST', addEventGuest)
 }
 
 export default guestsSaga;

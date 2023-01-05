@@ -23,7 +23,9 @@ export default function EventDetailItem({ event }) {
   const inviteNewGuests = (evt) => {
     evt.preventDefault();
 
-    console.log('in invitenewguests');
+    console.log('inviting new guest', newGuestIn);
+
+    dispatch({ type: 'FIND_GUEST_BY_USERNAME', payload: newGuestIn })
 
   };
 
