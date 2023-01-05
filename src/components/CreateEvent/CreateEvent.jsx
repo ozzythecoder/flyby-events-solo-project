@@ -12,11 +12,25 @@ export default function CreateEvent() {
   const [ticketLinkIn, setTicketLink] = useState("");
   const [visibleIn, setVisible] = useState(false);
 
-  const validateInputs = () => {
-  
+  const validateInputs = (eventObject) => {
+
+    let {ticket_link, visible, ...eventToValidate} = eventObject
+
+    if (Object.values(eventToValidate).some(value => !value)) {
+      console.log('falsy values')
+
+      // ⚠️ ALERT USER
+
+      return false;
+    }
+    
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+
+    event.preventDefault();
+
+    console.log('in handlesubmit')
 
     const eventObject = {
       name: nameIn,
@@ -28,7 +42,10 @@ export default function CreateEvent() {
       visible: visibleIn
     }
 
-    validateInputs();
+    if (validateInputs(eventObject) === false) return false;
+
+    console.log('input valid')
+
   };
 
   return (
