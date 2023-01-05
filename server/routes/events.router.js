@@ -1,8 +1,17 @@
-const { response } = require('express');
 const express = require('express');
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 const router = express.Router();
+
+router.get('/allEvents', (request, response) => {
+
+  if (request.isAuthenticated()) {
+    pool 
+      .query(`SELECT * FROM event`)
+      .then(databaseResponse => response.send(databaseResponse.rows))
+      .catch(err => { console.log('allEvents', err); response.sendStatus(500) })
+  }
+})
 
 router.get('/eventsByHost', (request, response) => {
 
@@ -44,10 +53,10 @@ router.get('/guestsByEvent', (request, response) => {
   
   if (request.isAuthenticated()) {
 
-    const { event_id } = request.body
+    const { event_id } = request.query
 
     const queryText = `
-      SELECT "user".username, "user".profile_img_url, user_event.guest_state FROM "user"
+      SELECT "user".username, "user".profile_img_url, "user".id, user_event.guest_state FROM "user"
         JOIN user_event ON user_event.user_id = "user".id
         JOIN event ON event.id = user_event.event_id
         WHERE event.id = $1
