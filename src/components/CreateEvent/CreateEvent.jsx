@@ -4,13 +4,15 @@ import { useSelector, useDispatch } from "react-redux";
 export default function CreateEvent() {
   const dispatch = useDispatch();
 
-  const [nameIn, setName] = useState("");
-  const [dateIn, setDate] = useState("");
-  const [timeIn, setTime] = useState("");
-  const [locationIn, setLocation] = useState("");
-  const [descriptionIn, setDescription] = useState("");
-  const [ticketLinkIn, setTicketLink] = useState("");
-  const [visibleIn, setVisible] = useState(false);
+  const { eventToSubmit } = useSelector(store => store.events)
+  
+  const [nameIn, setName] = useState(eventToSubmit.name);
+  const [dateIn, setDate] = useState(eventToSubmit.date);
+  const [timeIn, setTime] = useState(eventToSubmit.time);
+  const [locationIn, setLocation] = useState(eventToSubmit.location);
+  const [descriptionIn, setDescription] = useState(eventToSubmit.description);
+  const [ticketLinkIn, setTicketLink] = useState(eventToSubmit.ticket_link);
+  const [visibleIn, setVisible] = useState(eventToSubmit.visible);
 
   const validateInputs = (eventObject) => {
 
@@ -23,7 +25,8 @@ export default function CreateEvent() {
 
       return false;
     }
-    
+
+    return true;
   }
 
   const handleSubmit = (event) => {
@@ -46,6 +49,9 @@ export default function CreateEvent() {
 
     console.log('input valid')
 
+    dispatch({ type: 'SET_EVENT_TO_SUBMIT', payload: eventObject })
+
+    
   };
 
   return (
@@ -121,6 +127,10 @@ export default function CreateEvent() {
           Submit
         </button>
       </form>
+
+      <div>
+        {JSON.stringify(eventToSubmit)}
+      </div>
     </div>
   );
 }
