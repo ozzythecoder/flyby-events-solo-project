@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export default function CreateEvent() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { eventToSubmit } = useSelector(store => store.events)
   
-  const [nameIn, setName] = useState(eventToSubmit.name);
-  const [dateIn, setDate] = useState(eventToSubmit.date);
-  const [timeIn, setTime] = useState(eventToSubmit.time);
-  const [locationIn, setLocation] = useState(eventToSubmit.location);
-  const [descriptionIn, setDescription] = useState(eventToSubmit.description);
-  const [ticketLinkIn, setTicketLink] = useState(eventToSubmit.ticket_link);
-  const [visibleIn, setVisible] = useState(eventToSubmit.visible);
+  const [nameIn, setName] = useState(eventToSubmit.name || '');
+  const [dateIn, setDate] = useState(eventToSubmit.date || '');
+  const [timeIn, setTime] = useState(eventToSubmit.time || '');
+  const [locationIn, setLocation] = useState(eventToSubmit.location || '');
+  const [descriptionIn, setDescription] = useState(eventToSubmit.description || '');
+  const [ticketLinkIn, setTicketLink] = useState(eventToSubmit.ticket_link || '');
+  const [visibleIn, setVisible] = useState(eventToSubmit.visible || false);
 
   const validateInputs = (eventObject) => {
 
@@ -50,8 +52,7 @@ export default function CreateEvent() {
     console.log('input valid')
 
     dispatch({ type: 'SET_EVENT_TO_SUBMIT', payload: eventObject })
-
-    
+    history.push('/createEvent/preview')
   };
 
   return (
