@@ -24,6 +24,7 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import "./App.css";
 import MyEvents from '../MyEvents/MyEvents'
 import EventDetail from "../EventDetail/EventDetail";
+import CreateEvent from "../CreateEvent/CreateEvent";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +48,10 @@ function App() {
 
           <ProtectedRoute exact path="/myEvents">
             <MyEvents />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/createEvent">
+            <CreateEvent />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/event/:eventID">
