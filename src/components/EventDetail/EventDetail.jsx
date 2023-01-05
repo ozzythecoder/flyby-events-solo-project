@@ -9,7 +9,7 @@ export default function EventDetail() {
   const { eventID } = useParams();
 
   const thisEvent = useSelector((store) =>
-    store.events.filter((el) => el.id == eventID)
+    store.myEvents.filter((el) => el.id == eventID)
   );
 
   useEffect(() => {
