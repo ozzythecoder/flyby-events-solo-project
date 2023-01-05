@@ -56,7 +56,7 @@ router.get('/guestsByEvent', (request, response) => {
     const { event_id } = request.query
 
     const queryText = `
-      SELECT "user".username, "user".profile_img_url, user_event.guest_state FROM "user"
+      SELECT "user".username, "user".profile_img_url, "user".id, user_event.guest_state FROM "user"
         JOIN user_event ON user_event.user_id = "user".id
         JOIN event ON event.id = user_event.event_id
         WHERE event.id = $1

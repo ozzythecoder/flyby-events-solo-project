@@ -22,7 +22,7 @@ export default function EventDetail() {
         <b>Go Back</b>
       </p>
       {thisEvent.map((event, index) => {
-        return (<EventDetailItem key={index} event={event} />)
+        return <EventDetailItem key={index} event={event} />
       })}
     </div>
   );

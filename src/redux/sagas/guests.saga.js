@@ -5,7 +5,6 @@ import { put, takeLatest } from 'redux-saga/effects'
 
 function* fetchEventGuests(action) {
   try {
-    console.log('action.payload:', action.payload)
     const guests = yield axios.get('/api/events/guestsByEvent',
       { params: { event_id: action.payload } })
     yield put({ type: 'SET_EVENT_GUESTS', payload: guests.data })
