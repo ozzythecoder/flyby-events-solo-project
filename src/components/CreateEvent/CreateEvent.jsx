@@ -129,10 +129,6 @@ export default function CreateEvent() {
           Submit
         </button>
       </form>
-
-      <div>
-        {JSON.stringify(eventToSubmit)}
-      </div>
     </div>
   );
 }

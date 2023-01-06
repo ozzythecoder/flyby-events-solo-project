@@ -26,9 +26,9 @@ export default function AllEvents() {
 
                 {user.id === event.host_id && ' - Hosting'}
               </p>
-              <p>{event.date}</p>
-              <p>{event.location}</p>
-              <p>{event.description}</p>
+              <p>When: {event.date}</p>
+              <p>Where: {event.location}</p>
+              <p>Description:<br />{event.description}</p>
             </div>
           );
         })}
