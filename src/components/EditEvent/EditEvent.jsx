@@ -14,12 +14,13 @@ export default function EditEvent() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_ALL_EVENTS" })
+    dispatch({ type: 'SET_ID_OF_EDITED_EVENT', payload: eventId })
   }, []);
 
   return (
     <div>
       <h1>Edit Event</h1>
-      <EventForm goNext={"/editPreview"} />
+      <EventForm eventId={eventId} goNext={"/editPreview"} />
     </div>
   );
 }

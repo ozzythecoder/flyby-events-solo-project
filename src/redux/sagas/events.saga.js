@@ -32,9 +32,13 @@ function* addNewEvent(action) {
 
 function* editEvent(action) {
   try {
-
+    yield axios.put('/api/events/editEvent', action.payload)
+    yield put({ type: 'FETCH_ALL_EVENTS'})
   } catch (error) {
+    console.log('Error editing event', error)
 
+    
+    // ⚠️ ALERT USER
   }
 }
 
