@@ -10,7 +10,8 @@ export default function CreateEventPreview() {
 
   const createEvent = () => {
     dispatch({ type: 'ADD_NEW_EVENT', payload: eventToSubmit })
-    history.push('/home')
+    dispatch({ type: 'FETCH_ALL_EVENTS' })
+    history.push('/myEvents')
   }
 
   const goBack = () => { history.goBack(); }

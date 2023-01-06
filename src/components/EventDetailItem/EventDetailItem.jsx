@@ -34,6 +34,7 @@ export default function EventDetailItem({ event }) {
       type: 'DELETE_EVENT',
       payload: event.id
     })
+    dispatch({ type: 'FETCH_ALL_EVENTS' })
     history.push('/myEvents')
   };
 
