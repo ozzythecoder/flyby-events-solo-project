@@ -61,9 +61,9 @@ router.get('/eventsByGuest', (request, response) => {
     // ;`;
 
     const queryText = `
-    SELECT DISTINCT * FROM event
-	    LEFT JOIN user_event ON user_event.event_id = event.id
-	    WHERE event.host_id = $1 OR user_event.user_id = $1
+    SELECT DISTINCT event.* FROM event
+      LEFT JOIN user_event ON user_event.event_id = event.id
+      WHERE event.host_id = $1 OR user_event.user_id = $1
       ORDER BY event.date
     ;`;
 

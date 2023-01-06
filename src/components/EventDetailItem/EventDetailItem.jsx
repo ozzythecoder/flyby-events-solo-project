@@ -39,18 +39,19 @@ export default function EventDetailItem({ event }) {
       <div>
         {hostView && (
           <p>
-            <button onClick={editEvent} disabled>Edit Event</button>
-            <button onClick={deleteEvent} disabled>Delete Event</button>
+            <button onClick={editEvent} disabled>
+              Edit Event
+            </button>
+            <button onClick={deleteEvent} disabled>
+              Delete Event
+            </button>
           </p>
         )}
       </div>
 
       {event.visible || hostView || guestView ? (
         <div>
-          <p>
-            <b>Add To Events</b>
-          </p>
-          <p>{event.name}</p>
+          <h3>{event.name}</h3>
           <p>{event.date}</p>
           <p>{event.time}</p>
           <p>{event.location}</p>
@@ -62,34 +63,37 @@ export default function EventDetailItem({ event }) {
         <>Sorry, you do not have access to this event.</>
       )}
 
-      <div>
-        <label labelfor="newGuest">
-          Invite Guest:
-          <input
-            id="newGuest"
-            type="text"
-            placeholder="Guest Username"
-            value={newGuestIn}
-            onChange={(event) => setNewGuest(event.target.value)}
-          />
-          <button type="submit" onClick={inviteNewGuests}>
-            √
-          </button>
-        </label>
-      </div>
-
       {hostView && (
-        <div>
-          <h3>Guest List</h3>
+        <>
+          <div>
+            <label labelfor="newGuest">
+              Invite Guest:
+              <input
+                id="newGuest"
+                type="text"
+                placeholder="Guest Username"
+                value={newGuestIn}
+                onChange={(event) => setNewGuest(event.target.value)}
+              />
+              <button type="submit" onClick={inviteNewGuests}>
+                √
+              </button>
+            </label>
+          </div>
 
-          {guests.map((guest, index) => {
-            return (
-              <div key={index}>
-                {guest.username}: {guest.guest_state}
-              </div>
-            );
-          })}
-        </div>
+          <div>
+            <h3>Guest List</h3>
+
+            {guests.map((guest, index) => {
+              return (
+                <div key={index}>
+                  {guest.username}: {guest.guest_state}
+                </div>
+              );
+            })}
+
+          </div>
+        </>
       )}
     </div>
   );

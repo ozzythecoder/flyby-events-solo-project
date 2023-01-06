@@ -5,6 +5,7 @@ export default function AllEvents() {
   const dispatch = useDispatch();
 
   const myEvents = useSelector((store) => store.myEvents);
+  const user = useSelector(store => store.user)
 
   useEffect(() => {
     dispatch({ type: "FETCH_ALL_EVENTS" });
@@ -21,8 +22,9 @@ export default function AllEvents() {
               <p>
                 <a href= {`/#/event/${event.id}`}>
 
-                <b>{event.name}</b>
-                </a>
+                <b>{event.name}</b></a>
+
+                {user.id === event.host_id && ' - Hosting'}
               </p>
               <p>{event.date}</p>
               <p>{event.location}</p>
@@ -31,7 +33,6 @@ export default function AllEvents() {
           );
         })}
       </div>
-      <h2>Events I'm Hosting</h2>
       <div>
 
       </div>
