@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export default function EventDetailItem({ event }) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const user = useSelector((store) => store.user);
   const guests = useSelector((store) => store.guests);
@@ -16,7 +18,13 @@ export default function EventDetailItem({ event }) {
     dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });
   }, []);
 
-  const editEvent = () => {};
+  const editEvent = () => {
+    dispatch({
+      type: 'SET_EVENT_TO_SUBMIT',
+      payload: event
+    })
+    history.push('/editEvent/' + event.id)
+  };
 
   const deleteEvent = () => {};
 
@@ -39,7 +47,7 @@ export default function EventDetailItem({ event }) {
       <div>
         {hostView && (
           <p>
-            <button onClick={editEvent} disabled>
+            <button onClick={editEvent}>
               Edit Event
             </button>
             <button onClick={deleteEvent} disabled>

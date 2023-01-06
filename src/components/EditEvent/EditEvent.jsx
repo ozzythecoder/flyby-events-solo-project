@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+
 import EventForm from "../EventForm/EventForm";
 
 export default function EditEvent() {
@@ -8,16 +9,11 @@ export default function EditEvent() {
   const { eventId } = useParams();
 
   const thisEvent = useSelector((store) =>
-    store.events.allEvents.filter((el) => el.id == eventId)
+    store.events.allEvents.filter((el) => el.id == eventId)[0]
   );
 
   useEffect(() => {
     dispatch({ type: "FETCH_ALL_EVENTS" })
-
-    dispatch({
-      type: "SET_EVENT_TO_SUBMIT",
-      payload: thisEvent
-    });
   }, []);
 
   return (
