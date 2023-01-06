@@ -9,10 +9,11 @@ export default function EventDetail() {
   const { eventID } = useParams();
 
   const thisEvent = useSelector((store) =>
-    store.events.filter((el) => el.id == eventID)
+    store.events.allEvents.filter((el) => el.id == eventID)
   );
 
   useEffect(() => {
+    dispatch({ type: "FETCH_ALL_EVENTS" });
     dispatch({ type: "FETCH_MY_EVENTS" });
   }, []);
 
@@ -22,7 +23,7 @@ export default function EventDetail() {
         <b>Go Back</b>
       </p>
       {thisEvent.map((event, index) => {
-        return <EventDetailItem key={index} event={event} />
+        return <EventDetailItem key={index} event={event} />;
       })}
     </div>
   );

@@ -6,10 +6,32 @@ const router = express.Router();
 router.get('/allEvents', (request, response) => {
 
   if (request.isAuthenticated()) {
-    pool 
+    pool
       .query(`SELECT * FROM event`)
       .then(databaseResponse => response.send(databaseResponse.rows))
       .catch(err => { console.log('allEvents', err); response.sendStatus(500) })
+  }
+})
+
+router.get('/allUsers', (request, response) => {
+
+  if (request.isAuthenticated()) {
+    pool
+      .query(`SELECT username, id FROM "user"`)
+      .then(databaseResponse => response.send(databaseResponse.rows))
+      .catch(err => { console.log('/allUsers', err); response.sendStatus(500) })
+  }
+})
+
+router.get('/userByUsername', (request, response) => {
+  if (request.isAuthenticated()) {
+
+    const { username } = request.query
+
+    pool
+      .query(`SELECT id FROM "user" WHERE username = $1`, [username])
+      .then(databaseResponse => response.send(databaseResponse.rows))
+      .catch(err => { console.log('/userByUsername', err); response.sendStatus(500) })
   }
 })
 
@@ -31,26 +53,33 @@ router.get('/eventsByGuest', (request, response) => {
 
     const user_id = request.user.id
 
+    // const queryText = `
+    //   SELECT event.*, user_event.guest_state FROM event
+    //     JOIN user_event ON user_event.event_id = event.id
+    //     WHERE (user_event.user_id = $1)
+    //     ORDER BY user_event.guest_state DESC
+    // ;`;
+
     const queryText = `
-      SELECT event.*, user_event.guest_state FROM event
-        JOIN user_event ON user_event.event_id = event.id
-        WHERE (user_event.user_id = $1)
-        ORDER BY user_event.guest_state DESC
+    SELECT DISTINCT event.* FROM event
+      LEFT JOIN user_event ON user_event.event_id = event.id
+      WHERE event.host_id = $1 OR user_event.user_id = $1
+      ORDER BY event.date
     ;`;
 
     pool
       .query(queryText, [user_id])
-      .then( databaseResponse => {
+      .then(databaseResponse => {
         console.log('Getting all events with userID', user_id);
         response.send(databaseResponse.rows)
       })
-      .catch( err => { console.log('Error in GET /byGuest', err); response.sendStatus(500) })
+      .catch(err => { console.log('Error in GET /byGuest', err); response.sendStatus(500) })
 
   }
 })
 
 router.get('/guestsByEvent', (request, response) => {
-  
+
   if (request.isAuthenticated()) {
 
     const { event_id } = request.query
@@ -63,11 +92,11 @@ router.get('/guestsByEvent', (request, response) => {
     `;
 
     pool.query(queryText, [event_id])
-      .then( databaseResponse => {
+      .then(databaseResponse => {
         console.log('Getting guests for event with ID', event_id)
         response.send(databaseResponse.rows)
       })
-      .catch( err => { console.log('Error in GET /guestsByEvent', err); response.sendStatus(500) })
+      .catch(err => { console.log('Error in GET /guestsByEvent', err); response.sendStatus(500) })
 
   }
 })
@@ -116,9 +145,9 @@ router.post('/addGuest', (request, response) => {
     pool
       .query(
         queryText,
-        [ user_id, event_id ]
+        [user_id, event_id]
       )
-      .then( () => { console.log('added user', username, 'to event with id', event_id); response.sendStatus(201) })
+      .then(() => { console.log('added user with ID', user_id, 'to event with id', event_id); response.sendStatus(201) })
       .catch(err => { console.log('Error in POST /addGuest', err); response.sendStatus(500) })
 
   }
@@ -131,7 +160,7 @@ router.post('/createEvent', (request, response) => {
 
     const { name, date, time, location, description, ticket_link, visible } = request.body;
     const host_id = request.user.id;
-    
+
     const queryText = `
       INSERT INTO event
         (name, date, time, location, description, ticket_link, visible, host_id)
@@ -142,11 +171,11 @@ router.post('/createEvent', (request, response) => {
     pool
       .query(
         queryText,
-        [ name, date, time, location, description, ticket_link, visible, host_id ]
+        [name, date, time, location, description, ticket_link, visible, host_id]
       )
-      .then( () => { console.log('New event posted'); response.sendStatus(201) })
+      .then(() => { console.log('New event posted'); response.sendStatus(201) })
       .catch(err => { console.log('Error in POST /newEvent', err); response.sendStatus(500) })
-    
+
   }
 });
 
@@ -178,7 +207,7 @@ router.put('/editEvent', (request, response) => {
             SET name = $1, date = $2, time = $3, location = $4, description = $5, ticket_link = $6, visible = $7
             WHERE id = $8
           ;`;
-        
+
           pool
             .query(queryText, event)
             .then(() => {
@@ -214,7 +243,7 @@ router.put('/editStatus', (request, response) => {
     ;`;
 
     pool.query(queryText, [guest_state, user_id, event_id])
-      .then( () => {
+      .then(() => {
         console.log('Updated guest status');
         response.sendStatus(200)
       })
@@ -231,12 +260,12 @@ router.delete('/deleteEvent/:idToDelete', (request, response) => {
     const { idToDelete } = request.params
 
     pool
-      .query('SELECT * FROM event WHERE id = $1', [ idToDelete ])
+      .query('SELECT * FROM event WHERE id = $1', [idToDelete])
       .then(databaseResponse => {
         if (databaseResponse.rows[0].host_id === request.user.id) {
 
           pool
-            .query('DELETE FROM event WHERE id = $1', [ idToDelete ])
+            .query('DELETE FROM event WHERE id = $1', [idToDelete])
             .then(() => {
               console.log('Deleted event');
               response.sendStatus(200);
