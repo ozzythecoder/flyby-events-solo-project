@@ -27,6 +27,7 @@ import EventDetail from "../EventDetail/EventDetail";
 import CreateEvent from "../CreateEvent/CreateEvent";
 import CreateEventPreview from "../CreateEventPreview/CreateEventPreview";
 import EditEvent from "../EditEvent/EditEvent";
+import EditEventPreview from "../EditEventPreview/EditEventPreview";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,8 +61,8 @@ function App() {
             <EditEvent />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/editEvent/preview">
-            <EditEvent />
+          <ProtectedRoute exact path="/editPreview">
+            <EditEventPreview />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/createEvent/preview">

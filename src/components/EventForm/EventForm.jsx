@@ -56,7 +56,11 @@ export default function EventForm({ goNext }) {
     history.push(goNext)
   };
 
+  const handleCancel = () => {
 
+    dispatch({ type: 'CLEAR_EVENT_TO_SUBMIT' })
+    history.goBack();
+  }
 
   return (
     <div>
@@ -132,13 +136,10 @@ export default function EventForm({ goNext }) {
         </button>
       </form>
       <button
-        onClick={() => history.goBack()}>
+        onClick={handleCancel}>
         Cancel
       </button>
 
-      <div>
-        {JSON.stringify(eventToSubmit)}
-      </div>
     </div>
   );
 }
