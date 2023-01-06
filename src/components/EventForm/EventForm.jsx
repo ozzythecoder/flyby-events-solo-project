@@ -140,6 +140,7 @@ export default function EventForm({ goNext, eventId }) {
         Cancel
       </button>
 
+    {JSON.stringify(eventToSubmit)}
     </div>
   );
 }

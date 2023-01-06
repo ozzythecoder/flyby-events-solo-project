@@ -7,18 +7,29 @@ const allEvents = (state = [], action) => {
   }
 }
 
+const eventObj = {
+  name: '',
+  date: '',
+  time: '',
+  location: '',
+  description: '',
+  ticket_link: '',
+  visible: false
+}
+
 // Used when building a new event
-const eventToSubmit = (state = {}, action) => {
+const eventToSubmit = (state = eventObj, action) => {
   switch (action.type) {
     case 'SET_EVENT_TO_SUBMIT': return action.payload;
-    case 'CLEAR_EVENT_TO_SUBMIT': return {};
+    case 'CLEAR_EVENT_TO_SUBMIT': return eventObj;
     default: return state;
   }
 }
-const eventEditId = (state = 0, action) => {
+
+const eventEditId = (state = null, action) => {
   switch (action.type) {
     case 'SET_ID_OF_EDITED_EVENT': return action.payload;
-    case 'CLEAR_ID_OF_EDITED_EVENT': return 0;
+    case 'CLEAR_ID_OF_EDITED_EVENT': return null;
     default: return state;
   }
 }
