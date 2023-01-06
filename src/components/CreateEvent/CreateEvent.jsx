@@ -22,6 +22,7 @@ export default function CreateEvent() {
 
     if (Object.values(eventToValidate).some(value => !value)) {
       console.log('falsy values')
+      alert('Please complete all required fields.')
 
       // ⚠️ ALERT USER
 

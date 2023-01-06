@@ -15,8 +15,15 @@ function* fetchEventGuests(action) {
 
 function* addEventGuest(action) {
   try {
-
+    console.log(action.payload)
+    yield axios.post('/api/events/addGuest', action.payload)
+    yield put({
+      type: 'FETCH_EVENT_GUESTS',
+      payload: action.payload.event_id
+    })
   } catch (error) {
+    console.log('addEventGuest saga', error);
+    alert('Server error when adding guest.')
   }
   
 }
@@ -24,9 +31,22 @@ function* addEventGuest(action) {
 function* findGuestByUsername(action) {
   try {
     const guestObj = yield axios.get('/api/events/userByUsername',
-    { params: { username: action.payload } })
+    { params: { username: action.payload.username } })
 
-    const guestId = guestObj.data[0].id
+    const user_id = guestObj.data[0]?.id || null
+    console.log('guest ID is', user_id)
+
+    if (user_id !== null) {
+      yield put({
+        type: 'ADD_EVENT_GUEST',
+        payload: {
+          user_id: user_id,
+          event_id: action.payload.event_id
+        }
+      })
+    } else {
+      alert('No user found.')
+    }
 
   } catch (error) {
     console.log(error);

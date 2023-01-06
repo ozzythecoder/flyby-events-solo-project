@@ -31,6 +31,10 @@ export default function AllEvents() {
           );
         })}
       </div>
+      <h2>Events I'm Hosting</h2>
+      <div>
+
+      </div>
     </div>
   );
 }

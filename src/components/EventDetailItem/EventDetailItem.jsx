@@ -23,10 +23,15 @@ export default function EventDetailItem({ event }) {
   const inviteNewGuests = (evt) => {
     evt.preventDefault();
 
-    console.log('inviting new guest', newGuestIn);
+    console.log("inviting new guest", newGuestIn);
 
-    dispatch({ type: 'FIND_GUEST_BY_USERNAME', payload: newGuestIn })
-
+    dispatch({
+      type: "FIND_GUEST_BY_USERNAME",
+      payload: {
+        username: newGuestIn,
+        event_id: event.id,
+      },
+    });
   };
 
   return (
@@ -34,8 +39,8 @@ export default function EventDetailItem({ event }) {
       <div>
         {hostView && (
           <p>
-            <button onClick={editEvent}>Edit Event</button>
-            <button onClick={deleteEvent}>Delete Event</button>
+            <button onClick={editEvent} disabled>Edit Event</button>
+            <button onClick={deleteEvent} disabled>Delete Event</button>
           </p>
         )}
       </div>
