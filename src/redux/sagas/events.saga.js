@@ -30,11 +30,21 @@ function* addNewEvent(action) {
   }
 }
 
+function* editEvent(action) {
+  try {
+
+  } catch (error) {
+
+  }
+}
+
 function* eventsSaga() {
   yield takeLatest('FETCH_ALL_EVENTS', fetchAllEvents)
   yield takeLatest('FETCH_MY_EVENTS', fetchMyEvents)
 
   yield takeLatest('ADD_NEW_EVENT', addNewEvent)
+  
+  yield takeLatest('EDIT_EVENT', editEvent)
 }
 
 export default eventsSaga;

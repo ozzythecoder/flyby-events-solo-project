@@ -19,9 +19,9 @@ export default function EventDetail() {
 
   return (
     <div>
-      <p onClick={() => window.history.back()}>
+      <button onClick={() => window.history.back()}>
         <b>Go Back</b>
-      </p>
+      </button>
       {thisEvent.map((event, index) => {
         return <EventDetailItem key={index} event={event} />;
       })}
