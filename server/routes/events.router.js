@@ -35,6 +35,21 @@ router.get('/userByUsername', (request, response) => {
   }
 })
 
+router.get('/eventById', (request, response) => {
+
+  if (request.isAuthenticated()) {
+
+    const { eventId } = request.query
+
+    console.log('getting event with ID', eventId)
+
+    pool
+      .query(`SELECT * FROM event WHERE id = $1`, [eventId])
+      .then(databaseResponse => response.send(databaseResponse.rows))
+      .catch(err => { console.log('GET /eventById', err); response.sendStatus(500)})
+  }
+})
+
 router.get('/eventsByHost', (request, response) => {
 
   if (request.isAuthenticated()) {
@@ -52,13 +67,6 @@ router.get('/eventsByGuest', (request, response) => {
   if (request.isAuthenticated()) {
 
     const user_id = request.user.id
-
-    // const queryText = `
-    //   SELECT event.*, user_event.guest_state FROM event
-    //     JOIN user_event ON user_event.event_id = event.id
-    //     WHERE (user_event.user_id = $1)
-    //     ORDER BY user_event.guest_state DESC
-    // ;`;
 
     const queryText = `
     SELECT DISTINCT event.* FROM event

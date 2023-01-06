@@ -10,10 +10,16 @@ export default function CreateEventPreview() {
 
   const createEvent = () => {
     dispatch({ type: 'ADD_NEW_EVENT', payload: eventToSubmit })
-    history.push('/home')
+    dispatch({ type: 'FETCH_ALL_EVENTS' })
+    history.push('/myEvents')
   }
 
   const goBack = () => { history.goBack(); }
+
+  const handleCancel = () => {
+    dispatch({ type: 'CLEAR_EVENT_TO_SUBMIT' })
+    history.push('/myEvents')
+  }
 
   return (
     <div>
@@ -31,6 +37,9 @@ export default function CreateEventPreview() {
       </button>
       <button onClick={goBack}>
         Go Back
+      </button>
+      <button onClick={handleCancel}>
+        Cancel and Discard
       </button>
     </div>
   );

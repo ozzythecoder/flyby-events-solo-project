@@ -14,14 +14,13 @@ export default function EventDetail() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_ALL_EVENTS" });
-    dispatch({ type: "FETCH_MY_EVENTS" });
   }, []);
 
   return (
     <div>
-      <p onClick={() => window.history.back()}>
+      <button onClick={() => window.history.back()}>
         <b>Go Back</b>
-      </p>
+      </button>
       {thisEvent.map((event, index) => {
         return <EventDetailItem key={index} event={event} />;
       })}

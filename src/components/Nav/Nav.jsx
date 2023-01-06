@@ -2,15 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Nav() {
   const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
 
   return (
     <div className="nav">
       <Link to="/home">
-        <h2 className="nav-title">Prime Solo Project</h2>
+        <h2 className="nav-title">FlyBy Events</h2>
       </Link>
       <div>
         {/* If no user is logged in, show these links */}
@@ -28,7 +29,10 @@ function Nav() {
               My Events
             </Link>
 
-            <Link className="navLink" to="/createEvent">
+            <Link
+              onClick={() => dispatch({ type: 'CLEAR_EVENT_TO_SUBMIT' })}
+              className="navLink"
+              to="/createEvent">
               Create Event
             </Link>
 

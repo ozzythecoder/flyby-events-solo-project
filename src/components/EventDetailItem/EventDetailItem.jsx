@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export default function EventDetailItem({ event }) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const user = useSelector((store) => store.user);
   const guests = useSelector((store) => store.guests);
 
   const [newGuestIn, setNewGuest] = useState("");
+  const [deletePrimed, primeForDelete] = useState(false);
 
   const hostView = event.host_id === user.id;
   const guestView = guests.some((guest) => guest.id === user.id); // allows visibility of private events
@@ -16,9 +19,24 @@ export default function EventDetailItem({ event }) {
     dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });
   }, []);
 
-  const editEvent = () => {};
+  const editEvent = () => {
+    dispatch({
+      type: "SET_EVENT_TO_SUBMIT",
+      payload: event,
+    });
+    history.push("/editEvent/" + event.id);
+  };
 
-  const deleteEvent = () => {};
+  const handleDelete = () => primeForDelete(true);
+
+  const confirmDelete = () => {
+    dispatch({
+      type: 'DELETE_EVENT',
+      payload: event.id
+    })
+    dispatch({ type: 'FETCH_ALL_EVENTS' })
+    history.push('/myEvents')
+  };
 
   const inviteNewGuests = (evt) => {
     evt.preventDefault();
@@ -39,12 +57,12 @@ export default function EventDetailItem({ event }) {
       <div>
         {hostView && (
           <p>
-            <button onClick={editEvent} disabled>
-              Edit Event
-            </button>
-            <button onClick={deleteEvent} disabled>
-              Delete Event
-            </button>
+            <button onClick={editEvent}>Edit Event</button>
+            {deletePrimed ? (
+              <button onClick={confirmDelete}>Confirm Delete</button>
+            ) : (
+              <button onClick={handleDelete}>Delete Event</button>
+            )}
           </p>
         )}
       </div>
@@ -91,7 +109,6 @@ export default function EventDetailItem({ event }) {
                 </div>
               );
             })}
-
           </div>
         </>
       )}
