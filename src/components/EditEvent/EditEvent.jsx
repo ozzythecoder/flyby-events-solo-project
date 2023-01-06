@@ -8,16 +8,12 @@ export default function EditEvent() {
   const dispatch = useDispatch();
   const { eventId } = useParams();
 
-  const thisEvent = (useSelector((store) =>
-    store.events.allEvents.filter((el) => el.id == eventId)[0]
-  ))
-
-  console.log('thisEvent', thisEvent)
+  console.log('event id is', eventId)
 
   useEffect(() => {
     dispatch({ type: "FETCH_ALL_EVENTS" })
+    dispatch({ type: "FETCH_EDIT_EVENT", payload: eventId })
     dispatch({ type: 'SET_ID_OF_EDITED_EVENT', payload: eventId })
-    dispatch({ type: 'SET_EVENT_TO_SUBMIT', payload: thisEvent })
   }, []);
 
   return (

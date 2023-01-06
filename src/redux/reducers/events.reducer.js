@@ -17,7 +17,7 @@ const eventObj = {
   visible: false
 }
 
-// Used when building a new event
+// Used when building a new event or editing an existing one
 const eventToSubmit = (state = eventObj, action) => {
   switch (action.type) {
     case 'SET_EVENT_TO_SUBMIT': return action.payload;

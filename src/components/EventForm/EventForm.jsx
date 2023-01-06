@@ -8,7 +8,7 @@ export default function EventForm({ goNext, eventId }) {
 
   const { eventToSubmit } = useSelector(store => store.events)
   
-  const [nameIn, setName] = useState(eventToSubmit.name || '');
+  const [nameIn, setName] = useState(eventToSubmit.name);
   const [dateIn, setDate] = useState(eventToSubmit.date?.slice(0,10) || '');
   const [timeIn, setTime] = useState(eventToSubmit.time?.slice(0,8) || '');
   const [locationIn, setLocation] = useState(eventToSubmit.location || '');
