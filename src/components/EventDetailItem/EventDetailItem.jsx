@@ -34,7 +34,7 @@ export default function EventDetailItem({ event }) {
       type: 'DELETE_EVENT',
       payload: event.id
     })
-    history.push('/home')
+    history.push('/myEvents')
   };
 
   const inviteNewGuests = (evt) => {
