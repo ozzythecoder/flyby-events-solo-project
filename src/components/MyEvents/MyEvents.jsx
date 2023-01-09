@@ -14,6 +14,12 @@ export default function AllEvents() {
     dispatch({ type: "FETCH_MY_EVENTS" });
   }, []);
 
+  const statuses = {
+    pending: "Pending Invitation",
+    added: "",
+    subscribed: "Subscribed",
+  };
+
   return (
     <div>
       <Typography variant="h4" sx={{ m: 2 }}>
@@ -23,26 +29,27 @@ export default function AllEvents() {
         {myEvents.map((event, index) => {
           return (
             <div key={index}>
-              <Card sx={{ mb: 2, mx: 2 }} variant="outlined">
-                <CardContent>
-                  <Typography variant="h5">
-                    <a href={`/#/event/${event.id}`}>
-                        {event.name}
-                    </a>
-                    {user.id === event.host_id && " - Hosting"}
-                  </Typography>
-                  <Typography variant="body1">
-                    {/* ⚠️ FORMAT WITH LUXON.JS */}
-                    When: {new Date(event.date).toLocaleDateString()}
-                  </Typography>
-                  <Typography variant="body1">
-                    Where: {event.location}
-                  </Typography>
-                  <Typography variant="body1" sx={{ mt: 1 }}>
-                    {event.description}
-                  </Typography>
-                </CardContent>
-              </Card>
+              <a href={`/#/event/${event.id}`}>
+                <Card sx={{ mb: 2, mx: 2 }} variant="outlined">
+                  <CardContent>
+                    <Typography variant="h5">
+                      {event.name}
+
+                      {user.id === event.host_id && " - Hosting"}
+                    </Typography>
+                    <Typography variant="body1">
+                      {/* ⚠️ FORMAT WITH LUXON.JS */}
+                      When: {new Date(event.date).toLocaleDateString()}
+                    </Typography>
+                    <Typography variant="body1">
+                      Where: {event.location}
+                    </Typography>
+                    <Typography variant="body1" sx={{ mt: 1 }}>
+                      {event.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </a>
             </div>
           );
         })}

@@ -2,13 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import {
-  Card,
-  Typography,
-  Divider,
-  List,
-  ListItem
-} from '@mui/material'
+import { Card, Typography, Divider, List, ListItem } from "@mui/material";
 
 export default function EventDetailItem({ event }) {
   const dispatch = useDispatch();
@@ -62,69 +56,41 @@ export default function EventDetailItem({ event }) {
 
   return (
     <div>
-      <Card
-        sx={{ m: 2, p: 2 }}
-        >
-
-
-      {event.visible || hostView || guestView ? (
-        <div>
-          <Typography
-            variant="h5"
-            sx={{ mb: 1 }}>
-            {event.name}
-          </Typography>
-          <Typography
-            variant="body1">
-              {event.date}
-          </Typography>
-          <Typography
-            variant="body1">
-              {event.time}
-          </Typography>
-          <Typography
-            variant="body1">
-              {event.location}
-          </Typography>
-          <Typography
-            variant="body1">
-              {event.description}
-          </Typography>
-          <Typography
-            variant="body1">
-              {event.ticket_link || ""}
-          </Typography>
-          <Typography
-            variant="body1">
-              {!event.visible && "This is a private event"}
-          </Typography>
-        </div>
-      ) : (
-        <>Sorry, you do not have access to this event.</>
-      )}
-      <div>
-        {hostView && (
-          <p>
-            <button onClick={editEvent}>Edit Event</button>
-            {deletePrimed ? (
-              <button onClick={confirmDelete}>Confirm Delete</button>
-            ) : (
-              <button onClick={handleDelete}>Delete Event</button>
-            )}
-          </p>
-        )}
-      </div>
-
-      {hostView && (
+      <Card sx={{ m: 2, p: 2 }}>
+        {event.visible || hostView || guestView ? (
           <div>
-            <Divider
-              sx={{ mb: 1 }}
-            />
-            <Typography
-              variant="h6"
-              >
-              Guest List
+            <Typography variant="h5" sx={{ mb: 1 }}>
+              {event.name}
             </Typography>
+            <Typography variant="body1">
+              {!event.visible && "This is a private event."}
+            </Typography>
+            <Typography variant="body1">{event.date}</Typography>
+            <Typography variant="body1">{event.time}</Typography>
+            <Typography variant="body1">{event.location}</Typography>
+            <Typography variant="body1">{event.description}</Typography>
+            <Typography variant="body1">{event.ticket_link || ""}</Typography>
+          </div>
+        ) : (
+          <>Sorry, you do not have access to this event.</>
+        )}
+        <div>
+          {hostView && (
+            <p>
+              <button onClick={editEvent}>Edit Event</button>
+              {deletePrimed ? (
+                <button onClick={confirmDelete}>Confirm Delete</button>
+              ) : (
+                <button onClick={handleDelete}>Delete Event</button>
+              )}
+            </p>
+          )}
+        </div>
+
+        {hostView && (
+          <div>
+            <Divider sx={{ mb: 1 }} />
+            <Typography variant="h6">Guest List</Typography>
             <div>
               <label labelfor="newGuest">
                 <Typography variant="body1">
@@ -135,7 +101,7 @@ export default function EventDetailItem({ event }) {
                     placeholder="Guest Username"
                     value={newGuestIn}
                     onChange={(event) => setNewGuest(event.target.value)}
-                    />
+                  />
                   <button type="submit" onClick={inviteNewGuests}>
                     √
                   </button>
@@ -143,16 +109,16 @@ export default function EventDetailItem({ event }) {
               </label>
             </div>
             <List>
-            {guests.map((guest, index) => {
-              return (
+              {guests.map((guest, index) => {
+                return (
                   <ListItem key={index}>
                     {guest.username}: {guest.guest_state}
                   </ListItem>
-              );
-            })}
+                );
+              })}
             </List>
           </div>
-      )}
+        )}
       </Card>
     </div>
   );
