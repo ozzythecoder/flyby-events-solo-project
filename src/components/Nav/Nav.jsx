@@ -20,7 +20,7 @@ function Nav() {
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
 
-  const [drawerOpen, openDrawer] = useState(true);
+  const [drawerOpen, openDrawer] = useState(false);
 
   return (
     <div>
@@ -31,7 +31,7 @@ function Nav() {
             onClick={() => openDrawer(true)}
             sx={{ display: { xs: "block", sm: "none" }, color: "white" }}
           >
-            <Menu />
+            <Menu fontSize='large' />
           </IconButton>
           <SwipeableDrawer
             anchor="left"
@@ -105,7 +105,7 @@ function Nav() {
             </Box>
           </SwipeableDrawer>
           <Link to="/home" className="nav-title">
-            <Typography variant="h6">FlyBy Events</Typography>
+            <Typography variant="h5">FlyBy Events</Typography>
           </Link>
         </Toolbar>
       </AppBar>
