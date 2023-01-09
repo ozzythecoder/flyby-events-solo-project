@@ -54,6 +54,19 @@ export default function EventDetailItem({ event }) {
     });
   };
 
+  const deleteGuest = (guest_id) => {
+    console.log('deleting guest with id', guest_id)
+    console.log('from event with id', event.id)
+
+    dispatch({
+      type: 'DELETE_GUEST',
+      payload: {
+        guest_id: guest_id,
+        event_id: event.id
+      }
+    })
+  }
+
   return (
     <div>
       <Card sx={{ m: 2, p: 2 }}>
@@ -113,6 +126,11 @@ export default function EventDetailItem({ event }) {
                 return (
                   <ListItem key={index}>
                     {guest.username}: {guest.guest_state}
+
+                    <button
+                      onClick={() => deleteGuest(guest.id)}>
+                        Delete
+                    </button>
                   </ListItem>
                 );
               })}

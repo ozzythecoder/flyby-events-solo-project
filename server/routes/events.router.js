@@ -305,14 +305,16 @@ router.delete('/deleteGuest', (request, response) => {
 
     pool.query('SELECT host_id FROM event WHERE id = $1', [event_id])
       .then(databaseResponse => {
+        console.log(event_id)
+        console.log(databaseResponse.rows)
         if (databaseResponse.rows[0].host_id === request.user.id) {
 
-          const { guestIdToDelete } = request.body;
+          const { guest_id } = request.body;
           const queryText = 'DELETE FROM user_event WHERE user_id = $1 AND event_id = $2';
 
-          pool.query(queryText, [guestIdToDelete, event_id])
+          pool.query(queryText, [guest_id, event_id])
             .then(() => {
-              console.log('User', guestIdToDelete, 'deleted from event', event_id);
+              console.log('User', guest_id, 'deleted from event', event_id);
               response.sendStatus(200)
             })
             .catch(err => {
