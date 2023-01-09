@@ -10,6 +10,7 @@ import {
   Toolbar,
   IconButton,
   Drawer,
+  SwipeableDrawer,
   Box,
   Typography,
 } from "@mui/material";
@@ -33,15 +34,18 @@ function Nav() {
           >
             <Menu />
           </IconButton>
-          <Drawer
+          <SwipeableDrawer
             anchor="left"
             variant="temporary"
             open={drawerOpen}
+            onOpen={() => {
+              openDrawer(true);
+            }}
             onClose={() => {
               openDrawer(false);
             }}
           >
-            <Box>
+            <Box className="menu-bg">
               <div className="nav">
                 {/* If no user is logged in, show these links */}
                 {!user.id && (
@@ -75,12 +79,12 @@ function Nav() {
                       Create Event
                     </Link>
 
-                    <LogOutButton
+                    <Link
                       className="navLink"
-                      onClick={() => {
-                        openDrawer(false);
-                      }}
-                    />
+                      to='/home'
+                      onClick={() => {dispatch({ type: 'LOGOUT' })}}>
+                        Log Out
+                    </Link>
                   </>
                 )}
 
@@ -95,7 +99,7 @@ function Nav() {
                 </Link>
               </div>
             </Box>
-          </Drawer>
+          </SwipeableDrawer>
           <Link to="/home" className='nav-title'>
             <Typography variant="h6">FlyBy Events</Typography>
             {/* <h2 className="nav-title">FlyBy Events</h2> */}
