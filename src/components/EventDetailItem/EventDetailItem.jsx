@@ -67,8 +67,21 @@ export default function EventDetailItem({ event }) {
     })
   }
 
-  const handleGuestDelete = () => {
-    Swal.fire('Whoa!')
+  const handleGuestDelete = (guest_id) => {
+    Swal.fire({
+      title: 'Delete private invite?',
+      text: 'This can\'t be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'red',
+      confirmButtonText: 'Delete Invite'
+    }).then(result => {
+      if (result.isConfirmed) {
+        deleteGuest(guest_id);
+        Swal.fire('Event deleted.');
+        history.push('/myEvents');
+      }
+    })
   }
 
   const deleteGuest = (guest_id) => {
@@ -138,6 +151,7 @@ export default function EventDetailItem({ event }) {
                 </Typography>
               </label>
             </div>
+
             <List>
               {guests.map((guest, index) => {
                 return (
@@ -152,6 +166,7 @@ export default function EventDetailItem({ event }) {
                 );
               })}
             </List>
+
           </div>
         )}
 
@@ -165,7 +180,7 @@ export default function EventDetailItem({ event }) {
             Accept
           </button>
           <button
-            onClick={() => {deleteGuest(user.id); history.push('/myEvents')}}
+            onClick={() => {handleGuestDelete(user.id)}}
           >
             Decline
           </button>
@@ -175,10 +190,10 @@ export default function EventDetailItem({ event }) {
         {guestView && (
           <>
           <button
-            onClick={handleGuestDelete}
+            onClick={() => {handleGuestDelete(user.id)}}
           >
             Remove Event
-          </button> - this cannot be undone.
+          </button>
           </>
         )}
 
