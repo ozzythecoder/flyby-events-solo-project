@@ -28,9 +28,8 @@ function Nav() {
         <Toolbar>
           <IconButton
             edge="start"
-            color="white"
             onClick={() => openDrawer(true)}
-            sx={{ display: { xs: "block", sm: "none" } }}
+            sx={{ display: { xs: "block", sm: "none" }, color: "white" }}
           >
             <Menu />
           </IconButton>
@@ -78,13 +77,6 @@ function Nav() {
                     >
                       Create Event
                     </Link>
-
-                    <Link
-                      className="navLink"
-                      to='/home'
-                      onClick={() => {dispatch({ type: 'LOGOUT' })}}>
-                        Log Out
-                    </Link>
                   </>
                 )}
 
@@ -97,12 +89,23 @@ function Nav() {
                 >
                   About
                 </Link>
+                
+                {user.id && (
+                  <Link
+                    className="navLink"
+                    to="/home"
+                    onClick={() => {
+                      dispatch({ type: "LOGOUT" });
+                    }}
+                  >
+                    Log Out
+                  </Link>
+                )}
               </div>
             </Box>
           </SwipeableDrawer>
-          <Link to="/home" className='nav-title'>
+          <Link to="/home" className="nav-title">
             <Typography variant="h6">FlyBy Events</Typography>
-            {/* <h2 className="nav-title">FlyBy Events</h2> */}
           </Link>
         </Toolbar>
       </AppBar>
