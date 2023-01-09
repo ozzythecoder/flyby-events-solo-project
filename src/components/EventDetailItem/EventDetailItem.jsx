@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+import Swal from 'sweetalert2'
 import { Card, Typography, Divider, List, ListItem } from "@mui/material";
 
 export default function EventDetailItem({ event }) {
@@ -64,6 +65,10 @@ export default function EventDetailItem({ event }) {
         guest_state, guest_id, event_id: event.id
       }
     })
+  }
+
+  const handleGuestDelete = () => {
+    Swal.fire('Whoa!')
   }
 
   const deleteGuest = (guest_id) => {
@@ -170,7 +175,7 @@ export default function EventDetailItem({ event }) {
         {guestView && (
           <>
           <button
-            onClick={() => {deleteGuest(user.id); history.push('/myEvents')}}
+            onClick={handleGuestDelete}
           >
             Remove Event
           </button> - this cannot be undone.
