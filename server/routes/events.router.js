@@ -241,8 +241,7 @@ router.put('/editStatus', (request, response) => {
 
   if (request.isAuthenticated()) {
 
-    const user_id = request.user.id;
-    const { event_id, guest_state } = request.body;
+    const { event_id, guest_id, guest_state } = request.body;
 
     const queryText = `
       UPDATE user_event
@@ -250,7 +249,7 @@ router.put('/editStatus', (request, response) => {
         WHERE event_id = $2 AND user_id = $3
     ;`;
 
-    pool.query(queryText, [guest_state, user_id, event_id])
+    pool.query(queryText, [guest_state, guest_id, event_id])
       .then(() => {
         console.log('Updated guest status');
         response.sendStatus(200)
@@ -301,18 +300,20 @@ router.delete('/deleteGuest', (request, response) => {
 
   if (request.isAuthenticated()) {
 
-    const { event_id } = request.body;
+    const { event_id, guest_id } = request.body;
 
     pool.query('SELECT host_id FROM event WHERE id = $1', [event_id])
       .then(databaseResponse => {
-        if (databaseResponse.rows[0].host_id === request.user.id) {
+        console.log(event_id)
+        console.log(databaseResponse.rows)
+        if (databaseResponse.rows[0].host_id === request.user.id
+            || guest_id === request.user.id) {
 
-          const { guestIdToDelete } = request.body;
           const queryText = 'DELETE FROM user_event WHERE user_id = $1 AND event_id = $2';
 
-          pool.query(queryText, [guestIdToDelete, event_id])
+          pool.query(queryText, [guest_id, event_id])
             .then(() => {
-              console.log('User', guestIdToDelete, 'deleted from event', event_id);
+              console.log('User', guest_id, 'deleted from event', event_id);
               response.sendStatus(200)
             })
             .catch(err => {

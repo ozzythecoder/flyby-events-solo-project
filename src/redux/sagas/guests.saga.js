@@ -53,10 +53,39 @@ function* findGuestByUsername(action) {
   }
 }
 
+function* editGuestState(action) {
+  const { guest_state, guest_id, event_id } = action.payload
+
+  try {
+    yield axios.put('/editStatus', {
+      data: {
+        guest_state, guest_id, event_id
+      }})
+  } catch (error) {
+    alert('Error encountered:', error)
+    console.log(error)
+  }
+}
+
+function* deleteGuestFromEvent(action) {
+  const { guest_id, event_id } = action.payload;
+  try {
+    yield axios.delete('/api/events/deleteGuest', { data: { guest_id, event_id } })
+    yield put({ type: 'FETCH_EVENT_GUESTS', payload: event_id })
+  } catch (error) {
+    console.log(error)
+    alert('Error encountered:', error)
+  }
+}
+
 function* guestsSaga() {
   yield takeLatest('FETCH_EVENT_GUESTS', fetchEventGuests)
   yield takeLatest('FIND_GUEST_BY_USERNAME', findGuestByUsername)
   yield takeLatest('ADD_EVENT_GUEST', addEventGuest)
+
+  yield takeLatest('EDIT_GUEST_STATE', editGuestState)
+
+  yield takeLatest('DELETE_GUEST', deleteGuestFromEvent)
 }
 
 export default guestsSaga;
