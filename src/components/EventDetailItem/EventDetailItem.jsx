@@ -67,7 +67,7 @@ export default function EventDetailItem({ event }) {
     })
   }
 
-  const handleGuestDelete = (guest_id) => {
+  const handleSelfDelete = (guest_id) => {
     Swal.fire({
       title: 'Delete private invite?',
       text: 'This can\'t be undone.',
@@ -80,6 +80,21 @@ export default function EventDetailItem({ event }) {
         deleteGuest(guest_id);
         Swal.fire('Event deleted.');
         history.push('/myEvents');
+      }
+    })
+  }
+
+  const handleGuestDelete = (name, guest_id) => {
+    Swal.fire({
+      title: `Delete ${name} from event guest list?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'red',
+      confirmButtonText: 'Delete Guest'
+    }).then(result => {
+      if (result.isConfirmed) {
+        deleteGuest(guest_id);
+        Swal.fire('Guest deleted.');
       }
     })
   }
@@ -159,7 +174,7 @@ export default function EventDetailItem({ event }) {
                     {guest.username}: {guest.guest_state}
 
                     <button
-                      onClick={() => deleteGuest(guest.id)}>
+                      onClick={() => handleGuestDelete(guest.username, guest.id)}>
                         Delete
                     </button>
                   </ListItem>
@@ -180,7 +195,7 @@ export default function EventDetailItem({ event }) {
             Accept
           </button>
           <button
-            onClick={() => {handleGuestDelete(user.id)}}
+            onClick={() => {handleSelfDelete(user.id)}}
           >
             Decline
           </button>
@@ -190,7 +205,7 @@ export default function EventDetailItem({ event }) {
         {guestView && (
           <>
           <button
-            onClick={() => {handleGuestDelete(user.id)}}
+            onClick={() => {handleSelfDelete(user.id)}}
           >
             Remove Event
           </button>
