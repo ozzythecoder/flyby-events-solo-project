@@ -26,17 +26,19 @@ export default function AllEvents() {
               <Card sx={{ mb: 2, mx: 2 }} variant="outlined">
                 <CardContent>
                   <Typography variant="h5">
-                    <a href={`/#/event/${event.id}`}>{event.name}</a>
+                    <a href={`/#/event/${event.id}`}>
+                        {event.name}
+                    </a>
                     {user.id === event.host_id && " - Hosting"}
                   </Typography>
                   <Typography variant="body1">
-                    When: {event.date}
+                    {/* ⚠️ FORMAT WITH LUXON.JS */}
+                    When: {new Date(event.date).toLocaleDateString()}
                   </Typography>
                   <Typography variant="body1">
-                  Where: {event.location}
+                    Where: {event.location}
                   </Typography>
-                  <Typography variant="body1">
-                    Description: <br />
+                  <Typography variant="body1" sx={{ mt: 1 }}>
                     {event.description}
                   </Typography>
                 </CardContent>
@@ -45,7 +47,6 @@ export default function AllEvents() {
           );
         })}
       </div>
-      <div></div>
     </div>
   );
 }
