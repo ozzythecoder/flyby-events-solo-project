@@ -16,7 +16,7 @@ export default function EventDetailItem({ event }) {
 
   const hostView = event.host_id === user.id;
   const guestView = guests.some((guest) => guest.id === user.id); // allows visibility of private events
-  const userGuestState = guests.filter(guest => guest.id === user.id)[0].guest_state
+  const userGuestState = guests.filter(guest => guest.id === user.id)[0]?.guest_state
 
   useEffect(() => {
     dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });

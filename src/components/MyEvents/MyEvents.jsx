@@ -15,9 +15,9 @@ export default function AllEvents() {
   }, []);
 
   const statuses = {
-    pending: "Pending Invitation",
-    added: "",
-    subscribed: "Subscribed",
+    "pending": "Pending Invitation",
+    "added": "",
+    "subscribed": "Subscribed",
   };
 
   return (
