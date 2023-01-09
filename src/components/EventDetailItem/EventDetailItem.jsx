@@ -16,6 +16,7 @@ export default function EventDetailItem({ event }) {
 
   const hostView = event.host_id === user.id;
   const guestView = guests.some((guest) => guest.id === user.id); // allows visibility of private events
+  const userGuestState = guests.filter(guest => guest.id === user.id)[0].guest_state
 
   useEffect(() => {
     dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });
@@ -53,6 +54,17 @@ export default function EventDetailItem({ event }) {
       },
     });
   };
+
+  const editGuestState = (guest_id, guest_state) => {
+    console.log('editing guest', guest_id, 'to', guest_state)
+
+    dispatch({
+      type: 'EDIT_GUEST_STATE',
+      payload: {
+        guest_state, guest_id, event_id: event.id
+      }
+    })
+  }
 
   const deleteGuest = (guest_id) => {
     console.log('deleting guest with id', guest_id)
@@ -137,7 +149,36 @@ export default function EventDetailItem({ event }) {
             </List>
           </div>
         )}
+
+        {guestView && userGuestState == 'pending' && (
+          <>
+          <Divider />
+          You have been invited to this private event. Accept?
+          <button
+            onClick={() => {editGuestState(user.id, 'added')}}
+          >
+            Accept
+          </button>
+          <button
+            onClick={() => {deleteGuest(user.id); history.push('/myEvents')}}
+          >
+            Decline
+          </button>
+          </>
+        )}
+
+        {guestView && (
+          <>
+          <button
+            onClick={() => {deleteGuest(user.id); history.push('/myEvents')}}
+          >
+            Remove Event
+          </button> - this cannot be undone.
+          </>
+        )}
+
       </Card>
+
     </div>
   );
 }
