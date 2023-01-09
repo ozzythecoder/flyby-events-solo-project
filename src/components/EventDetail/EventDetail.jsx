@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import { Typography, Box, Fab } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 import EventDetailItem from "../EventDetailItem/EventDetailItem";
 
 export default function EventDetail() {
@@ -18,9 +21,13 @@ export default function EventDetail() {
 
   return (
     <div>
-      <button onClick={() => window.history.back()}>
-        <b>Go Back</b>
-      </button>
+      <a href='/#/myEvents'>
+        <ArrowBackIcon fontSize="large" />
+      </a>
+
+      <Box>
+        <Typography variant="h5">Event Detail</Typography>
+      </Box>
       {thisEvent.map((event, index) => {
         return <EventDetailItem key={index} event={event} />;
       })}
