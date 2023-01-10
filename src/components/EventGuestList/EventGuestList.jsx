@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
   Divider,
@@ -11,7 +12,23 @@ import {
 
 export default function EventGuestList({ event, guests }) {
 
+  const dispatch = useDispatch();
+
   const [newGuestIn, setNewGuest] = useState("");
+
+  const inviteNewGuests = (evt) => {
+    evt.preventDefault();
+
+    console.log("inviting new guest", newGuestIn);
+
+    dispatch({
+      type: "FIND_GUEST_BY_USERNAME",
+      payload: {
+        username: newGuestIn,
+        event_id: event.id,
+      },
+    });
+  };
 
   useEffect(() => {
     dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });

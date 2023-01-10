@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import Swal from 'sweetalert2'
 import { Card, Typography, Divider, List, ListItem } from "@mui/material";
+import EventGuestList from "../EventGuestList/EventGuestList";
 
 export default function EventDetailItem({ event }) {
   const dispatch = useDispatch();
@@ -40,20 +41,6 @@ export default function EventDetailItem({ event }) {
     });
     dispatch({ type: "FETCH_ALL_EVENTS" });
     history.push("/myEvents");
-  };
-
-  const inviteNewGuests = (evt) => {
-    evt.preventDefault();
-
-    console.log("inviting new guest", newGuestIn);
-
-    dispatch({
-      type: "FIND_GUEST_BY_USERNAME",
-      payload: {
-        username: newGuestIn,
-        event_id: event.id,
-      },
-    });
   };
 
   const editGuestState = (guest_id, guest_state) => {
@@ -145,7 +132,9 @@ export default function EventDetailItem({ event }) {
           )}
         </div>
 
-        {hostView && (
+        {hostView && <EventGuestList event={event} guests={guests} />}
+
+        {/* {hostView && (
           <div>
             <Divider sx={{ mb: 1 }} />
             <Typography variant="h6">Guest List</Typography>
@@ -183,7 +172,7 @@ export default function EventDetailItem({ event }) {
             </List>
 
           </div>
-        )}
+        )} */}
 
         {guestView && userGuestState == 'pending' && (
           <>
