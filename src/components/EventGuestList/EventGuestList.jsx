@@ -61,7 +61,6 @@ export default function EventGuestList({ event, guests }) {
 
   return (
     <div>
-      <Divider sx={{ mb: 1 }} />
       <Typography variant="h6">Guest List</Typography>
       <div>
         <label labelfor="newGuest">
