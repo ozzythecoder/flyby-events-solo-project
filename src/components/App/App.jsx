@@ -39,81 +39,79 @@ function App() {
   return (
     <>
       <Router>
-        <div>
-          <Nav />
-          <Switch>
-            <Redirect exact from="/" to="/home" />
+        <Nav />
+        <Switch>
+          <Redirect exact from="/" to="/home" />
 
-            <Route exact path="/about">
-              <AboutPage />
-            </Route>
+          <Route exact path="/about">
+            <AboutPage />
+          </Route>
 
-            <ProtectedRoute exact path="/myEvents">
-              <MyEvents />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/myEvents">
+            <MyEvents />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/myEvents/subscribed">
-              <MyEvents
-                title={"My Subscribed Events"}
-                stateFilter={"subscribed"}
-              />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/myEvents/subscribed">
+            <MyEvents
+              title={"My Subscribed Events"}
+              stateFilter={"subscribed"}
+            />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/myEvents/pending">
-              <MyEvents title={"Pending Invitations"} stateFilter={"pending"} />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/myEvents/pending">
+            <MyEvents title={"Pending Invitations"} stateFilter={"pending"} />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/myEvents/hosting">
-              <MyEvents title={"My Hosted Events"} stateFilter={"hosting"} />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/myEvents/hosting">
+            <MyEvents title={"My Hosted Events"} stateFilter={"hosting"} />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/createEvent">
-              <CreateEvent />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/createEvent">
+            <CreateEvent />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/editEvent/:eventId">
-              <EditEvent />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/editEvent/:eventId">
+            <EditEvent />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/editPreview">
-              <EditEventPreview />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/editPreview">
+            <EditEventPreview />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/createEvent/preview">
-              <CreateEventPreview />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/createEvent/preview">
+            <CreateEventPreview />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/event/:eventID">
-              <EventDetail />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/event/:eventID">
+            <EventDetail />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/user">
-              <UserPage />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/user">
+            <UserPage />
+          </ProtectedRoute>
 
-            <ProtectedRoute exact path="/info">
-              <InfoPage />
-            </ProtectedRoute>
+          <ProtectedRoute exact path="/info">
+            <InfoPage />
+          </ProtectedRoute>
 
-            <Route exact path="/login">
-              {user.id ? <Redirect to="/user" /> : <LoginPage />}
-            </Route>
+          <Route exact path="/login">
+            {user.id ? <Redirect to="/user" /> : <LoginPage />}
+          </Route>
 
-            <Route exact path="/registration">
-              {user.id ? <Redirect to="/user" /> : <RegisterPage />}
-            </Route>
+          <Route exact path="/registration">
+            {user.id ? <Redirect to="/user" /> : <RegisterPage />}
+          </Route>
 
-            <Route exact path="/home">
-              {user.id ? <Redirect to="/user" /> : <LandingPage />}
-            </Route>
+          <Route exact path="/home">
+            {user.id ? <Redirect to="/user" /> : <LandingPage />}
+          </Route>
 
-            {/* If none of the other routes matched, we will show a 404. */}
-            <Route>
-              <h1>404</h1>
-            </Route>
-          </Switch>
-          <Footer />
-        </div>
+          {/* If none of the other routes matched, we will show a 404. */}
+          <Route>
+            <h1>404</h1>
+          </Route>
+        </Switch>
+        <Footer />
       </Router>
     </>
   );

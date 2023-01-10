@@ -7,12 +7,9 @@ import Swal from "sweetalert2";
 import {
   TextField,
   Radio,
-  RadioGroup
+  RadioGroup,
+  Input
 } from '@mui/material'
-
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 export default function EventForm({ goNext, eventId }) {
   const dispatch = useDispatch();
@@ -79,70 +76,75 @@ export default function EventForm({ goNext, eventId }) {
 
       <form onSubmit={handleSubmit}>
 
-        <input
+        {/* <input
           type="text"
           placeholder="Event Title"
           value={nameIn}
           onChange={(event) => setName(event.target.value)}
+        /> */}
+
+        <TextField
+          label="Event Title"
+          type="text"
+          value={nameIn}
+          onChange={(event) => setName(event.target.value)}
         />
 
-        <input
+        <TextField
           type="date"
           placeholder="Date"
           value={dateIn}
           onChange={(event) => setDate(event.target.value)}
         />
 
-        <input
+        <TextField
           type="time"
           placeholder="Time"
           value={timeIn}
           onChange={(event) => setTime(event.target.value)}
         />
 
-        <input
+        <TextField
           type="text"
-          placeholder='Location (address, "virtual", etc)'
+          label="Location"
+          placeholder='Address, "Virtual", etc.'
           value={locationIn}
           onChange={(event) => setLocation(event.target.value)}
         />
 
-        <textarea
-          placeholder="description"
+        <TextField
+          label="Description"
           value={descriptionIn}
           onChange={(event) => setDescription(event.target.value)}
-        ></textarea>
+        />
 
-        <input
+        <TextField
           type="text"
-          placeholder="Ticket Link (optional)"
+          label="Web Link (optional)"
+          placeholder="Tickets, Zoom Link, etc."
           value={ticketLinkIn}
           onChange={(event) => setTicketLink(event.target.value)}
         />
 
         <div>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                value={true}
-                checked={visibleIn === true}
-                onChange={() => setVisible(true)}
-              />
-              Public
-            </label>
-          </div>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                value={false}
-                checked={visibleIn === false}
-                onChange={() => setVisible(false)}
-              />
-              Private
-            </label>
-          </div>
+
+          <FormControl>
+
+
+          </FormControl>
+          <Radio
+            checked={visibleIn}
+            value={true}
+            onChange={(event) => { setVisible(true) }}
+            name="event-visibility"
+          />
+          <Radio
+            checked={!visibleIn}
+            value={false}
+            onChange={(event) => { setVisible(false) }}
+            name="event-visibility"
+          />
+
         </div>
 
         <button type='submit'>
@@ -153,8 +155,6 @@ export default function EventForm({ goNext, eventId }) {
         onClick={handleCancel}>
         Cancel
       </button>
-
-    {JSON.stringify(eventToSubmit)}
     </div>
   );
 }
