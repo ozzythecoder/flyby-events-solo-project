@@ -57,7 +57,7 @@ function* editGuestState(action) {
   const { guest_state, guest_id, event_id } = action.payload
 
   try {
-    yield axios.put('/editStatus', {
+    yield axios.put('/api/events/editStatus', {
       data: {
         guest_state, guest_id, event_id
       }})
