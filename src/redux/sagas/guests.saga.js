@@ -56,11 +56,10 @@ function* findGuestByUsername(action) {
 function* editGuestState(action) {
   const { guest_state, guest_id, event_id } = action.payload
 
+  console.log(action.payload)
+
   try {
-    yield axios.put('/api/events/editStatus', {
-      data: {
-        guest_state, guest_id, event_id
-      }})
+    yield axios.put('/api/events/editStatus', action.payload)
   } catch (error) {
     alert('Error encountered:', error)
     console.log(error)
