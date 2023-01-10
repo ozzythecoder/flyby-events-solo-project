@@ -10,6 +10,10 @@ import {
   RadioGroup
 } from '@mui/material'
 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
 export default function EventForm({ goNext, eventId }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -72,7 +76,9 @@ export default function EventForm({ goNext, eventId }) {
 
   return (
     <div>
+
       <form onSubmit={handleSubmit}>
+
         <input
           type="text"
           placeholder="Event Title"
