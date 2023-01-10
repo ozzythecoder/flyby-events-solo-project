@@ -28,7 +28,7 @@ export default function AllEvents() {
       <div>
         {myEvents.map((event, index) => {
           return (
-            <div key={index}>
+            <div key={event.id}>
               <a href={`/#/event/${event.id}`}>
                 <Card sx={{ mb: 2, mx: 2 }} variant="outlined">
                   <CardContent>

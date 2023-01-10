@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Card } from "@mui/material";
@@ -13,11 +13,11 @@ export default function EventDetailItem({ event }) {
   const user = useSelector((store) => store.user);
   const guests = useSelector((store) => store.guests);
   const userGuestState = guests.filter((guest) => guest.id === user.id)[0]
-  ?.guest_state;
+    ?.guest_state;
 
   // determines visibility of host functions
   const hostView = event.host_id === user.id;
-  
+
   // determines visibility of private events
   const guestView = guests.some((guest) => guest.id === user.id);
 
@@ -31,14 +31,21 @@ export default function EventDetailItem({ event }) {
         {event.visible || hostView || guestView ? (
           <EventBody event={event} />
         ) : (
-          <>Sorry, you do not have access to this private event.</>
+          <>
+            Sorry, you do not have access to this private event.
+          </>
         )}
 
-        {hostView && <EventHostFunctions event={event} /> }
+        {hostView && (
+          <>
+            <EventHostFunctions event={event} />
+            <EventGuestList event={event} guests={guests} />
+          </>
+        )}
 
-        {hostView && <EventGuestList event={event} guests={guests} />}
-
-        {guestView && <EventGuestFunctions event={event} userGuestState={userGuestState} />}
+        {guestView && (
+          <EventGuestFunctions event={event} userGuestState={userGuestState} />
+        )}
       </Card>
     </div>
   );
