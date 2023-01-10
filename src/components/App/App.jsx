@@ -53,6 +53,14 @@ function App() {
             <MyEvents />
           </ProtectedRoute>
 
+          <ProtectedRoute exact path="/myEvents/tracked">
+
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/myEvents/pending">
+
+          </ProtectedRoute>
+
           <ProtectedRoute exact path="/createEvent">
             <CreateEvent />
           </ProtectedRoute>

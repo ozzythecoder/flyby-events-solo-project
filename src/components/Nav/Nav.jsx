@@ -52,33 +52,22 @@ function Nav() {
 
                 {/* If no user is logged in, show these links */}
                 {!user.id && (
-                  // If there's no user, show login/registration links
-                  <Link className="navLink" to="/login">
-                    Login / Register
-                  </Link>
+                  <>
+                    <NavLink linkTitle="Login / Register" path={"/login"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="About This App" path={"/about"} openDrawer={openDrawer} />
+                  </>
                 )}
 
                 {/* If a user is logged in, show these links */}
                 {user.id && (
                   <>
-                  <NavLink path={"/myEvents"} openDrawer={openDrawer} linkTitle="My Events" />
-                  <NavLink path={"/createEvent"} openDrawer={openDrawer} linkTitle="Create Event" />
-                  <NavLink path={"/about"} openDrawer={openDrawer} linkTitle="About This App" />
-                  <NavLink path={"/home"} openDrawer={openDrawer} linkTitle="Log Out" callback={logoutUser} />
+                    <NavLink linkTitle="My Events" path={"/myEvents"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="Create Event" path={"/createEvent"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="About This App" path={"/about"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="Log Out" path={"/home"} openDrawer={openDrawer} callback={logoutUser} />
                   </>
                 )}
                 
-                {/* {user.id && (
-                  <Link
-                    className="navLink"
-                    to="/home"
-                    onClick={() => {
-                      dispatch({ type: "LOGOUT" });
-                    }}
-                  >
-                    Log Out
-                  </Link>
-                )} */}
               </div>
             </Box>
           </SwipeableDrawer>
