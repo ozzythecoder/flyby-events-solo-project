@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Swal from 'sweetalert2';
 import {
   Divider,
   Typography,
@@ -30,9 +31,33 @@ export default function EventGuestList({ event, guests }) {
     });
   };
 
-  useEffect(() => {
-    dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });
-  }, []);
+  const handleGuestDelete = (name, guest_id) => {
+    Swal.fire({
+      title: `Delete ${name} from event guest list?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'red',
+      confirmButtonText: 'Delete Guest'
+    }).then(result => {
+      if (result.isConfirmed) {
+        deleteGuest(guest_id);
+        Swal.fire('Guest deleted.');
+      }
+    })
+  }
+
+  const deleteGuest = (guest_id) => {
+    console.log('deleting guest with id', guest_id)
+    console.log('from event with id', event.id)
+
+    dispatch({
+      type: 'DELETE_GUEST',
+      payload: {
+        guest_id: guest_id,
+        event_id: event.id
+      }
+    })
+  }
 
   return (
     <div>

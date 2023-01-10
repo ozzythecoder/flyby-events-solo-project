@@ -20,10 +20,6 @@ export default function EventDetailItem({ event }) {
   const guestView = guests.some((guest) => guest.id === user.id); // allows visibility of private events
   const userGuestState = guests.filter(guest => guest.id === user.id)[0]?.guest_state
 
-  useEffect(() => {
-    dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });
-  }, []);
-
   const editEvent = () => {
     dispatch({
       type: "SET_EVENT_TO_SUBMIT",
@@ -31,6 +27,10 @@ export default function EventDetailItem({ event }) {
     });
     history.push("/editEvent/" + event.id);
   };
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });
+  }, []);
 
   const handleDelete = () => primeForDelete(true);
 
@@ -67,34 +67,6 @@ export default function EventDetailItem({ event }) {
         deleteGuest(guest_id);
         Swal.fire('Event deleted.');
         history.push('/myEvents');
-      }
-    })
-  }
-
-  const handleGuestDelete = (name, guest_id) => {
-    Swal.fire({
-      title: `Delete ${name} from event guest list?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'red',
-      confirmButtonText: 'Delete Guest'
-    }).then(result => {
-      if (result.isConfirmed) {
-        deleteGuest(guest_id);
-        Swal.fire('Guest deleted.');
-      }
-    })
-  }
-
-  const deleteGuest = (guest_id) => {
-    console.log('deleting guest with id', guest_id)
-    console.log('from event with id', event.id)
-
-    dispatch({
-      type: 'DELETE_GUEST',
-      payload: {
-        guest_id: guest_id,
-        event_id: event.id
       }
     })
   }
