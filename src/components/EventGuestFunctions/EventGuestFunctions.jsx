@@ -11,8 +11,8 @@ export default function EventGuestFunctions({ event, userGuestState }) {
 
   const user = useSelector(store => store.user)
 
-  const editGuestState = (guest_id, guest_state) => {
-    console.log("editing guest", guest_id, "to", guest_state);
+  const editGuestState = (guest_state) => {
+    console.log("editing guest", user.id, "to", guest_state);
 
     const alertTitle = {
       'added': 'Added to your events.',
@@ -24,14 +24,14 @@ export default function EventGuestFunctions({ event, userGuestState }) {
       icon: 'success'
     })
 
-    // dispatch({
-    //   type: "EDIT_GUEST_STATE",
-    //   payload: {
-    //     guest_state,
-    //     guest_id,
-    //     event_id: event.id,
-    //   },
-    // });
+    dispatch({
+      type: "EDIT_GUEST_STATE",
+      payload: {
+        guest_state,
+        guest_id: user.id,
+        event_id: event.id,
+      },
+    });
   };
 
   const handleSubscribe = () => {
@@ -39,16 +39,30 @@ export default function EventGuestFunctions({ event, userGuestState }) {
       title: "Subscribe to email updates?",
       icon: "question",
       showCancelButton: true,
-      confirmButtonColor: "red",
-      confirmButtonText: "Delete Invite",
+      confirmButtonColor: "green",
+      confirmButtonText: "Subscribe",
     }).then((result) => {
       if (result.isConfirmed) {
-        editGuestState(guest_id, 'subscribed');
+        editGuestState('subscribed');
       }
     })
   }
 
-  const handleSelfDelete = (guest_id) => {
+  const handleUnsubscribe = () => {
+    Swal.fire({
+      title: "Unsubscribe from email updates?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "red",
+      confirmButtonText: "Unsubscribe",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        editGuestState('added');
+      }
+    })
+  }
+
+  const handleSelfDelete = () => {
 
     const alertText = {
       true: "It will be removed from your My Events page.",
@@ -64,21 +78,21 @@ export default function EventGuestFunctions({ event, userGuestState }) {
       confirmButtonText: "Delete Invite",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteGuest(guest_id);
+        deleteGuest();
         Swal.fire("Event deleted.");
         history.push("/myEvents");
       }
     });
   };
 
-  const deleteGuest = (guest_id) => {
-    console.log("deleting guest with id", guest_id);
+  const deleteGuest = () => {
+    console.log("deleting guest with id", user.id);
     console.log("from event with id", event.id);
 
     dispatch({
       type: "DELETE_GUEST",
       payload: {
-        guest_id: guest_id,
+        guest_id: user.id,
         event_id: event.id,
       },
     });
@@ -88,36 +102,20 @@ export default function EventGuestFunctions({ event, userGuestState }) {
     pending: (
       <>
         You have been invited to this private event. Accept?
-        <button
-          onClick={() => {
-            editGuestState(user.id, "added");
-          }}
-        >
+        <button onClick={() => { editGuestState("added") }} >
           Accept
         </button>
-        <button
-          onClick={() => {
-            handleSelfDelete(user.id);
-          }}
-        >
+        <button onClick={() => { handleSelfDelete() }} >
           Decline
         </button>
       </>
     ),
     added: (
       <>
-        <button
-          onClick={() => {
-            handleSelfDelete(user.id);
-          }}
-        >
+        <button onClick={() => { handleSubscribe() }} >
           Subscribe to Updates
         </button>
-        <button
-          onClick={() => {
-            handleSelfDelete(user.id);
-          }}
-        >
+        <button onClick={() => { handleSelfDelete() }} >
           Remove Event
         </button>
       </>
@@ -125,14 +123,10 @@ export default function EventGuestFunctions({ event, userGuestState }) {
     subscribed: (
       <>
         You're subscribed to updates from this event.
-        <button>
+        <button onClick={() => { handleUnsubscribe() }} >
           Unsubscribe
         </button>
-        <button
-          onClick={() => {
-            handleSelfDelete(user.id);
-          }}
-        >
+        <button onClick={() => { handleSelfDelete() }} >
           Remove Event
         </button>
       </>
@@ -140,9 +134,9 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   };
 
   return (
-  <div>
-    <Divider sx={{ my: 1 }} />
-    {displayButtons[userGuestState]}
-  </div>
+    <div>
+      <Divider sx={{ my: 1 }} />
+      {displayButtons[userGuestState]}
+    </div>
   );
 }
