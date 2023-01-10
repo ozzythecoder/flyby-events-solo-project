@@ -23,6 +23,8 @@ function Nav() {
 
   const [drawerOpen, openDrawer] = useState(false);
 
+  const logoutUser = () => dispatch({ type: 'LOGOUT' })
+
   return (
     <div>
       <AppBar position="static">
@@ -60,40 +62,13 @@ function Nav() {
                 {user.id && (
                   <>
                   <NavLink path={"/myEvents"} openDrawer={openDrawer} linkTitle="My Events" />
-                    {/* <Link
-                      className="navLink"
-                      to="/myEvents"
-                      onClick={() => {
-                        openDrawer(false);
-                      }}
-                    >
-                      My Events
-                    </Link> */}
-
-                    <Link
-                      onClick={() => {
-                        dispatch({ type: "CLEAR_EVENT_TO_SUBMIT" });
-                        openDrawer(false);
-                      }}
-                      className="navLink"
-                      to="/createEvent"
-                    >
-                      Create Event
-                    </Link>
+                  <NavLink path={"/createEvent"} openDrawer={openDrawer} linkTitle="Create Event" />
+                  <NavLink path={"/about"} openDrawer={openDrawer} linkTitle="About This App" />
+                  <NavLink path={"/home"} openDrawer={openDrawer} linkTitle="Log Out" callback={logoutUser} />
                   </>
                 )}
-
-                <Link
-                  className="navLink"
-                  to="/about"
-                  onClick={() => {
-                    openDrawer(false);
-                  }}
-                >
-                  About
-                </Link>
                 
-                {user.id && (
+                {/* {user.id && (
                   <Link
                     className="navLink"
                     to="/home"
@@ -103,7 +78,7 @@ function Nav() {
                   >
                     Log Out
                   </Link>
-                )}
+                )} */}
               </div>
             </Box>
           </SwipeableDrawer>
