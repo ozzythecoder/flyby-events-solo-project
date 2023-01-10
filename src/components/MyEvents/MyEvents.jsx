@@ -13,12 +13,6 @@ export default function AllEvents() {
     dispatch({ type: "FETCH_MY_EVENTS" });
   }, []);
 
-  const statuses = {
-    "pending": "Pending Invitation",
-    "added": "",
-    "subscribed": "Subscribed",
-  };
-
   return (
     <div>
       <Typography variant="h4" sx={{ m: 2 }}>
