@@ -7,7 +7,7 @@ router.get('/allEvents', (request, response) => {
 
   if (request.isAuthenticated()) {
     pool
-      .query(`SELECT * FROM event`)
+      .query(`SELECT * FROM event WHERE visible = true`)
       .then(databaseResponse => response.send(databaseResponse.rows))
       .catch(err => { console.log('allEvents', err); response.sendStatus(500) })
   }
@@ -258,6 +258,8 @@ router.put('/editStatus', (request, response) => {
         console.log('Error updating guest status', err);
         response.sendStatus(500)
       })
+  } else {
+    response.sendStatus(401);
   }
 })
 

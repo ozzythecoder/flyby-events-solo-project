@@ -6,11 +6,10 @@ import { Card, CardContent, Typography } from "@mui/material";
 export default function AllEvents() {
   const dispatch = useDispatch();
 
-  const myEvents = useSelector((store) => store.myEvents);
+  const myEvents = useSelector((store) => store.events.myEvents);
   const user = useSelector((store) => store.user);
 
   useEffect(() => {
-    dispatch({ type: "FETCH_ALL_EVENTS" });
     dispatch({ type: "FETCH_MY_EVENTS" });
   }, []);
 
