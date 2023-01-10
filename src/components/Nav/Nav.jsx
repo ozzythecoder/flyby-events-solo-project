@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import LogOutButton from "../LogOutButton/LogOutButton";
-import "./Nav.css";
 import { useSelector, useDispatch } from "react-redux";
 
 // MUI imports
@@ -15,6 +13,9 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
+
+import "./Nav.css";
+import NavLink from "../NavLink/NavLink";
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -46,6 +47,7 @@ function Nav() {
           >
             <Box className="menu-bg">
               <div className="nav">
+
                 {/* If no user is logged in, show these links */}
                 {!user.id && (
                   // If there's no user, show login/registration links
@@ -57,7 +59,8 @@ function Nav() {
                 {/* If a user is logged in, show these links */}
                 {user.id && (
                   <>
-                    <Link
+                  <NavLink path={"/myEvents"} openDrawer={openDrawer} linkTitle="My Events" />
+                    {/* <Link
                       className="navLink"
                       to="/myEvents"
                       onClick={() => {
@@ -65,7 +68,7 @@ function Nav() {
                       }}
                     >
                       My Events
-                    </Link>
+                    </Link> */}
 
                     <Link
                       onClick={() => {
