@@ -7,7 +7,6 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Drawer,
   SwipeableDrawer,
   Box,
   Typography,
@@ -62,7 +61,10 @@ function Nav() {
                 {user.id && (
                   <>
                     <NavLink linkTitle="My Events" path={"/myEvents"} openDrawer={openDrawer} />
-                    <NavLink linkTitle="Create Event" path={"/createEvent"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="Subscriptions" path={"/myEvents/subscribed"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="Pending Invitations" path={"/myEvents/pending"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="My Hosted Events" path={"/myEvents/hosting"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="Create An Event" path={"/createEvent"} openDrawer={openDrawer} />
                     <NavLink linkTitle="About This App" path={"/about"} openDrawer={openDrawer} />
                     <NavLink linkTitle="Log Out" path={"/home"} openDrawer={openDrawer} callback={logoutUser} />
                   </>
