@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { Card, Typography, Divider } from "@mui/material";
 import EventGuestList from "../EventGuestList/EventGuestList";
 import EventBody from "../EventBody/EventBody";
+import EventHostFunctions from "../EventHostFunctions/EventHostFunctions";
 
 export default function EventDetailItem({ event }) {
   const dispatch = useDispatch();
@@ -21,28 +22,10 @@ export default function EventDetailItem({ event }) {
   const userGuestState = guests.filter((guest) => guest.id === user.id)[0]
     ?.guest_state;
 
-  const editEvent = () => {
-    dispatch({
-      type: "SET_EVENT_TO_SUBMIT",
-      payload: event,
-    });
-    history.push("/editEvent/" + event.id);
-  };
-
   useEffect(() => {
     dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });
   }, []);
 
-  const handleDelete = () => primeForDelete(true);
-
-  const confirmDelete = () => {
-    dispatch({
-      type: "DELETE_EVENT",
-      payload: event.id,
-    });
-    dispatch({ type: "FETCH_ALL_EVENTS" });
-    history.push("/myEvents");
-  };
 
   const editGuestState = (guest_id, guest_state) => {
     console.log("editing guest", guest_id, "to", guest_state);
@@ -80,20 +63,10 @@ export default function EventDetailItem({ event }) {
         {event.visible || hostView || guestView ? (
           <EventBody event={event} />
         ) : (
-          <>Sorry, you do not have access to this event.</>
+          <>Sorry, you do not have access to this private event.</>
         )}
-        {hostView && (
-          <div>
-            <p>
-              <button onClick={editEvent}>Edit Event</button>
-              {deletePrimed ? (
-                <button onClick={confirmDelete}>Confirm Delete</button>
-              ) : (
-                <button onClick={handleDelete}>Delete Event</button>
-              )}
-            </p>
-          </div>
-        )}
+
+        {hostView && <EventHostFunctions event={event} /> }
 
         <Divider sx={{ mb: 1 }} />
 
