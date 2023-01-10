@@ -26,6 +26,13 @@ const eventToSubmit = (state = eventObj, action) => {
   }
 }
 
+const myEvents = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_MY_EVENTS': return action.payload;
+    default: return state;
+  }
+}
+
 const eventEditId = (state = null, action) => {
   switch (action.type) {
     case 'SET_ID_OF_EDITED_EVENT': return action.payload;
@@ -35,6 +42,7 @@ const eventEditId = (state = null, action) => {
 }
 
 export default combineReducers({
+  myEvents,
   eventEditId,
   allEvents,
   eventToSubmit

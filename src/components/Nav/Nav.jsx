@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import LogOutButton from "../LogOutButton/LogOutButton";
-import "./Nav.css";
 import { useSelector, useDispatch } from "react-redux";
 
 // MUI imports
@@ -16,11 +14,16 @@ import {
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 
+import "./Nav.css";
+import NavLink from "../NavLink/NavLink";
+
 function Nav() {
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
 
   const [drawerOpen, openDrawer] = useState(false);
+
+  const logoutUser = () => dispatch({ type: 'LOGOUT' })
 
   return (
     <div>
@@ -46,61 +49,25 @@ function Nav() {
           >
             <Box className="menu-bg">
               <div className="nav">
+
                 {/* If no user is logged in, show these links */}
                 {!user.id && (
-                  // If there's no user, show login/registration links
-                  <Link className="navLink" to="/login">
-                    Login / Register
-                  </Link>
+                  <>
+                    <NavLink linkTitle="Login / Register" path={"/login"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="About This App" path={"/about"} openDrawer={openDrawer} />
+                  </>
                 )}
 
                 {/* If a user is logged in, show these links */}
                 {user.id && (
                   <>
-                    <Link
-                      className="navLink"
-                      to="/myEvents"
-                      onClick={() => {
-                        openDrawer(false);
-                      }}
-                    >
-                      My Events
-                    </Link>
-
-                    <Link
-                      onClick={() => {
-                        dispatch({ type: "CLEAR_EVENT_TO_SUBMIT" });
-                        openDrawer(false);
-                      }}
-                      className="navLink"
-                      to="/createEvent"
-                    >
-                      Create Event
-                    </Link>
+                    <NavLink linkTitle="My Events" path={"/myEvents"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="Create Event" path={"/createEvent"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="About This App" path={"/about"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="Log Out" path={"/home"} openDrawer={openDrawer} callback={logoutUser} />
                   </>
                 )}
-
-                <Link
-                  className="navLink"
-                  to="/about"
-                  onClick={() => {
-                    openDrawer(false);
-                  }}
-                >
-                  About
-                </Link>
                 
-                {user.id && (
-                  <Link
-                    className="navLink"
-                    to="/home"
-                    onClick={() => {
-                      dispatch({ type: "LOGOUT" });
-                    }}
-                  >
-                    Log Out
-                  </Link>
-                )}
               </div>
             </Box>
           </SwipeableDrawer>

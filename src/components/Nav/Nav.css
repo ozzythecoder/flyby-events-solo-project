@@ -1,11 +1,8 @@
 .nav {
-  /* flex box layout */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-
-  margin: 0 0 30px;
+  align-items: left;
   overflow: hidden;
 }
 
@@ -14,18 +11,7 @@
   text-decoration: none;
 }
 
-.nav-title {
-  color: white;
-  font-size: 24px;
-  text-decoration: none;
-  font-weight: 700;
-  padding-left: 10px;
-  margin: 0;
-}
-
 .navLink {
-  display: inline-block;
-  text-align: center;
   padding: 15px 30px;
   text-decoration: none;
   font-size: 20px;

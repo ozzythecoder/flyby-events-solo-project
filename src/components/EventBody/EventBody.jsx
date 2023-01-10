@@ -1,6 +1,4 @@
-
-
-import { Typography } from '@mui/material'
+import { Typography } from "@mui/material";
 
 export default function EventBody({ event }) {
   return (
@@ -9,7 +7,7 @@ export default function EventBody({ event }) {
         {event.name}
       </Typography>
       <Typography variant="body1">
-        {event.visible || "This is a private event."}
+        {!event.visible && "This is a private event."}
       </Typography>
       <Typography variant="body1">{event.date}</Typography>
       <Typography variant="body1">{event.time}</Typography>

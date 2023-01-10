@@ -7,7 +7,7 @@ router.get('/allEvents', (request, response) => {
 
   if (request.isAuthenticated()) {
     pool
-      .query(`SELECT * FROM event`)
+      .query(`SELECT * FROM event WHERE visible = true`)
       .then(databaseResponse => response.send(databaseResponse.rows))
       .catch(err => { console.log('allEvents', err); response.sendStatus(500) })
   }
@@ -69,7 +69,7 @@ router.get('/eventsByGuest', (request, response) => {
     const user_id = request.user.id
 
     const queryText = `
-    SELECT DISTINCT event.* FROM event
+    SELECT DISTINCT event.*, user_event.guest_state FROM event
       LEFT JOIN user_event ON user_event.event_id = event.id
       WHERE event.host_id = $1 OR user_event.user_id = $1
       ORDER BY event.date
@@ -264,6 +264,8 @@ router.put('/editStatus', (request, response) => {
         console.log('Error updating guest status', err);
         response.sendStatus(500)
       })
+  } else {
+    response.sendStatus(401);
   }
 })
 
