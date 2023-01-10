@@ -3,13 +3,21 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Card, CardContent, Typography } from "@mui/material";
 
-export default function MyEvents({ stateFilter = true, title = "My Events"}) {
+export default function MyEvents({ stateFilter = 'all', title = "My Events", hosting = false}) {
   const dispatch = useDispatch();
 
-  const myEvents = useSelector(
-    (store) => store.events.myEvents.filter(event => event.guest_state === stateFilter)
-  );
+  // utility object to filter for certain events
+  const eventFilters = {
+    all: () => true,
+    pending: event => event.guest_state === 'pending',
+    subscribed: event => event.guest_state === 'subscribed',
+    hosting: event => event.host_id === user.id
+  }
+  
   const user = useSelector((store) => store.user);
+  const myEvents = useSelector(
+    store => store.events.myEvents.filter(eventFilters[stateFilter])
+  );
 
   useEffect(() => {
     dispatch({ type: "FETCH_MY_EVENTS" });
@@ -49,6 +57,7 @@ export default function MyEvents({ stateFilter = true, title = "My Events"}) {
           );
         })}
       </div>
+      {/* {JSON.stringify(useSelector(store => store.events.myEvents))} */}
     </div>
   );
 }

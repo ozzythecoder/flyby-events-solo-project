@@ -61,8 +61,8 @@ function App() {
             <MyEvents title={'Pending Invitations'} stateFilter={'pending'} />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/myEvents/hosted">
-            <MyEvents title={'My Hosted Events'} />
+          <ProtectedRoute exact path="/myEvents/hosting">
+            <MyEvents title={'My Hosted Events'} stateFilter={'hosting'} />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/createEvent">
