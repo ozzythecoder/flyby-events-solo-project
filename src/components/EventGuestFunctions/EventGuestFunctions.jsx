@@ -24,10 +24,16 @@ export default function EventGuestFunctions({ event, userGuestState }) {
       icon: 'success'
     })
 
+    console.group('Editing guest state');
+    console.log('guest id:', user.id);
+    console.log('event id:', event.id);
+    console.log('guest state changing to:', guest_state);
+    console.groupEnd();
+
     dispatch({
       type: "EDIT_GUEST_STATE",
       payload: {
-        guest_state,
+        guest_state: guest_state,
         guest_id: user.id,
         event_id: event.id,
       },
@@ -137,6 +143,7 @@ export default function EventGuestFunctions({ event, userGuestState }) {
     <div>
       <Divider sx={{ my: 1 }} />
       {displayButtons[userGuestState]}
+      {JSON.stringify(userGuestState)}
     </div>
   );
 }

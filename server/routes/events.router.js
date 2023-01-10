@@ -243,6 +243,12 @@ router.put('/editStatus', (request, response) => {
 
     const { event_id, guest_id, guest_state } = request.body;
 
+    console.group('Editing guest state');
+    console.log('guest id:', guest_id);
+    console.log('event id:', event_id);
+    console.log('guest state changing to:', guest_state);
+    console.groupEnd();
+
     const queryText = `
       UPDATE user_event
         SET guest_state = $1
