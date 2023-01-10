@@ -40,7 +40,6 @@ export default function EventHostFunctions({ event }) {
       payload: event.id,
     });
     dispatch({ type: "FETCH_ALL_EVENTS" });
-    history.push("/myEvents");
   }
 
   return (
