@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Card, CardContent, Typography } from "@mui/material";
 
-export default function AllEvents() {
+export default function MyEvents({ stateFilter = true, title = "My Events"}) {
   const dispatch = useDispatch();
 
-  const myEvents = useSelector((store) => store.events.myEvents);
+  const myEvents = useSelector(
+    (store) => store.events.myEvents.filter(event => event.guest_state === stateFilter)
+  );
   const user = useSelector((store) => store.user);
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function AllEvents() {
   return (
     <div>
       <Typography variant="h4" sx={{ m: 2 }}>
-        My Events
+        {title}
       </Typography>
       <div>
         {myEvents.map((event, index) => {

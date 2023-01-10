@@ -53,12 +53,16 @@ function App() {
             <MyEvents />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/myEvents/tracked">
-
+          <ProtectedRoute exact path="/myEvents/subscribed">
+            <MyEvents title={'My Subscribed Events'} stateFilter={'subscribed'} />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/myEvents/pending">
+            <MyEvents title={'Pending Invitations'} stateFilter={'pending'} />
+          </ProtectedRoute>
 
+          <ProtectedRoute exact path="/myEvents/hosted">
+            <MyEvents title={'My Hosted Events'} />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/createEvent">
