@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { Divider } from "@mui/material";
+import { Divider, Button, Typography } from "@mui/material";
 
 import Swal from "sweetalert2";
 
@@ -142,8 +142,11 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   return (
     <div>
       <Divider sx={{ my: 1 }} />
+      <Typography variant="body1">
+
       {displayButtons[userGuestState]}
       {JSON.stringify(userGuestState)}
+      </Typography>
     </div>
   );
 }

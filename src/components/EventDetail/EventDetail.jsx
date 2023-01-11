@@ -18,7 +18,7 @@ export default function EventDetail() {
 
         <IconButton
             edge="start"
-            onClick={() => history.goBack()}
+            onClick={() => history.push('/myEvents')}
             sx={{ 
               position: "absolute",
               m: 0.5,
