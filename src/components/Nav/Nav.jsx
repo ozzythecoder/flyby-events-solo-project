@@ -75,7 +75,7 @@ function Nav() {
             </Box>
           </SwipeableDrawer>
           <Link to="/home" className="nav-title">
-            <Typography variant="h5">FlyBy Events</Typography>
+            <Typography variant="title">FlyBy Events</Typography>
           </Link>
         </Toolbar>
       </AppBar>

@@ -9,7 +9,7 @@ import {
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
-import testTheme from "../../themes/themes";
+import theme from "../../themes/themes";
 
 import Nav from "../Nav/Nav";
 import Footer from "../Footer/Footer";
@@ -42,7 +42,7 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={testTheme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
           <Nav />
