@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import {
+  Typography,
   TextField,
   Radio,
   RadioGroup,
@@ -14,7 +15,7 @@ import {
   FormControlLabel,
 } from '@mui/material'
 
-export default function EventForm({ goNext, eventId }) {
+export default function EventForm({ goNext, title }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -76,6 +77,9 @@ export default function EventForm({ goNext, eventId }) {
 
   return (
     <div>
+      <Typography variant="h4">
+        {title}
+      </Typography>
 
       <form onSubmit={handleSubmit}>
 
