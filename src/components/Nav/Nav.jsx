@@ -23,6 +23,7 @@ function Nav() {
   const [drawerOpen, openDrawer] = useState(false);
 
   const logoutUser = () => dispatch({ type: 'LOGOUT' })
+  const clearEventToSubmit = () => dispatch({ type: 'CLEAR_EVENT_TO_SUBMIT' })
 
   return (
     <div>
@@ -64,7 +65,7 @@ function Nav() {
                     <NavLink linkTitle="Subscriptions" path={"/myEvents/subscribed"} openDrawer={openDrawer} />
                     <NavLink linkTitle="Pending Invitations" path={"/myEvents/pending"} openDrawer={openDrawer} />
                     <NavLink linkTitle="My Hosted Events" path={"/myEvents/hosting"} openDrawer={openDrawer} />
-                    <NavLink linkTitle="Create An Event" path={"/createEvent"} openDrawer={openDrawer} />
+                    <NavLink linkTitle="Create An Event" path={"/createEvent"} openDrawer={openDrawer} callback={clearEventToSubmit} />
                     <NavLink linkTitle="About This App" path={"/about"} openDrawer={openDrawer} />
                     <NavLink linkTitle="Log Out" path={"/home"} openDrawer={openDrawer} callback={logoutUser} />
                   </>
