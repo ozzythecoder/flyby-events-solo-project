@@ -79,13 +79,6 @@ export default function EventForm({ goNext, eventId }) {
 
       <form onSubmit={handleSubmit}>
 
-        {/* <input
-          type="text"
-          placeholder="Event Title"
-          value={nameIn}
-          onChange={(event) => setName(event.target.value)}
-        /> */}
-
         <TextField
           label="Event Title"
           type="text"
