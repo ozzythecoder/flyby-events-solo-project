@@ -8,8 +8,6 @@ export default function EditEvent() {
   const dispatch = useDispatch();
   const { eventId } = useParams();
 
-  console.log('event id is', eventId)
-
   useEffect(() => {
     dispatch({ type: "FETCH_ALL_EVENTS" })
     dispatch({ type: "FETCH_EDIT_EVENT", payload: eventId })

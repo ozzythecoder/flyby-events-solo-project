@@ -2,6 +2,18 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+import Swal from "sweetalert2";
+
+import {
+  TextField,
+  Radio,
+  RadioGroup,
+  Input,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+} from '@mui/material'
+
 export default function EventForm({ goNext, eventId }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -64,71 +76,69 @@ export default function EventForm({ goNext, eventId }) {
 
   return (
     <div>
+
       <form onSubmit={handleSubmit}>
-        <input
+
+        {/* <input
           type="text"
           placeholder="Event Title"
           value={nameIn}
           onChange={(event) => setName(event.target.value)}
+        /> */}
+
+        <TextField
+          label="Event Title"
+          type="text"
+          value={nameIn}
+          onChange={(event) => setName(event.target.value)}
         />
 
-        <input
+        <TextField
           type="date"
           placeholder="Date"
           value={dateIn}
           onChange={(event) => setDate(event.target.value)}
         />
 
-        <input
+        <TextField
           type="time"
           placeholder="Time"
           value={timeIn}
           onChange={(event) => setTime(event.target.value)}
         />
 
-        <input
+        <TextField
           type="text"
-          placeholder='Location (address, "virtual", etc)'
+          label="Location"
+          placeholder='Address, "Virtual", etc.'
           value={locationIn}
           onChange={(event) => setLocation(event.target.value)}
         />
 
-        <textarea
-          placeholder="description"
+        <TextField
+          label="Description"
           value={descriptionIn}
           onChange={(event) => setDescription(event.target.value)}
-        ></textarea>
+        />
 
-        <input
+        <TextField
           type="text"
-          placeholder="Ticket Link (optional)"
+          label="Web Link (optional)"
+          placeholder="Tickets, Zoom Link, etc."
           value={ticketLinkIn}
           onChange={(event) => setTicketLink(event.target.value)}
         />
 
         <div>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                value={true}
-                checked={visibleIn === true}
-                onChange={() => setVisible(true)}
-              />
-              Public
-            </label>
-          </div>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                value={false}
-                checked={visibleIn === false}
-                onChange={() => setVisible(false)}
-              />
-              Private
-            </label>
-          </div>
+
+        <FormControl>
+          <FormLabel>Event Visibility</FormLabel>
+          <RadioGroup value={visibleIn} onChange={event => setVisible(event.target.value)}>
+            <FormControlLabel value={true} label="Public" control={<Radio />} />
+            <FormControlLabel value={false} label="Private" control={<Radio />} />
+          </RadioGroup>
+        </FormControl>
+
         </div>
 
         <button type='submit'>
@@ -139,8 +149,6 @@ export default function EventForm({ goNext, eventId }) {
         onClick={handleCancel}>
         Cancel
       </button>
-
-    {JSON.stringify(eventToSubmit)}
     </div>
   );
 }

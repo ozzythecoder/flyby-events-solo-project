@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   HashRouter as Router,
   Redirect,
   Route,
   Switch,
 } from "react-router-dom";
-
-import { useDispatch, useSelector } from "react-redux";
 
 import Nav from "../Nav/Nav";
 import Footer from "../Footer/Footer";
@@ -20,9 +19,8 @@ import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 
-
 import "./App.css";
-import MyEvents from '../MyEvents/MyEvents'
+import MyEvents from "../MyEvents/MyEvents";
 import EventDetail from "../EventDetail/EventDetail";
 import CreateEvent from "../CreateEvent/CreateEvent";
 import CreateEventPreview from "../CreateEventPreview/CreateEventPreview";
@@ -39,8 +37,8 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router>
-      <div>
+    <>
+      <Router>
         <Nav />
         <Switch>
           <Redirect exact from="/" to="/home" />
@@ -54,15 +52,18 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/myEvents/subscribed">
-            <MyEvents title={'My Subscribed Events'} stateFilter={'subscribed'} />
+            <MyEvents
+              title={"My Subscribed Events"}
+              stateFilter={"subscribed"}
+            />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/myEvents/pending">
-            <MyEvents title={'Pending Invitations'} stateFilter={'pending'} />
+            <MyEvents title={"Pending Invitations"} stateFilter={"pending"} />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/myEvents/hosting">
-            <MyEvents title={'My Hosted Events'} stateFilter={'hosting'} />
+            <MyEvents title={"My Hosted Events"} stateFilter={"hosting"} />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/createEvent">
@@ -111,8 +112,8 @@ function App() {
           </Route>
         </Switch>
         <Footer />
-      </div>
-    </Router>
+      </Router>
+    </>
   );
 }
 
