@@ -17,6 +17,7 @@ function* fetchAllEvents() {
     yield put({ type: 'SET_ALL_EVENTS', payload: events.data })
   } catch (error) {
     console.log('Error fetching all events', error);
+    alertError('Error fetching events. Please try again later.')
   }
 }
 
@@ -26,6 +27,7 @@ function* fetchMyEvents() {
     yield put({ type: 'SET_MY_EVENTS', payload: myEvents.data })
   } catch (error) {
     console.log('Error fetching events', error)
+    alertError('Error fetching events. Please try again later.')
   }
 }
 
@@ -38,8 +40,8 @@ function* fetchEventById(action) {
     })
     yield put({ type: 'SET_THIS_EVENT', payload: thisEvent.data[0] })
   } catch (error) {
-    console.log(error)
-    alertError(error)
+    console.log('Error fetching event by ID', error)
+    alertError('Error fetching events. Please try again later.')
   }
 }
 
@@ -53,40 +55,38 @@ function* fetchEditEvent(action) {
     yield put({ type: 'SET_EVENT_TO_SUBMIT', payload: thisEvent.data[0] })
   } catch (error) {
     console.log('fetchEditEvent', error);
+    alertError('Error fetching event. Please try again later.')
   }
 }
 
 function* addNewEvent(action) {
   try {
     yield axios.post('/api/events/createEvent', action.payload)
-    yield put({ type: 'FETCH_ALL_EVENTS' })
+    // yield put({ type: 'FETCH_MY_EVENTS' })
   } catch (error) {
     console.log('Error posting new event')
 
-    // ⚠️ ALERT USER
+    alertError('Error adding new event. Please try again later.')
   }
 }
 
 function* editEvent(action) {
   try {
     yield axios.put('/api/events/editEvent', action.payload)
-    yield put({ type: 'FETCH_ALL_EVENTS'})
+    yield put({ type: 'FETCH_MY_EVENTS'})
   } catch (error) {
     console.log('Error editing event', error)
-
-    
-    // ⚠️ ALERT USER
+    alertError('Error editing event. Please try again later.')
   }
 }
 
 function* deleteEvent(action) {
   try {
     yield axios.delete('/api/events/deleteEvent/' + action.payload)
-    yield put({ type: 'FETCH_ALL_EVENTS' })
+    yield put({ type: 'FETCH_MY_EVENTS' })
   } catch (error) {
     console.log('Error deleting event', error)
-
-    // ⚠️ ALERT USER
+    alertError('Error deleting event. Please try again later.')
   }
 }
 
