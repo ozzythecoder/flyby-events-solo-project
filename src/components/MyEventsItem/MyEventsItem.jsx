@@ -10,7 +10,7 @@ export default function MyEventsItem({ event }) {
       <a href={`/#/event/${event.id}`}>
         <Card sx={{ mb: 2, mx: 2 }} variant="outlined">
           <CardContent>
-            <Typography variant="h5">
+            <Typography variant="h3">
               {event.name}
 
               {user.id === event.host_id && " - Hosting"}

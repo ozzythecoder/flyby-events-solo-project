@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 export default function EventBody({ event }) {
   return (
     <div>
-      <Typography variant="h5" sx={{ mb: 1 }}>
+      <Typography variant="h3" sx={{ mb: 1 }}>
         {event.name}
       </Typography>
       <Typography variant="body1">

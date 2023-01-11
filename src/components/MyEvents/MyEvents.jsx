@@ -29,7 +29,7 @@ export default function MyEvents({ stateFilter = "all", title = "My Events" }) {
 
   return (
     <div>
-      <Typography variant="h4" sx={{ m: 2 }}>
+      <Typography variant="h2" sx={{ m: 2 }}>
         {title}
       </Typography>
       {myEvents.map((event) => (

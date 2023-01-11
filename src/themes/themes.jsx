@@ -13,7 +13,15 @@ const theme = createTheme({
     fontFamily: mainFont,
     title: {
       fontFamily: titleFont,
-      fontSize: '28px'
+      fontSize: '26px'
+    },
+    h2: {
+      fontSize: '28px',
+      fontWeight: 700
+    },
+    h3: {
+      fontSize: '26px',
+      fontWeight: 600
     },
     body1: {
       fontSize: '18px'

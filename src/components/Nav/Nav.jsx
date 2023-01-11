@@ -28,7 +28,9 @@ function Nav() {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar
+          sx={{ justifyContent: 'space-between' }}
+        >
           <IconButton
             edge="start"
             onClick={() => openDrawer(true)}
