@@ -8,7 +8,10 @@ import {
   TextField,
   Radio,
   RadioGroup,
-  Input
+  Input,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
 } from '@mui/material'
 
 export default function EventForm({ goNext, eventId }) {
@@ -128,22 +131,13 @@ export default function EventForm({ goNext, eventId }) {
 
         <div>
 
-          <FormControl>
-
-
-          </FormControl>
-          <Radio
-            checked={visibleIn}
-            value={true}
-            onChange={(event) => { setVisible(true) }}
-            name="event-visibility"
-          />
-          <Radio
-            checked={!visibleIn}
-            value={false}
-            onChange={(event) => { setVisible(false) }}
-            name="event-visibility"
-          />
+        <FormControl>
+          <FormLabel>Event Visibility</FormLabel>
+          <RadioGroup value={visibleIn} onChange={event => setVisible(event.target.value)}>
+            <FormControlLabel value={true} label="Public" control={<Radio />} />
+            <FormControlLabel value={false} label="Private" control={<Radio />} />
+          </RadioGroup>
+        </FormControl>
 
         </div>
 
