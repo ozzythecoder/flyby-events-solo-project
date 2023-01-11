@@ -11,26 +11,17 @@ export default function EventDetail() {
   const dispatch = useDispatch();
   const { eventID } = useParams();
 
-  const thisEvent = useSelector((store) =>
-    store.events.allEvents.filter((el) => el.id == eventID)
-  );
-
-  useEffect(() => {
-    dispatch({ type: "FETCH_ALL_EVENTS" });
-  }, []);
 
   return (
     <div>
-      <a href='/#/myEvents'>
-        <ArrowBackIcon fontSize="large" />
-      </a>
-
       <Box>
+        <a href="/#/myEvents">
+          <ArrowBackIcon fontSize="large" />
+        </a>
+
         <Typography variant="h5">Event Detail</Typography>
       </Box>
-      {thisEvent.map((event, index) => {
-        return <EventDetailItem key={index} event={event} />;
-      })}
+      <EventDetailItem eventID={eventID} />
     </div>
   );
 }

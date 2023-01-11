@@ -1,12 +1,5 @@
 import { combineReducers } from "redux";
 
-const allEvents = (state = [], action) => {
-  switch (action.type) {
-    case 'SET_ALL_EVENTS': return action.payload;
-    default: return state;
-  }
-}
-
 const eventObj = {
   name: '',
   date: '',
@@ -15,6 +8,20 @@ const eventObj = {
   description: '',
   ticket_link: '',
   visible: false
+}
+
+const allEvents = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_ALL_EVENTS': return action.payload;
+    default: return state;
+  }
+}
+
+const thisEvent = (state = eventObj, action) => {
+  switch (action.type) {
+    case 'SET_THIS_EVENT' : return action.payload;
+    default: return state;
+  }
 }
 
 // Used when building a new event or editing an existing one
@@ -43,6 +50,7 @@ const eventEditId = (state = null, action) => {
 
 export default combineReducers({
   myEvents,
+  thisEvent,
   eventEditId,
   allEvents,
   eventToSubmit

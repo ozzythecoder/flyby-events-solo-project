@@ -7,8 +7,10 @@ import EventBody from "../EventBody/EventBody";
 import EventHostFunctions from "../EventHostFunctions/EventHostFunctions";
 import EventGuestFunctions from "../EventGuestFunctions/EventGuestFunctions";
 
-export default function EventDetailItem({ event }) {
+export default function EventDetailItem({ eventID }) {
   const dispatch = useDispatch();
+
+  const event = useSelector((store) => store.events.thisEvent);
 
   const user = useSelector((store) => store.user);
   const guests = useSelector((store) => store.guests);
@@ -21,14 +23,17 @@ export default function EventDetailItem({ event }) {
   // determines visibility of private events
   const guestView = guests.some((guest) => guest.id === user.id);
 
+  const eventIsVisible = event.visible || hostView || guestView
+
   useEffect(() => {
-    dispatch({ type: "FETCH_EVENT_GUESTS", payload: event.id });
+    dispatch({ type: "FETCH_EVENT_BY_ID", payload: eventID });
+    dispatch({ type: "FETCH_EVENT_GUESTS", payload: eventID });
   }, []);
 
   return (
     <div>
       <Card sx={{ m: 2, p: 2 }}>
-        {event.visible || hostView || guestView ? (
+        {eventIsVisible ? (
           <EventBody event={event} />
         ) : (
           <>
@@ -46,6 +51,7 @@ export default function EventDetailItem({ event }) {
         {guestView && (
           <EventGuestFunctions event={event} userGuestState={userGuestState} />
         )}
+
       </Card>
     </div>
   );
