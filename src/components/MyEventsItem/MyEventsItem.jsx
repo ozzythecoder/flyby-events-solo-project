@@ -8,7 +8,7 @@ export default function MyEventsItem({ event }) {
   return (
     <div>
       <a href={`/#/event/${event.id}`}>
-        <Card sx={{ mb: 2, mx: 2 }} variant="outlined">
+        <Card sx={{ m: 2 }} variant="outlined">
           <CardContent>
             <Typography variant="h3">
               {event.name}

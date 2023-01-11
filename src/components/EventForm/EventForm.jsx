@@ -15,6 +15,8 @@ import {
   FormControlLabel,
 } from '@mui/material'
 
+import PageTitle from "../PageTitle/PageTitle";
+
 export default function EventForm({ goNext, title }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -77,9 +79,7 @@ export default function EventForm({ goNext, title }) {
 
   return (
     <div>
-      <Typography variant="h4">
-        {title}
-      </Typography>
+      <PageTitle title={title} />
 
       <form onSubmit={handleSubmit}>
 

@@ -9,7 +9,8 @@ export default function PageTitle({ title, children, ...props }) {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      sx={{ pt: 1.5 }}
+      textAlign="center"
+      sx={{ pt: 1.5, mx: 1 }}
     >
     <Typography variant="h2">
       {titleText}
