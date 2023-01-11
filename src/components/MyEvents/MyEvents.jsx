@@ -5,22 +5,22 @@ import { Card, CardContent, Typography } from "@mui/material";
 
 import MyEventsItem from "../MyEventsItem/MyEventsItem";
 
-export default function MyEvents({ stateFilter = 'all', title = "My Events" }) {
+export default function MyEvents({ stateFilter = "all", title = "My Events" }) {
   const dispatch = useDispatch();
-  
+
   const user = useSelector((store) => store.user);
-  
+
   // utility object to filter for events by stateFilter
   const eventFilters = {
     all: () => true,
-    pending: event => event.guest_state === 'pending',
-    subscribed: event => event.guest_state === 'subscribed',
-    hosting: event => event.host_id === user.id
-  }
-  
+    pending: (event) => event.guest_state === "pending",
+    subscribed: (event) => event.guest_state === "subscribed",
+    hosting: (event) => event.host_id === user.id,
+  };
+
   // filter events based on stateFilter
-  const myEvents = useSelector(
-    store => store.events.myEvents.filter(eventFilters[stateFilter])
+  const myEvents = useSelector((store) =>
+    store.events.myEvents.filter(eventFilters[stateFilter])
   );
 
   useEffect(() => {
@@ -32,7 +32,9 @@ export default function MyEvents({ stateFilter = 'all', title = "My Events" }) {
       <Typography variant="h4" sx={{ m: 2 }}>
         {title}
       </Typography>
-      {myEvents.map(event => <MyEventsItem key={event.id} event={event} /> )}
+      {myEvents.map((event) => (
+        <MyEventsItem key={event.id} event={event} />
+      ))}
     </div>
   );
 }

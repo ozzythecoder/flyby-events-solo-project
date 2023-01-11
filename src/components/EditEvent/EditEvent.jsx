@@ -16,8 +16,7 @@ export default function EditEvent() {
 
   return (
     <div>
-      <h1>Edit Event</h1>
-      <EventForm eventId={eventId} goNext={"/editPreview"} />
+      <EventForm goNext={"/editPreview"} title={"Edit Event"} />
     </div>
   );
 }
