@@ -32,7 +32,7 @@ export default function EventDetailItem({ eventID }) {
 
   return (
     <div>
-      <Card sx={{ m: 2, p: 2 }}>
+      <Card sx={{ m: 2, p: 2 }} variant="outlined">
         {eventIsVisible ? (
           <EventBody event={event} />
         ) : (
