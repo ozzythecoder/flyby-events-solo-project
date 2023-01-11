@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 import EventForm from "../EventForm/EventForm";
 
 export default function CreateEvent() {
+  const dispatch = useDispatch();
 
   return (
     <>

@@ -22,7 +22,7 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import "./App.css";
 import MyEvents from "../MyEvents/MyEvents";
 import EventDetail from "../EventDetail/EventDetail";
-import EventForm from "../EventForm/EventForm";
+import CreateEvent from "../CreateEvent/CreateEvent"
 import CreateEventPreview from "../CreateEventPreview/CreateEventPreview";
 import EditEvent from "../EditEvent/EditEvent";
 import EditEventPreview from "../EditEventPreview/EditEventPreview";
@@ -73,7 +73,7 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/createEvent">
-            <EventForm goNext={'/createEvent/preview'} title={'Create Event'} />
+            <CreateEvent />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/editEvent/:eventId">
