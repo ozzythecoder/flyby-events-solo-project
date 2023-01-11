@@ -13,6 +13,10 @@ export default function EditEventPreview() {
       type: "EDIT_EVENT",
       payload: {...event, event_id: eventId},
     });
+    dispatch({
+      type: "FETCH_EVENT_BY_ID",
+      payload: eventId
+    })
     history.push("/event/" + eventId);
   };
 

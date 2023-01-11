@@ -1,6 +1,16 @@
 import axios from "axios";
 import { put, takeLatest } from 'redux-saga/effects'
 
+import Swal from 'sweetalert2'
+
+function alertError(error) {
+  Swal.fire({
+    title: 'Error',
+    text: error,
+    icon: 'error'
+  })
+}
+
 function* fetchAllEvents() {
   try {
     const events = yield axios.get('api/events/allEvents')
@@ -16,6 +26,20 @@ function* fetchMyEvents() {
     yield put({ type: 'SET_MY_EVENTS', payload: myEvents.data })
   } catch (error) {
     console.log('Error fetching events', error)
+  }
+}
+
+function* fetchEventById(action) {
+  try {
+    const thisEvent = yield axios.get('/api/events/eventById', {
+      params: {
+        eventId: action.payload
+      }
+    })
+    yield put({ type: 'SET_THIS_EVENT', payload: thisEvent.data[0] })
+  } catch (error) {
+    console.log(error)
+    alertError(error)
   }
 }
 
@@ -69,6 +93,7 @@ function* deleteEvent(action) {
 function* eventsSaga() {
   yield takeLatest('FETCH_ALL_EVENTS', fetchAllEvents)
   yield takeLatest('FETCH_MY_EVENTS', fetchMyEvents)
+  yield takeLatest('FETCH_EVENT_BY_ID', fetchEventById)
   yield takeLatest('FETCH_EDIT_EVENT', fetchEditEvent)
 
   yield takeLatest('ADD_NEW_EVENT', addNewEvent) 
