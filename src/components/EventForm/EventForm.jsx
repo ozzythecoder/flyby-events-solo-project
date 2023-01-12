@@ -9,11 +9,13 @@ import {
   TextField,
   Radio,
   RadioGroup,
-  Input,
+  Button,
+  Box,
+  Stack,
   FormControl,
   FormLabel,
   FormControlLabel,
-} from '@mui/material'
+} from "@mui/material";
 
 import PageTitle from "../PageTitle/PageTitle";
 
@@ -21,23 +23,26 @@ export default function EventForm({ goNext, title }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { eventToSubmit } = useSelector(store => store.events)
-  
+  const { eventToSubmit } = useSelector((store) => store.events);
+
   const [nameIn, setName] = useState(eventToSubmit.name);
-  const [dateIn, setDate] = useState(eventToSubmit.date?.slice(0,10) || '');
-  const [timeIn, setTime] = useState(eventToSubmit.time?.slice(0,8) || '');
-  const [locationIn, setLocation] = useState(eventToSubmit.location || '');
-  const [descriptionIn, setDescription] = useState(eventToSubmit.description || '');
-  const [ticketLinkIn, setTicketLink] = useState(eventToSubmit.ticket_link || '');
+  const [dateIn, setDate] = useState(eventToSubmit.date?.slice(0, 10) || "");
+  const [timeIn, setTime] = useState(eventToSubmit.time?.slice(0, 8) || "");
+  const [locationIn, setLocation] = useState(eventToSubmit.location || "");
+  const [descriptionIn, setDescription] = useState(
+    eventToSubmit.description || ""
+  );
+  const [ticketLinkIn, setTicketLink] = useState(
+    eventToSubmit.ticket_link || ""
+  );
   const [visibleIn, setVisible] = useState(eventToSubmit.visible || false);
 
   const validateInputs = (eventObject) => {
+    let { ticket_link, visible, ...eventToValidate } = eventObject;
 
-    let {ticket_link, visible, ...eventToValidate} = eventObject
-
-    if (Object.values(eventToValidate).some(value => !value)) {
-      console.log('falsy values')
-      alert('Please complete all required fields.')
+    if (Object.values(eventToValidate).some((value) => !value)) {
+      console.log("falsy values");
+      alert("Please complete all required fields.");
 
       // ⚠️ ALERT USER
 
@@ -45,13 +50,12 @@ export default function EventForm({ goNext, title }) {
     }
 
     return true;
-  }
+  };
 
   const handleSubmit = (event) => {
-
     event.preventDefault();
 
-    console.log('in handlesubmit')
+    console.log("in handlesubmit");
 
     const eventObject = {
       name: nameIn,
@@ -60,92 +64,110 @@ export default function EventForm({ goNext, title }) {
       location: locationIn,
       description: descriptionIn,
       ticket_link: ticketLinkIn,
-      visible: visibleIn
-    }
+      visible: visibleIn,
+    };
 
     if (validateInputs(eventObject) === false) return false;
 
-    console.log('input valid')
+    console.log("input valid");
 
-    dispatch({ type: 'SET_EVENT_TO_SUBMIT', payload: eventObject })
-    history.push(goNext)
+    dispatch({ type: "SET_EVENT_TO_SUBMIT", payload: eventObject });
+    history.push(goNext);
   };
 
   const handleCancel = () => {
-
-    dispatch({ type: 'CLEAR_EVENT_TO_SUBMIT' })
+    dispatch({ type: "CLEAR_EVENT_TO_SUBMIT" });
     history.goBack();
-  }
+  };
 
   return (
     <div>
       <PageTitle title={title} />
 
       <form onSubmit={handleSubmit}>
+        <Stack sx={{ m: 2 }} spacing={1}>
+          <TextField
+            label="Event Title"
+            type="text"
+            value={nameIn}
+            onChange={(event) => setName(event.target.value)}
+          />
 
-        <TextField
-          label="Event Title"
-          type="text"
-          value={nameIn}
-          onChange={(event) => setName(event.target.value)}
-        />
+          <TextField
+            type="date"
+            label="Date"
+            placeholder="Date"
+            value={dateIn}
+            onChange={(event) => setDate(event.target.value)}
+          />
 
-        <TextField
-          type="date"
-          placeholder="Date"
-          value={dateIn}
-          onChange={(event) => setDate(event.target.value)}
-        />
+          <TextField
+            label="Time"
+            type="time"
+            placeholder="Time"
+            value={timeIn}
+            onChange={(event) => setTime(event.target.value)}
+          />
 
-        <TextField
-          type="time"
-          placeholder="Time"
-          value={timeIn}
-          onChange={(event) => setTime(event.target.value)}
-        />
+          <TextField
+            type="text"
+            label="Location"
+            placeholder='Address, "Virtual", etc.'
+            value={locationIn}
+            onChange={(event) => setLocation(event.target.value)}
+          />
 
-        <TextField
-          type="text"
-          label="Location"
-          placeholder='Address, "Virtual", etc.'
-          value={locationIn}
-          onChange={(event) => setLocation(event.target.value)}
-        />
+          <TextField
+            label="Description"
+            value={descriptionIn}
+            onChange={(event) => setDescription(event.target.value)}
+          />
 
-        <TextField
-          label="Description"
-          value={descriptionIn}
-          onChange={(event) => setDescription(event.target.value)}
-        />
+          <TextField
+            type="text"
+            label="Web Link (optional)"
+            placeholder="Ticket Purchase, Zoom Link, etc."
+            value={ticketLinkIn}
+            onChange={(event) => setTicketLink(event.target.value)}
+          />
 
-        <TextField
-          type="text"
-          label="Web Link (optional)"
-          placeholder="Tickets, Zoom Link, etc."
-          value={ticketLinkIn}
-          onChange={(event) => setTicketLink(event.target.value)}
-        />
+          <Box>
+            <FormControl>
+              <FormLabel>Event Visibility</FormLabel>
+              <RadioGroup
+                value={visibleIn}
+                onChange={(event) => setVisible(event.target.value)}
+              >
+                <Stack direction="row">
+                  <FormControlLabel
+                    value={true}
+                    label="Public"
+                    control={<Radio />}
+                  />
+                  <FormControlLabel
+                    value={false}
+                    label="Private"
+                    control={<Radio />}
+                  />
+                </Stack>
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        </Stack>
 
-        <div>
+        <Stack
+          direction="row"
+          justifyContent="space-evenly"
+        >
 
-        <FormControl>
-          <FormLabel>Event Visibility</FormLabel>
-          <RadioGroup value={visibleIn} onChange={event => setVisible(event.target.value)}>
-            <FormControlLabel value={true} label="Public" control={<Radio />} />
-            <FormControlLabel value={false} label="Private" control={<Radio />} />
-          </RadioGroup>
-        </FormControl>
-
-        </div>
-
-        <button type='submit'>
+        <Button variant="contained" color="success" type="submit">
           Submit
-        </button>
+        </Button>
+        <Button variant="outlined" onClick={handleCancel}>
+          Cancel
+        </Button>
+        </Stack>
       </form>
-      <button
-        onClick={handleCancel}>
-        Cancel
-      </button>
     </div>
   );
 }
