@@ -16,7 +16,7 @@ export default function CreateEventPreview() {
   const event = useSelector((store) => store.events.eventToSubmit);
 
   const createEvent = () => {
-    dispatch({ type: "ADD_NEW_EVENT", payload: eventToSubmit });
+    dispatch({ type: "ADD_NEW_EVENT", payload: event });
     dispatch({ type: "FETCH_MY_EVENTS" });
     history.push("/myEvents");
   };
