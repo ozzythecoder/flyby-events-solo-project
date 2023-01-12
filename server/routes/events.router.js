@@ -62,27 +62,41 @@ router.get('/eventsByHost', (request, response) => {
   }
 })
 
-router.get('/eventsByGuest', (request, response) => {
+router.get('/eventsByGuest', async (request, response) => {
 
   if (request.isAuthenticated()) {
 
     const user_id = request.user.id
 
-    const queryText = `
-    SELECT DISTINCT event.*, user_event.guest_state FROM event
-      LEFT JOIN user_event ON user_event.event_id = event.id
-      WHERE event.host_id = $1 OR user_event.user_id = $1
-      ORDER BY event.date
-    ;`;
+    console.log('getting events for user', user_id)
 
-    pool
-      .query(queryText, [user_id])
-      .then(databaseResponse => {
-        console.log('Getting all events with userID', user_id);
-        response.send(databaseResponse.rows)
-      })
-      .catch(err => { console.log('Error in GET /byGuest', err); response.sendStatus(500) })
+    const connection = await pool.connect();
 
+    try {
+      await connection.query('BEGIN;');
+      
+      const guestQuery =
+        `SELECT DISTINCT event.*, user_event.guest_state FROM event
+        LEFT JOIN user_event ON user_event.event_id = event.id
+        WHERE user_event.user_id = $1;`
+      const hostQuery =
+        `SELECT * FROM event
+        WHERE event.host_id = $1;`
+
+      const guestEvents = await connection.query(guestQuery, [user_id])
+      const hostEvents = await connection.query(hostQuery, [user_id])
+      const eventArray = [...guestEvents.rows, ...hostEvents.rows]
+      await connection.query('COMMIT;')
+
+      response.send(eventArray)
+    } catch (error) {
+
+      await connection.query('ROLLBACK;');
+      response.sendStatus(500)
+    } finally {
+      connection.release();
+    }
+    
   }
 })
 
