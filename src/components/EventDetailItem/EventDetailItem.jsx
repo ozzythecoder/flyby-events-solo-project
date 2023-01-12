@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Card } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import EventGuestList from "../EventGuestList/EventGuestList";
 import EventBody from "../EventBody/EventBody";
 import EventHostFunctions from "../EventHostFunctions/EventHostFunctions";
@@ -32,13 +32,13 @@ export default function EventDetailItem({ eventID }) {
 
   return (
     <div>
-      <Card sx={{ m: 2, p: 2 }}>
+      <Card sx={{ m: 2, p: 2 }} variant="outlined">
         {eventIsVisible ? (
           <EventBody event={event} />
         ) : (
-          <>
+          <Typography variant="body1">
             Sorry, you do not have access to this private event.
-          </>
+          </Typography>
         )}
 
         {hostView && (

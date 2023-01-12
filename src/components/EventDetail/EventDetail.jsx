@@ -1,26 +1,34 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
-import { Typography, Box, Fab } from "@mui/material";
+import { Typography, Box, Fab, Stack, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import EventDetailItem from "../EventDetailItem/EventDetailItem";
+import PageTitle from "../PageTitle/PageTitle";
 
 export default function EventDetail() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { eventID } = useParams();
-
 
   return (
     <div>
-      <Box>
-        <a href="/#/myEvents">
-          <ArrowBackIcon fontSize="large" />
-        </a>
 
-        <Typography variant="h5">Event Detail</Typography>
-      </Box>
+        <IconButton
+            edge="start"
+            onClick={() => history.push('/myEvents')}
+            sx={{ 
+              position: "absolute",
+              m: 0.5,
+              color: "black" }}
+          >
+            <ArrowBackIcon fontSize='large' />
+          </IconButton>
+
+        <PageTitle title={'Event Detail'} />
+
       <EventDetailItem eventID={eventID} />
     </div>
   );

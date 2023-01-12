@@ -28,7 +28,9 @@ function Nav() {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar
+          sx={{ justifyContent: 'space-between' }}
+        >
           <IconButton
             edge="start"
             onClick={() => openDrawer(true)}
@@ -75,7 +77,7 @@ function Nav() {
             </Box>
           </SwipeableDrawer>
           <Link to="/home" className="nav-title">
-            <Typography variant="h5">FlyBy Events</Typography>
+            <Typography variant="title">FlyBy Events</Typography>
           </Link>
         </Toolbar>
       </AppBar>

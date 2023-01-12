@@ -1,22 +1,25 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+import { Card, Button, Box, Stack } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
+import PageTitle from "../PageTitle/PageTitle";
+import EventBody from "../EventBody/EventBody";
+
 export default function EditEventPreview() {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const event = useSelector((store) => store.events.eventToSubmit);
-  const eventId = useSelector(store => store.events.eventEditId)
+  const eventId = useSelector((store) => store.events.eventEditId);
 
   const handleConfirm = () => {
     dispatch({
       type: "EDIT_EVENT",
-      payload: {...event, event_id: eventId},
+      payload: { ...event, event_id: eventId },
     });
-    dispatch({
-      type: "FETCH_EVENT_BY_ID",
-      payload: eventId
-    })
     history.push("/event/" + eventId);
   };
 
@@ -33,18 +36,34 @@ export default function EditEventPreview() {
 
   return (
     <>
-      <h1>Preview Edits</h1>
-      <p>{event.name}</p>
-      <p>{event.date}</p>
-      <p>{event.time}</p>
-      <p>{event.location}</p>
-      <p>{event.description}</p>
-      <p>{event.ticket_link || "No ticket link"}</p>
-      <p>{event.visible ? "" : "This is a private event."}</p>
-
-      <button onClick={handleConfirm}>Confirm Edits</button>
-      <button onClick={handleGoBack}>Go Back</button>
-      <button onClick={handleCancel}>Cancel and Discard</button>
+      <PageTitle title="Preview Edits" />
+      <Card variant="outlined" sx={{ m: 2, p: 2 }}>
+        <EventBody event={event} />
+      </Card>
+      <Box display="flex" justifyContent="center" sx={{ m: 1 }}>
+        <Button
+          size="large"
+          variant="contained"
+          color="success"
+          startIcon={<CheckIcon />}
+          onClick={handleConfirm}
+        >
+          Confirm Edits
+        </Button>
+      </Box>
+      <Stack display="flex" spacing={2} direction="row" justifyContent="center">
+        <Button
+        size="large"
+          variant="outlined"
+          startIcon={<ArrowBackIcon />}
+          onClick={handleGoBack}
+        >
+          Go Back
+        </Button>
+        <Button size="large" variant="contained" color="error" onClick={handleCancel}>
+          Cancel and Discard
+        </Button>
+      </Stack>
     </>
   );
 }

@@ -73,7 +73,7 @@ function* addNewEvent(action) {
 function* editEvent(action) {
   try {
     yield axios.put('/api/events/editEvent', action.payload)
-    yield put({ type: 'FETCH_MY_EVENTS'})
+    yield put({ type: 'FETCH_EVENT_BY_ID', payload: action.payload.event_id })
   } catch (error) {
     console.log('Error editing event', error)
     alertError('Error editing event. Please try again later.')

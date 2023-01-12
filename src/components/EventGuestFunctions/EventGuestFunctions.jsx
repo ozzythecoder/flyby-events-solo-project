@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { Divider } from "@mui/material";
+import { Divider, Button, Typography, Box } from "@mui/material";
 
 import Swal from "sweetalert2";
 
@@ -9,25 +9,25 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const user = useSelector(store => store.user)
+  const user = useSelector((store) => store.user);
 
   const editGuestState = (guest_state) => {
     console.log("editing guest", user.id, "to", guest_state);
 
     const alertTitle = {
-      'added': 'Added to your events.',
-      'subscribed': 'Subscribed to updates.'
-    }
+      added: "Added to your events.",
+      subscribed: "Subscribed to updates.",
+    };
 
     Swal.fire({
       title: alertTitle[guest_state],
-      icon: 'success'
-    })
+      icon: "success",
+    });
 
-    console.group('Editing guest state');
-    console.log('guest id:', user.id);
-    console.log('event id:', event.id);
-    console.log('guest state changing to:', guest_state);
+    console.group("Editing guest state");
+    console.log("guest id:", user.id);
+    console.log("event id:", event.id);
+    console.log("guest state changing to:", guest_state);
     console.groupEnd();
 
     dispatch({
@@ -49,10 +49,10 @@ export default function EventGuestFunctions({ event, userGuestState }) {
       confirmButtonText: "Subscribe",
     }).then((result) => {
       if (result.isConfirmed) {
-        editGuestState('subscribed');
+        editGuestState("subscribed");
       }
-    })
-  }
+    });
+  };
 
   const handleUnsubscribe = () => {
     Swal.fire({
@@ -63,17 +63,17 @@ export default function EventGuestFunctions({ event, userGuestState }) {
       confirmButtonText: "Unsubscribe",
     }).then((result) => {
       if (result.isConfirmed) {
-        editGuestState('added');
+        editGuestState("added");
       }
-    })
-  }
+    });
+  };
 
   const handleSelfDelete = () => {
-
     const alertText = {
       true: "It will be removed from your My Events page.",
-      false: "You will permanently lose access to event details and subscriptions."
-    }
+      false:
+        "You will permanently lose access to event details and subscriptions.",
+    };
 
     Swal.fire({
       title: "Delete invite?",
@@ -107,43 +107,103 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   const displayButtons = {
     pending: (
       <>
-        You have been invited to this private event. Accept?
-        <button onClick={() => { editGuestState("added") }} >
-          Accept
-        </button>
-        <button onClick={() => { handleSelfDelete() }} >
-          Decline
-        </button>
+        <Typography variant="body1">
+          You have been invited to this private event.
+        </Typography>
+        <Box
+          display="flex"
+          direction="row"
+          justifyContent="space-evenly"
+          sx={{ m: 1 }}
+        >
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => {
+              editGuestState("added");
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              handleSelfDelete();
+            }}
+          >
+            Decline
+          </Button>
+        </Box>
       </>
     ),
     added: (
       <>
-        <button onClick={() => { handleSubscribe() }} >
-          Subscribe to Updates
-        </button>
-        <button onClick={() => { handleSelfDelete() }} >
-          Remove Event
-        </button>
+        <Box
+          display="flex"
+          direction="row"
+          justifyContent="space-evenly"
+          sx={{ m: 1 }}
+        >
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => {
+              handleSubscribe();
+            }}
+          >
+            Subscribe
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              handleSelfDelete();
+            }}
+          >
+            Remove Event
+          </Button>
+        </Box>
       </>
     ),
     subscribed: (
       <>
-        You're subscribed to updates from this event.
-        <button onClick={() => { handleUnsubscribe() }} >
-          Unsubscribe
-        </button>
-        <button onClick={() => { handleSelfDelete() }} >
-          Remove Event
-        </button>
+        <Typography variant="body1">
+          You're subscribed to updates from this event.
+        </Typography>
+
+        <Box
+          display="flex"
+          direction="row"
+          justifyContent="space-evenly"
+          sx={{ m: 1 }}
+        >
+          <Button
+            variant="outlined"
+            onClick={() => {
+              handleUnsubscribe();
+            }}
+          >
+            Unsubscribe
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              handleSelfDelete();
+            }}
+          >
+            Remove Event
+          </Button>
+        </Box>
       </>
-    )
+    ),
   };
 
   return (
     <div>
       <Divider sx={{ my: 1 }} />
       {displayButtons[userGuestState]}
-      {JSON.stringify(userGuestState)}
     </div>
   );
 }
