@@ -13,7 +13,9 @@ export default function MyEventsItem({ event }) {
             <Typography variant="h3">
               {event.name}
 
-              {user.id === event.host_id && " - Hosting"}
+            </Typography>
+            <Typography variant="subheading">
+              {user.id === event.host_id && "You are hosting this event"}
             </Typography>
             <Typography variant="body1">
               {/* ⚠️ FORMAT WITH LUXON.JS */}

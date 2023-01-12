@@ -2,7 +2,10 @@ import { useState } from "react"
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+import { Button } from "@mui/material";
+
 import Swal from "sweetalert2";
+import { Stack } from "@mui/system";
 
 export default function EventHostFunctions({ event }) {
 
@@ -44,10 +47,14 @@ export default function EventHostFunctions({ event }) {
 
   return (
     <div>
-      <p>
-        <button onClick={editEvent}>Edit Event</button>
-        <button onClick={handleDelete}>Delete Event</button>
-      </p>
+      <Stack
+        direction="row"
+        justifyContent="space-evenly"
+        sx={{ my: 2 }}
+      >
+        <Button variant="outlined" color="primary" onClick={editEvent}>Edit Event</Button>
+        <Button variant="outlined" color="error" onClick={handleDelete}>Delete Event</Button>
+      </Stack>
     </div>
   )
 }

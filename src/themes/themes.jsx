@@ -15,6 +15,10 @@ const theme = createTheme({
       fontFamily: titleFont,
       fontSize: '26px'
     },
+    subheading: {
+      fontSize: '16px',
+      color: '#5A5A5A'
+    },
     h2: {
       fontSize: '28px',
       fontWeight: 700
