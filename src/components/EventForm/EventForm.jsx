@@ -155,17 +155,13 @@ export default function EventForm({ goNext, title }) {
           </Box>
         </Stack>
 
-        <Stack
-          direction="row"
-          justifyContent="space-evenly"
-        >
-
-        <Button variant="contained" color="success" type="submit">
-          Submit
-        </Button>
-        <Button variant="outlined" onClick={handleCancel}>
-          Cancel
-        </Button>
+        <Stack direction="row" justifyContent="space-evenly">
+          <Button variant="contained" color="success" type="submit">
+            Submit
+          </Button>
+          <Button variant="outlined" onClick={handleCancel}>
+            Cancel
+          </Button>
         </Stack>
       </form>
     </div>
