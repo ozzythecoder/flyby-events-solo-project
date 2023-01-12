@@ -101,15 +101,15 @@ function App() {
             </ProtectedRoute>
 
             <Route exact path="/login">
-              {user.id ? <Redirect to="/user" /> : <LoginPage />}
+              {user.id ? <Redirect to="/myEvents" /> : <LoginPage />}
             </Route>
 
             <Route exact path="/registration">
-              {user.id ? <Redirect to="/user" /> : <RegisterPage />}
+              {user.id ? <Redirect to="/myEvents" /> : <RegisterPage />}
             </Route>
 
             <Route exact path="/home">
-              {user.id ? <Redirect to="/user" /> : <LandingPage />}
+              {user.id ? <Redirect to="/myEvents" /> : <LandingPage />}
             </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}

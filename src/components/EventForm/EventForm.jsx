@@ -89,22 +89,27 @@ export default function EventForm({ goNext, title }) {
           <TextField
             label="Event Title"
             type="text"
+            required
             value={nameIn}
             onChange={(event) => setName(event.target.value)}
           />
 
           <TextField
+            InputLabelProps={{ shrink: true }}
             type="date"
             label="Date"
             placeholder="Date"
+            required
             value={dateIn}
             onChange={(event) => setDate(event.target.value)}
           />
 
           <TextField
+            InputLabelProps={{ shrink: true }}
             label="Time"
             type="time"
             placeholder="Time"
+            required
             value={timeIn}
             onChange={(event) => setTime(event.target.value)}
           />
@@ -113,14 +118,9 @@ export default function EventForm({ goNext, title }) {
             type="text"
             label="Location"
             placeholder='Address, "Virtual", etc.'
+            required
             value={locationIn}
             onChange={(event) => setLocation(event.target.value)}
-          />
-
-          <TextField
-            label="Description"
-            value={descriptionIn}
-            onChange={(event) => setDescription(event.target.value)}
           />
 
           <TextField
@@ -129,6 +129,16 @@ export default function EventForm({ goNext, title }) {
             placeholder="Ticket Purchase, Zoom Link, etc."
             value={ticketLinkIn}
             onChange={(event) => setTicketLink(event.target.value)}
+          />
+
+          <TextField
+            label="Description"
+            multiline
+            maxRows={3}
+            placeholder="A short paragraph describing your event"
+            required
+            value={descriptionIn}
+            onChange={(event) => setDescription(event.target.value)}
           />
 
           <Box>
@@ -156,10 +166,10 @@ export default function EventForm({ goNext, title }) {
         </Stack>
 
         <Stack direction="row" justifyContent="space-evenly">
-          <Button variant="contained" color="success" type="submit">
+          <Button size="large" variant="contained" color="success" type="submit">
             Submit
           </Button>
-          <Button variant="outlined" onClick={handleCancel}>
+          <Button size="large" variant="outlined" onClick={handleCancel}>
             Cancel
           </Button>
         </Stack>
