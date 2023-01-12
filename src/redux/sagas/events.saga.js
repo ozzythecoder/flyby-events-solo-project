@@ -62,7 +62,7 @@ function* fetchEditEvent(action) {
 function* addNewEvent(action) {
   try {
     yield axios.post('/api/events/createEvent', action.payload)
-    // yield put({ type: 'FETCH_MY_EVENTS' })
+    yield put({ type: 'FETCH_MY_EVENTS' })
   } catch (error) {
     console.log('Error posting new event')
 

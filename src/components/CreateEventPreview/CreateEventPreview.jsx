@@ -17,7 +17,6 @@ export default function CreateEventPreview() {
 
   const createEvent = () => {
     dispatch({ type: "ADD_NEW_EVENT", payload: event });
-    dispatch({ type: "FETCH_MY_EVENTS" });
     history.push("/myEvents");
   };
 
