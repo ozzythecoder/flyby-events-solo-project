@@ -26,54 +26,52 @@ function LoginForm() {
   }; // end login
 
   return (
-    <>
-      <form className="formPanel" onSubmit={login}>
-        <Stack spacing={2} alignItems="center" sx={{ my: 2 }}>
-          <div>
-            <TextField
-              type="text"
-              name="username"
-              label="Username"
-              required
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-            />
-          </div>
-          <div>
-            <TextField
-              type="password"
-              name="password"
-              label="Password"
-              required
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </div>
+    <form className="formPanel" onSubmit={login}>
+      <Stack spacing={2} alignItems="center" sx={{ my: 2 }}>
+        <div>
+          <TextField
+            type="text"
+            name="username"
+            label="Username"
+            required
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            type="password"
+            name="password"
+            label="Password"
+            required
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </div>
 
-          <div>
-            <Button
-              size="large"
-              variant="contained"
-              color="primary"
-              type="submit"
+        <div>
+          <Button
+            size="large"
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
+            Log In
+          </Button>
+        </div>
+        <div>
+          {errors.loginMessage && (
+            <Typography
+              variant="body1"
+              color="error"
+              sx={{ mx: 3, fontWeight: 500 }}
             >
-              Log In
-            </Button>
-          </div>
-          <div>
-            {errors.loginMessage && (
-              <Typography
-                variant="body1"
-                color="error"
-                sx={{ mx: 3, fontWeight: 500 }}
-              >
-                {errors.loginMessage}
-              </Typography>
-            )}
-          </div>
-        </Stack>
-      </form>
-    </>
+              {errors.loginMessage}
+            </Typography>
+          )}
+        </div>
+      </Stack>
+    </form>
   );
 }
 

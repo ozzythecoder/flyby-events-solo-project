@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Typography, TextField, Stack, Button } from "@mui/material";
+
 function RegisterForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setPasswordConfirm] = useState('');
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
@@ -20,41 +23,99 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
-    <form className="formPanel" onSubmit={registerUser}>
-      <h2>Register User</h2>
-      {errors.registrationMessage && (
-        <h3 className="alert" role="alert">
-          {errors.registrationMessage}
-        </h3>
-      )}
-      <div>
-        <label htmlFor="username">
-          Username:
-          <input
+    <>
+      <form className="formPanel" onSubmit={registerUser}>
+      <Stack spacing={2} alignItems="center" sx={{ my: 2 }}>
+        <div>
+          <TextField
             type="text"
             name="username"
-            value={username}
+            label="Username"
             required
+            value={username}
             onChange={(event) => setUsername(event.target.value)}
           />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
+        </div>
+        <div>
+          <TextField
             type="password"
             name="password"
-            value={password}
+            label="Password"
             required
+            value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
-      </div>
+        </div>
+        <div>
+          <TextField
+            type="password"
+            name="password"
+            label="Confirm Password"
+            required
+            value={confirmPassword}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </div>
+
+        <div>
+          <Button
+            size="large"
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
+            Register
+          </Button>
+        </div>
+        <div>
+          {errors.registrationMessage && (
+            <Typography
+              variant="body1"
+              color="error"
+              sx={{ mx: 3, fontWeight: 500 }}
+            >
+              {errors.registrationMessage}
+            </Typography>
+          )}
+        </div>
+      </Stack>
     </form>
+    </>
+    // <form className="formPanel" onSubmit={registerUser}>
+    //   <h2>Register User</h2>
+    //   {errors.registrationMessage && (
+    //     <h3 className="alert" role="alert">
+    //       {errors.registrationMessage}
+    //     </h3>
+    //   )}
+    //   <div>
+    //     <label htmlFor="username">
+    //       Username:
+    //       <input
+    //         type="text"
+    //         name="username"
+    //         value={username}
+    //         required
+    //         onChange={(event) => setUsername(event.target.value)}
+    //       />
+    //     </label>
+    //   </div>
+    //   <div>
+    //     <label htmlFor="password">
+    //       Password:
+    //       <input
+    //         type="password"
+    //         name="password"
+    //         value={password}
+    //         required
+    //         onChange={(event) => setPassword(event.target.value)}
+    //       />
+    //     </label>
+    //   </div>
+    //   <div>
+    //     <input className="btn" type="submit" name="submit" value="Register" />
+    //   </div>
+    // </form>
   );
 }
 
