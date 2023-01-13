@@ -34,6 +34,9 @@ const theme = createTheme({
       color: '#994741',
       fontWeight: 500
     },
+    bigDay: {
+      fontSize: '40px'
+    }
   }
 })
 
