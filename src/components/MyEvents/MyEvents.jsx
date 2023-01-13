@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 
 import MyEventsItem from "../MyEventsItem/MyEventsItem";
 import PageTitle from "../PageTitle/PageTitle";
@@ -29,11 +29,11 @@ export default function MyEvents({ stateFilter = "all", title = "My Events" }) {
   }, []);
 
   return (
-    <div>
+    <Box sx={{ pb: '100px' }}>
       <PageTitle title={title} />
       {myEvents.map((event) => (
         <MyEventsItem key={event.id} event={event} />
       ))}
-    </div>
+    </Box>
   );
 }
