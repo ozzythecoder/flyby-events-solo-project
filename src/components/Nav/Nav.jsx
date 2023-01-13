@@ -14,6 +14,7 @@ import {
   ListItemButton,
   ListItemText,
   Collapse,
+  Divider,
 } from "@mui/material";
 import { Menu, ExpandLess, ExpandMore } from "@mui/icons-material";
 
@@ -52,8 +53,11 @@ function Nav() {
               openDrawer(false);
             }}
           >
-            <Box className="menu-bg">
-              <div className="nav">
+            <Box sx={{
+              backgroundColor: '#000000',
+              height: '100vh'
+            }}>
+              <div>
                 {/* If no user is logged in, show these links */}
                 {!user.id && (
                   <>
@@ -73,14 +77,26 @@ function Nav() {
                 {/* If a user is logged in, show these links */}
                 {user.id && (
                   <>
-                    <List sx={{ color: "white", px: 2 }}>
+                  <Box
+                    sx={{ ml: 4, mt: 2, mb: 3 }}
+                  >
+                    <Typography variant="navLink">
+                      Hello, {user.username}.
+                    </Typography>
+                  </Box>
+                  <Divider sx={{ backgroundColor: '#ffffff', width: '70%', ml: '15%' }} />
+                    <List sx={{ color: '#ffffff', px: 2 }}>
                       <ListItemButton
                         onClick={() => openEventMenu(!eventMenuOpen)}
                       >
-                        <ListItemText primary="Events" />
+                        <ListItemText>
+                          <Typography variant="navLink">
+                            Events
+                          </Typography>
+                        </ListItemText>
                         {eventMenuOpen ? <ExpandLess /> : <ExpandMore />}
                       </ListItemButton>
-                      <Collapse in={eventMenuOpen} sx={{ pl: 2 }}>
+                      <Collapse in={eventMenuOpen} sx={{ pl: 3 }}>
                         <ListItemButton>
                           <ListItemText>
                             <NavLink
@@ -153,7 +169,7 @@ function Nav() {
               </div>
             </Box>
           </SwipeableDrawer>
-          <Link to="/home" className="nav-title">
+          <Link to="/home">
             <Typography variant="title">FlyBy Events</Typography>
           </Link>
         </Toolbar>

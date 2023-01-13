@@ -1,20 +1,3 @@
-.nav {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: left;
-  overflow: hidden;
-}
-
-.nav a {
-  color: white;
-  text-decoration: none;
-}
-
-.navLink {
-  text-decoration: none;
-}
-
 .menu-bg {
   height: 100%;
   background-color: black;
