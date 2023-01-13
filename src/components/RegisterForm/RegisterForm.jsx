@@ -6,12 +6,17 @@ import { Typography, TextField, Stack, Button } from "@mui/material";
 function RegisterForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setPasswordConfirm] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
   const registerUser = (event) => {
     event.preventDefault();
+
+    if (password !== confirmPassword) {
+      dispatch({ type: 'PASSWORDS_DO_NOT_MATCH' })
+      return false;
+    }
 
     dispatch({
       type: 'REGISTER',
@@ -53,7 +58,7 @@ function RegisterForm() {
             label="Confirm Password"
             required
             value={confirmPassword}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </div>
 
