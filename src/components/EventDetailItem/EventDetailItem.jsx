@@ -23,7 +23,10 @@ export default function EventDetailItem({ eventID }) {
   // determines visibility of private events
   const userIsGuest = guests.some((guest) => guest.id === user.id);
 
+  // determines visibility of any event
   const eventIsVisible = event.visible || userIsHost || userIsGuest
+
+  // determines visibility of user guest functions
   const guestFunctionsAreVisible = userIsGuest || (event.visible && user.id)
 
   useEffect(() => {

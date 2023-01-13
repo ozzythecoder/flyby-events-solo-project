@@ -88,9 +88,9 @@ function App() {
               <CreateEventPreview />
             </ProtectedRoute>
 
-            <ProtectedRoute exact path="/event/:eventID">
+            <Route exact path="/event/:eventID">
               <EventDetail />
-            </ProtectedRoute>
+            </Route>
 
             <ProtectedRoute exact path="/user">
               <UserPage />
