@@ -40,6 +40,12 @@ export default function EventGuestFunctions({ event, userGuestState }) {
     });
   };
 
+  const addNewGuest = () => {
+    dispatch({
+      type: 'ADD_NEW_GUEST'
+    })
+  }
+
   const handleSubscribe = () => {
     Swal.fire({
       title: "Subscribe to email updates?",
@@ -105,10 +111,28 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   };
 
   const displayButtons = {
+    default: (
+      <Box
+      display="flex"
+      direction="row"
+      justifyContent="space-evenly"
+      sx={{ m: 1 }}
+    >
+      <Button
+        variant="contained"
+        color="success"
+        onClick={() => {
+          editGuestState()
+        }}
+      >
+
+      </Button>
+    </Box>
+    ),
     pending: (
       <>
         <Typography variant="body1">
-          You have been invited to this private event.
+          You have been invited to this {!event.visible && "private"} event.
         </Typography>
         <Box
           display="flex"
@@ -203,7 +227,7 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   return (
     <div>
       <Divider sx={{ my: 1 }} />
-      {displayButtons[userGuestState]}
+      {displayButtons[userGuestState || 'default']}
     </div>
   );
 }

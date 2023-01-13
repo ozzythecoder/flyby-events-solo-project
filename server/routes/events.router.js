@@ -176,6 +176,10 @@ router.post('/addGuest', (request, response) => {
 
 })
 
+router.post('/addSelf', (request, response) => {
+  
+})
+
 router.post('/createEvent', (request, response) => {
 
   if (request.isAuthenticated()) {
