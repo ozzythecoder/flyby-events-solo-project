@@ -18,12 +18,16 @@ export default function EventDetailItem({ eventID }) {
     ?.guest_state;
 
   // determines visibility of host functions
-  const hostView = event.host_id === user.id;
+  const userIsHost = event.host_id === user.id;
 
   // determines visibility of private events
-  const guestView = guests.some((guest) => guest.id === user.id);
+  const userIsGuest = guests.some((guest) => guest.id === user.id);
 
-  const eventIsVisible = event.visible || hostView || guestView
+  // determines visibility of any event
+  const eventIsVisible = event.visible || userIsHost || userIsGuest
+
+  // determines visibility of user guest functions
+  const guestFunctionsAreVisible = userIsGuest || (event.visible && user.id)
 
   useEffect(() => {
     dispatch({ type: "FETCH_EVENT_BY_ID", payload: eventID });
@@ -41,14 +45,14 @@ export default function EventDetailItem({ eventID }) {
           </Typography>
         )}
 
-        {hostView && (
+        {userIsHost && (
           <>
             <EventHostFunctions event={event} />
             <EventGuestList event={event} guests={guests} />
           </>
         )}
 
-        {guestView && (
+        {guestFunctionsAreVisible && (
           <EventGuestFunctions event={event} userGuestState={userGuestState} />
         )}
 

@@ -28,6 +28,17 @@ function* addEventGuest(action) {
   
 }
 
+function* addSelfToEvent(action) {
+
+  try {
+    yield axios.post('/api/events/addSelf', action.payload)
+    yield put({ type: 'FETCH_EVENT_GUESTS', payload: action.payload.event_id })
+  } catch (error) {
+    console.log('addSelfToEvent saga', error)
+    alert('Server error when adding event.')
+  }
+}
+
 function* findGuestByUsername(action) {
   try {
     const guestObj = yield axios.get('/api/events/userByUsername',
@@ -78,6 +89,7 @@ function* guestsSaga() {
   yield takeLatest('FETCH_EVENT_GUESTS', fetchEventGuests)
   yield takeLatest('FIND_GUEST_BY_USERNAME', findGuestByUsername)
   yield takeLatest('ADD_EVENT_GUEST', addEventGuest)
+  yield takeLatest('ADD_SELF_TO_EVENT', addSelfToEvent)
 
   yield takeLatest('EDIT_GUEST_STATE', editGuestState)
 

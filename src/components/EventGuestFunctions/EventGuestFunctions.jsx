@@ -40,6 +40,17 @@ export default function EventGuestFunctions({ event, userGuestState }) {
     });
   };
 
+  const addNewGuest = () => {
+    console.log('adding self ID', user.id, 'to event ID', event.id)
+    dispatch({
+      type: 'ADD_SELF_TO_EVENT',
+      payload: {
+        user_id: user.id,
+        event_id: event.id
+      }
+    })
+  }
+
   const handleSubscribe = () => {
     Swal.fire({
       title: "Subscribe to email updates?",
@@ -86,7 +97,7 @@ export default function EventGuestFunctions({ event, userGuestState }) {
       if (result.isConfirmed) {
         deleteGuest();
         Swal.fire("Event deleted.");
-        history.push("/myEvents");
+        // if (!event.visible) history.push("/myEvents");
       }
     });
   };
@@ -105,10 +116,25 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   };
 
   const displayButtons = {
+    default: (
+      <Box
+        display="flex"
+        direction="row"
+        justifyContent="space-evenly"
+        sx={{ m: 1 }}
+      >
+        <Button
+          variant="contained"
+          onClick={addNewGuest}
+        >
+          Add to My Events
+        </Button>
+    </Box>
+    ),
     pending: (
       <>
         <Typography variant="body1">
-          You have been invited to this private event.
+          You have been invited to this {!event.visible && "private"} event.
         </Typography>
         <Box
           display="flex"
@@ -203,7 +229,7 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   return (
     <div>
       <Divider sx={{ my: 1 }} />
-      {displayButtons[userGuestState]}
+      {userGuestState ? displayButtons[userGuestState] : displayButtons.default}
     </div>
   );
 }

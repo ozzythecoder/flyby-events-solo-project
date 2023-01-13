@@ -176,6 +176,32 @@ router.post('/addGuest', (request, response) => {
 
 })
 
+router.post('/addSelf', (request, response) => {
+  
+  if (request.isAuthenticated()) {
+
+    const { user_id, event_id } = request.body;
+
+    const queryText = `
+    INSERT INTO user_event
+      (user_id, event_id, guest_state, is_read)
+    VALUES
+      ($1, $2, 'added', 'false')
+    ;`;
+
+    pool
+      .query(queryText, [user_id, event_id])
+      .then(databaseResponse => {
+        response.sendStatus(201)
+      })
+      .catch(error => {
+        console.log('/addSelf', error)
+        response.sendStatus(500)
+      })
+
+  }
+})
+
 router.post('/createEvent', (request, response) => {
 
   if (request.isAuthenticated()) {
