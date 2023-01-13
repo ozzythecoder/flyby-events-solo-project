@@ -28,8 +28,12 @@ const theme = createTheme({
       fontWeight: 600
     },
     body1: {
-      fontSize: '18px'
-    }
+      fontSize: '18px',
+    },
+    bodyLink: {
+      color: '#994741',
+      fontWeight: 500
+    },
   }
 })
 

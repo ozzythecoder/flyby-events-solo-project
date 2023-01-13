@@ -34,7 +34,7 @@ export default function EventDetailItem({ eventID }) {
     <div>
       <Card sx={{ m: 2, p: 2 }} variant="outlined">
         {eventIsVisible ? (
-          <EventBody event={event} />
+          <EventBody event={event} userGuestState={userGuestState} />
         ) : (
           <Typography variant="body1">
             Sorry, you do not have access to this private event.
