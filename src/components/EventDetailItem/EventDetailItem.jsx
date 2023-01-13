@@ -18,12 +18,12 @@ export default function EventDetailItem({ eventID }) {
     ?.guest_state;
 
   // determines visibility of host functions
-  const hostView = event.host_id === user.id;
+  const userIsHost = event.host_id === user.id;
 
   // determines visibility of private events
   const userIsGuest = guests.some((guest) => guest.id === user.id);
 
-  const eventIsVisible = event.visible || hostView || userIsGuest
+  const eventIsVisible = event.visible || userIsHost || userIsGuest
   const guestFunctionsAreVisible = userIsGuest || (event.visible && user.id)
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function EventDetailItem({ eventID }) {
           </Typography>
         )}
 
-        {hostView && (
+        {userIsHost && (
           <>
             <EventHostFunctions event={event} />
             <EventGuestList event={event} guests={guests} />
