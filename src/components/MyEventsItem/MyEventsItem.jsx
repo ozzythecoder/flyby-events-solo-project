@@ -1,4 +1,5 @@
 import { Card, CardContent, Typography } from '@mui/material'
+import { DateTime } from 'luxon';
 import { useSelector } from 'react-redux';
 
 export default function MyEventsItem({ event }) {
@@ -19,7 +20,7 @@ export default function MyEventsItem({ event }) {
             </Typography>
             <Typography variant="body1">
               {/* ⚠️ FORMAT WITH LUXON.JS */}
-              When: {new Date(event.date).toLocaleDateString()}
+              When: {DateTime.fromISO(event.date).toLocaleString(DateTime.DATE_MED)}
             </Typography>
             <Typography variant="body1">Where: {event.location}</Typography>
             <Typography variant="body1" sx={{ mt: 1 }}>
