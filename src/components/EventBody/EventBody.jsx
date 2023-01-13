@@ -1,16 +1,11 @@
 import { Typography } from "@mui/material";
-import { DateTime } from "luxon";
 
+import { formatDate, formatTime } from "../../helpers/dateFormat";
 
 export default function EventBody({ event }) {
 
-  const eventDate =
-    DateTime.fromISO(event.date)
-      .toLocaleString(DateTime.DATE_FULL)
-
-  const eventTime = DateTime.fromISO(event.time)
-    .toLocaleString(DateTime.TIME_WITH_SHORT_OFFSET)
-
+  const eventDate = formatDate(event.date);
+  const eventTime = formatTime(event.time);
 
   return (
     <div>

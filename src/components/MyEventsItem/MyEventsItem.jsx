@@ -19,7 +19,6 @@ export default function MyEventsItem({ event }) {
               {user.id === event.host_id && "You are hosting this event"}
             </Typography>
             <Typography variant="body1">
-              {/* ⚠️ FORMAT WITH LUXON.JS */}
               When: {DateTime.fromISO(event.date).toLocaleString(DateTime.DATE_MED)}
             </Typography>
             <Typography variant="body1">Where: {event.location}</Typography>
