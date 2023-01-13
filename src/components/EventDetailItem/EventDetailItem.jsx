@@ -21,9 +21,10 @@ export default function EventDetailItem({ eventID }) {
   const hostView = event.host_id === user.id;
 
   // determines visibility of private events
-  const guestView = guests.some((guest) => guest.id === user.id);
+  const userIsGuest = guests.some((guest) => guest.id === user.id);
 
-  const eventIsVisible = event.visible || hostView || guestView
+  const eventIsVisible = event.visible || hostView || userIsGuest
+  const guestFunctionsAreVisible = userIsGuest || (event.visible && user.id)
 
   useEffect(() => {
     dispatch({ type: "FETCH_EVENT_BY_ID", payload: eventID });
@@ -48,7 +49,7 @@ export default function EventDetailItem({ eventID }) {
           </>
         )}
 
-        {guestView && (
+        {guestFunctionsAreVisible && (
           <EventGuestFunctions event={event} userGuestState={userGuestState} />
         )}
 

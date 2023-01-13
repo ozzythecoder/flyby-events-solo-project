@@ -41,8 +41,13 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   };
 
   const addNewGuest = () => {
+    console.log('adding self ID', user.id, 'to event ID', event.id)
     dispatch({
-      type: 'ADD_NEW_GUEST'
+      type: 'ADD_SELF_TO_EVENT',
+      payload: {
+        user_id: user.id,
+        event_id: event.id
+      }
     })
   }
 
@@ -92,7 +97,7 @@ export default function EventGuestFunctions({ event, userGuestState }) {
       if (result.isConfirmed) {
         deleteGuest();
         Swal.fire("Event deleted.");
-        history.push("/myEvents");
+        // if (!event.visible) history.push("/myEvents");
       }
     });
   };
@@ -113,20 +118,17 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   const displayButtons = {
     default: (
       <Box
-      display="flex"
-      direction="row"
-      justifyContent="space-evenly"
-      sx={{ m: 1 }}
-    >
-      <Button
-        variant="contained"
-        color="success"
-        onClick={() => {
-          editGuestState()
-        }}
+        display="flex"
+        direction="row"
+        justifyContent="space-evenly"
+        sx={{ m: 1 }}
       >
-
-      </Button>
+        <Button
+          variant="contained"
+          onClick={addNewGuest}
+        >
+          Add to My Events
+        </Button>
     </Box>
     ),
     pending: (
@@ -227,7 +229,7 @@ export default function EventGuestFunctions({ event, userGuestState }) {
   return (
     <div>
       <Divider sx={{ my: 1 }} />
-      {displayButtons[userGuestState || 'default']}
+      {userGuestState ? displayButtons[userGuestState] : displayButtons.default}
     </div>
   );
 }
