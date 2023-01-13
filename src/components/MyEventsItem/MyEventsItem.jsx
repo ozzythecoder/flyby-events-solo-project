@@ -18,7 +18,7 @@ export default function MyEventsItem({ event }) {
             <Typography variant="body1" fontWeight="bold">
               {formatDateMD(event.date)} @ {event.location}
             </Typography>
-            <Typography variant="body1" sx={{ mt: 1 }}>
+            <Typography variant="body1" sx={{ mt: 1, overflowWrap: 'break-word' }}>
               {event.description}
             </Typography>
           </CardContent>
