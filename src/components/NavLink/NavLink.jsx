@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-
-
+import { Typography } from "@mui/material";
 
 export default function NavLink({ path, openDrawer, linkTitle, callback }) {
 
@@ -15,7 +14,9 @@ export default function NavLink({ path, openDrawer, linkTitle, callback }) {
       to={path}
       onClick={handleClick}
     >
-      {linkTitle}
+      <Typography variant="navLink">
+        {linkTitle}
+      </Typography>
     </Link>
   )
 }

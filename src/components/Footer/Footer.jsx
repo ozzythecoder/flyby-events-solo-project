@@ -1,13 +1,20 @@
-import React from 'react';
-import './Footer.css';
-
-// This is one of our simplest components
-// It doesn't have local state, so it can be a function component.
-// It doesn't dispatch any redux actions or display any part of redux state
-// or even care what the redux state is, so it doesn't need 'connect()'
+import { Box } from "@mui/material";
 
 function Footer() {
-  return <footer>&copy; August McAllister</footer>;
+
+  const footerStyle = {
+    position: "fixed",
+    bottom: 0,
+    width: "100%",
+    p: 2,
+    backgroundColor: "rgb(255, 255, 255, 0.85)",
+  }
+
+  return (
+    <Box sx={footerStyle}>
+      <center>&copy; August McAllister</center>
+    </Box>
+  );
 }
 
 export default Footer;
