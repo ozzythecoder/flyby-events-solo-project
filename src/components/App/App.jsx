@@ -104,12 +104,12 @@ function App() {
               {user.id ? <Redirect to="/myEvents" /> : <LoginPage />}
             </Route>
 
-            <Route exact path="/registration">
-              {user.id ? <Redirect to="/myEvents" /> : <RegisterPage />}
+            <Route exact path="/home">
+              {user.id ? <Redirect to="/myEvents" /> : <LoginPage />}
             </Route>
 
-            <Route exact path="/home">
-              {user.id ? <Redirect to="/myEvents" /> : <LandingPage />}
+            <Route exact path="/registration">
+              {user.id ? <Redirect to="/myEvents" /> : <RegisterPage />}
             </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}
