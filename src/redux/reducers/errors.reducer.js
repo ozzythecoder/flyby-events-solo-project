@@ -23,8 +23,10 @@ const registrationMessage = (state = '', action) => {
   switch (action.type) {
     case 'CLEAR_REGISTRATION_ERROR':
       return '';
+    case 'INVALID_EMAIL':
+      return 'Please enter a valid email.';
     case 'REGISTRATION_INPUT_ERROR':
-      return 'Choose a username and password!';
+      return 'Please fill out all available fields.';
     case 'PASSWORDS_DO_NOT_MATCH':
       return 'Please confirm your password.';
     case 'REGISTRATION_FAILED':

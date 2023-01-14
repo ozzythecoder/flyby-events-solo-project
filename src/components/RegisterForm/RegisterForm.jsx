@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { validateEmail, validatePasswords } from "../../helpers/loginValidation";
 
 import { Typography, TextField, Stack, Button } from "@mui/material";
 
@@ -17,10 +18,7 @@ function RegisterForm() {
   const registerUser = (event) => {
     event.preventDefault();
 
-    if (password !== confirmPassword) {
-      dispatch({ type: "PASSWORDS_DO_NOT_MATCH" });
-      return false;
-    }
+    if (!validateEmail(emailIn) || !validatePasswords(password, confirmPassword)) return;
 
     dispatch({
       type: "REGISTER",
