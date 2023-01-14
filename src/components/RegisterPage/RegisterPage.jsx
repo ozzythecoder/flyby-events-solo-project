@@ -17,7 +17,7 @@ function RegisterPage() {
       direction="column"
       alignItems="center"
       justifyContent="center"
-      sx={{ mt: '30%' }}
+      sx={{ mt: '15%' }}
     >
       <div>
         <PageTitle title={"Register to get started."} />

@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Typography, TextField, Stack, Button } from "@mui/material";
 
 function RegisterForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
+
+  const errors = useSelector((store) => store.errors);
+
+  const [username, setUsername] = useState("");
+  const [emailIn, setEmailIn] = useState("");
+  const [phoneIn, setPhoneIn] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const registerUser = (event) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      dispatch({ type: 'PASSWORDS_DO_NOT_MATCH' })
+      dispatch({ type: "PASSWORDS_DO_NOT_MATCH" });
       return false;
     }
 
     dispatch({
-      type: 'REGISTER',
+      type: "REGISTER",
       payload: {
         username: username,
         password: password,
@@ -30,61 +34,81 @@ function RegisterForm() {
   return (
     <>
       <form className="formPanel" onSubmit={registerUser}>
-      <Stack spacing={2} alignItems="center" sx={{ my: 2 }}>
-        <div>
-          <TextField
-            type="text"
-            name="username"
-            label="Username"
-            required
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </div>
-        <div>
-          <TextField
-            type="password"
-            name="password"
-            label="Password"
-            required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
-        <div>
-          <TextField
-            type="password"
-            name="password"
-            label="Confirm Password"
-            required
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-          />
-        </div>
+        <Stack spacing={2} alignItems="center" sx={{ mt: 1, my: 2 }}>
+          <div>
+            <TextField
+              type="text"
+              name="username"
+              label="Username"
+              required
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              type="text"
+              name="email"
+              label="Email Address"
+              required
+              value={emailIn}
+              onChange={(event) => setEmailIn(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              type="number"
+              name="phone"
+              label="Phone Number"
+              required
+              value={phoneIn}
+              onChange={(event) => setPhoneIn(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              type="password"
+              name="password"
+              label="Password"
+              required
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              type="password"
+              name="confirmPassword"
+              label="Confirm Password"
+              required
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+            />
+          </div>
 
-        <div>
-          <Button
-            size="large"
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Register
-          </Button>
-        </div>
-        <div>
-          {errors.registrationMessage && (
-            <Typography
-              variant="body1"
-              color="error"
-              sx={{ mx: 3, fontWeight: 500 }}
+          <div>
+            <Button
+              size="large"
+              variant="contained"
+              color="primary"
+              type="submit"
             >
-              {errors.registrationMessage}
-            </Typography>
-          )}
-        </div>
-      </Stack>
-    </form>
+              Register
+            </Button>
+          </div>
+          <div>
+            {errors.registrationMessage && (
+              <Typography
+                variant="body1"
+                color="error"
+                sx={{ mx: 3, fontWeight: 500 }}
+              >
+                {errors.registrationMessage}
+              </Typography>
+            )}
+          </div>
+        </Stack>
+      </form>
     </>
     // <form className="formPanel" onSubmit={registerUser}>
     //   <h2>Register User</h2>
