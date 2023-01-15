@@ -19,7 +19,8 @@ function LoginForm() {
           username: username,
           password: password,
         },
-      });
+      })
+      dispatch({ type: "FETCH_MY_EVENTS" });
     } else {
       dispatch({ type: "LOGIN_INPUT_ERROR" });
     }
