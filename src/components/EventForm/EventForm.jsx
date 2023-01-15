@@ -2,10 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import Swal from "sweetalert2";
-
 import {
-  Typography,
   TextField,
   Radio,
   RadioGroup,
@@ -80,9 +77,18 @@ export default function EventForm({ goNext, title }) {
     history.goBack();
   };
 
+  const autoFill = () => {
+    setName('RZ Shahid, Ozzy, and Endless Grudge')
+    setDate('2023-01-21')
+    setTime('22:00')
+    setLocation('331 Club')
+    setDescription('Free show! Music at 10pm sharp. Endless Grudge\'s debut, and Ozzy\'s first show in three years. The Whicks will be spinning.')
+    setVisible(true)
+  }
+
   return (
     <div>
-      <PageTitle title={title} />
+      <PageTitle title={title} onClick={autoFill} />
 
       <form onSubmit={handleSubmit}>
         <Stack sx={{ m: 2 }} spacing={1}>

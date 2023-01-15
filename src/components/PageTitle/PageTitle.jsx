@@ -11,6 +11,7 @@ export default function PageTitle({ title, children, ...props }) {
       alignItems="center"
       textAlign="center"
       sx={{ pt: 1.5, mx: 1 }}
+      onClick={props.onClick} /* for demo purposes only */
     >
     <Typography variant="h2">
       {titleText}
