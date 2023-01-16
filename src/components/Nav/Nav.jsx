@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 // MUI imports
 import {
@@ -24,11 +25,16 @@ import NavLink from "../NavLink/NavLink";
 function Nav() {
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [drawerOpen, openDrawer] = useState(false);
   const [eventMenuOpen, openEventMenu] = useState(false);
 
-  const logoutUser = () => dispatch({ type: "LOGOUT" });
+  const logoutUser = () => {
+    history.push('/');
+    dispatch({ type: "LOGOUT" });
+  };
+  
   const clearEventToSubmit = () => dispatch({ type: "CLEAR_EVENT_TO_SUBMIT" });
 
   return (
@@ -53,10 +59,12 @@ function Nav() {
               openDrawer(false);
             }}
           >
-            <Box sx={{
-              backgroundColor: '#000000',
-              height: '100vh'
-            }}>
+            <Box
+              sx={{
+                backgroundColor: "#000000",
+                height: "100vh",
+              }}
+            >
               <div>
                 {/* If no user is logged in, show these links */}
                 {!user.id && (
@@ -77,22 +85,24 @@ function Nav() {
                 {/* If a user is logged in, show these links */}
                 {user.id && (
                   <>
-                  <Box
-                    sx={{ ml: 4, mt: 2, mb: 3 }}
-                  >
-                    <Typography variant="navLink">
-                      Hello, {user.username}.
-                    </Typography>
-                  </Box>
-                  <Divider sx={{ backgroundColor: '#ffffff', width: '70%', ml: '15%' }} />
-                    <List sx={{ color: '#ffffff', px: 2 }}>
+                    <Box sx={{ ml: 4, mt: 2, mb: 3 }}>
+                      <Typography variant="navLink">
+                        Hello, {user.username}.
+                      </Typography>
+                    </Box>
+                    <Divider
+                      sx={{
+                        backgroundColor: "#ffffff",
+                        width: "70%",
+                        ml: "15%",
+                      }}
+                    />
+                    <List sx={{ color: "#ffffff", px: 2 }}>
                       <ListItemButton
                         onClick={() => openEventMenu(!eventMenuOpen)}
                       >
                         <ListItemText>
-                          <Typography variant="navLink">
-                            Events
-                          </Typography>
+                          <Typography variant="navLink">Events</Typography>
                         </ListItemText>
                         {eventMenuOpen ? <ExpandLess /> : <ExpandMore />}
                       </ListItemButton>
