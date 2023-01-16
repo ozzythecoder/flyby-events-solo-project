@@ -23,8 +23,12 @@ function* fetchAllEvents() {
 
 function* fetchMyEvents() {
   try {
+
+    console.log('in fetchmyevents');
     const myEvents = yield axios.get('/api/events/eventsByGuest')
+    console.log('just finished GET request');
     yield put({ type: 'SET_MY_EVENTS', payload: myEvents.data })
+    console.log('and one more for good measure');
   } catch (error) {
     console.log('Error fetching events', error)
     alertError('Error fetching events. Please try again later.')

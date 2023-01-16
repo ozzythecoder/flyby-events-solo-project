@@ -1,11 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import Swal from "sweetalert2";
-
 import {
-  Typography,
   TextField,
   Radio,
   RadioGroup,
@@ -27,7 +24,7 @@ export default function EventForm({ goNext, title }) {
 
   const [nameIn, setName] = useState(eventToSubmit.name);
   const [dateIn, setDate] = useState(eventToSubmit.date?.slice(0, 10) || "");
-  const [timeIn, setTime] = useState(eventToSubmit.time?.slice(0, 8) || "");
+  const [timeIn, setEventTime] = useState(eventToSubmit.time?.slice(0, 8) || "");
   const [locationIn, setLocation] = useState(eventToSubmit.location || "");
   const [descriptionIn, setDescription] = useState(
     eventToSubmit.description || ""
@@ -80,9 +77,18 @@ export default function EventForm({ goNext, title }) {
     history.goBack();
   };
 
+  const autoFill = () => {
+    setName('Ozzy, Endless Grudge, and a Special Guest...')
+    setDate('2023-01-21')
+    setEventTime('22:00')
+    setLocation('331 Club')
+    setDescription('Free show! Music at 10pm sharp. Endless Grudge\'s debut, and Ozzy\'s first show in three years. The Whicks will be spinning.')
+    setVisible(true)
+  }
+
   return (
     <div>
-      <PageTitle title={title} />
+      <PageTitle title={title} onClick={autoFill} />
 
       <form onSubmit={handleSubmit}>
         <Stack sx={{ m: 2 }} spacing={1}>
@@ -111,7 +117,7 @@ export default function EventForm({ goNext, title }) {
             placeholder="Time"
             required
             value={timeIn}
-            onChange={(event) => setTime(event.target.value)}
+            onChange={(event) => setEventTime(event.target.value)}
           />
 
           <TextField

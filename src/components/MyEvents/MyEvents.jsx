@@ -21,7 +21,8 @@ export default function MyEvents({ stateFilter = "all", title = "My Events" }) {
 
   // filter events based on stateFilter
   const myEvents = useSelector((store) =>
-    store.events.myEvents.filter(eventFilters[stateFilter])
+    store.events.myEvents
+      .filter(eventFilters[stateFilter])
   );
 
   useEffect(() => {
