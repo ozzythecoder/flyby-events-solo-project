@@ -20,7 +20,6 @@ function LoginForm() {
           password: password,
         },
       })
-      dispatch({ type: "FETCH_MY_EVENTS" });
     } else {
       dispatch({ type: "LOGIN_INPUT_ERROR" });
     }

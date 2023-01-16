@@ -46,7 +46,7 @@ router.get('/eventById', (request, response) => {
     pool
       .query(`SELECT * FROM event WHERE id = $1`, [eventId])
       .then(databaseResponse => response.send(databaseResponse.rows))
-      .catch(err => { console.log('GET /eventById', err); response.sendStatus(500)})
+      .catch(err => { console.log('GET /eventById', err); response.sendStatus(500) })
   }
 })
 
@@ -62,42 +62,36 @@ router.get('/eventsByHost', (request, response) => {
   }
 })
 
-router.get('/eventsByGuest', async (request, response) => {
+router.get('/eventsByGuest', rejectUnauthenticated, async (request, response) => {
 
-  if (request.isAuthenticated()) {
+  const user_id = request.user.id
+  const connection = await pool.connect();
 
-    const user_id = request.user.id
+  try {
+    await connection.query('BEGIN;');
 
-    console.log('getting events for user', user_id)
+    const guestQuery =
+      `SELECT DISTINCT event.*, user_event.guest_state FROM event
+      LEFT JOIN user_event ON user_event.event_id = event.id
+      WHERE user_event.user_id = $1;`
+    const hostQuery =
+      `SELECT * FROM event
+      WHERE event.host_id = $1;`
 
-    const connection = await pool.connect();
+    const guestEvents = await connection.query(guestQuery, [user_id])
+    const hostEvents = await connection.query(hostQuery, [user_id])
+    await connection.query('COMMIT;')
 
-    try {
-      await connection.query('BEGIN;');
-      
-      const guestQuery =
-        `SELECT DISTINCT event.*, user_event.guest_state FROM event
-        LEFT JOIN user_event ON user_event.event_id = event.id
-        WHERE user_event.user_id = $1;`
-      const hostQuery =
-        `SELECT * FROM event
-        WHERE event.host_id = $1;`
+    const eventArray = [...guestEvents.rows, ...hostEvents.rows]
+    response.send(eventArray)
+  } catch (error) {
 
-      const guestEvents = await connection.query(guestQuery, [user_id])
-      const hostEvents = await connection.query(hostQuery, [user_id])
-      const eventArray = [...guestEvents.rows, ...hostEvents.rows]
-      await connection.query('COMMIT;')
-
-      response.send(eventArray)
-    } catch (error) {
-
-      await connection.query('ROLLBACK;');
-      response.sendStatus(500)
-    } finally {
-      connection.release();
-    }
-    
+    await connection.query('ROLLBACK;');
+    response.sendStatus(500)
+  } finally {
+    connection.release();
   }
+
 })
 
 router.get('/guestsByEvent', (request, response) => {
@@ -177,7 +171,7 @@ router.post('/addGuest', (request, response) => {
 })
 
 router.post('/addSelf', (request, response) => {
-  
+
   if (request.isAuthenticated()) {
 
     const { user_id, event_id } = request.body;
@@ -355,7 +349,7 @@ router.delete('/deleteGuest', (request, response) => {
         console.log(event_id)
         console.log(databaseResponse.rows)
         if (databaseResponse.rows[0].host_id === request.user.id
-            || guest_id === request.user.id) {
+          || guest_id === request.user.id) {
 
           const queryText = 'DELETE FROM user_event WHERE user_id = $1 AND event_id = $2';
 
