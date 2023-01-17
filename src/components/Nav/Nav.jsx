@@ -50,7 +50,6 @@ function Nav() {
           </IconButton>
           <SwipeableDrawer
             anchor="left"
-            variant="temporary"
             open={drawerOpen}
             onOpen={() => {
               openDrawer(true);
