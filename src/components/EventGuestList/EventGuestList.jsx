@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import Swal from "sweetalert2";
 import {
@@ -8,8 +7,6 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemButton,
-  ListItemIcon,
   Button,
   IconButton,
   TextField,
@@ -35,6 +32,8 @@ export default function EventGuestList({ event, guests }) {
         event_id: event.id,
       },
     });
+
+    setNewGuest('');
   };
 
   const handleGuestDelete = (name, guest_id) => {
@@ -47,7 +46,6 @@ export default function EventGuestList({ event, guests }) {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteGuest(guest_id);
-        Swal.fire("Guest deleted.");
       }
     });
   };
