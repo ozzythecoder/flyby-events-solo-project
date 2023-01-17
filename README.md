@@ -67,10 +67,10 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<center>
+<div align="center">
 <img src="./documentation/images/login-screenshot.png" height="500" style="margin-right: 20px" />
 <img src="./documentation/images/myEvents-screenshot.png" height="500" />
-</center>
+</div>
 
 I created FlyBy Events as a prototype for a mobile-first web app where users can register, create events, invite guests, and track each others' events.
 
@@ -147,10 +147,10 @@ Use the hamburger menu to navigate through the app.
 <img src="./documentation/images/menu-screenshot.png" height="500">
 
 Create an event by filling out the required fields and confirm the details.
-
+<div align="center">
 <img src="./documentation/images/createEvent-screenshot.png" height="500" >
 <img src="./documentation/images/previewEvent-screenshot.png" height="500" >
-
+</div>
 You can edit and delete the event, and invite guests, from the event detail page. If your event is marked as public, the URL will be accessible to anyone, whether they have a FlyBy account or not. Visibility of private events is limited to the host and any invited guests.
 
 <img src="documentation/images/eventDetail-screenshot.png" height="400">
