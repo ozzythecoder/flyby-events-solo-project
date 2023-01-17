@@ -52,6 +52,23 @@ function AboutPage() {
               <li>You!</li>
             </ul>
           </Typography>
+          <Typography variant="h3">Contact</Typography>
+          <ul>
+            <li>
+              <Typography variant="bodyLink">
+                <a href="http://www.linkedin.com/in/august-mcallister" target="_blank">
+                  LinkedIn
+                </a>
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="bodyLink">
+                <a href="https://github.com/ozzythecoder/flyby-events-solo-project/" target="_blank">
+                  GitHub Repository
+                </a>
+              </Typography>
+            </li>
+          </ul>
         </Card>
       </div>
     </div>
