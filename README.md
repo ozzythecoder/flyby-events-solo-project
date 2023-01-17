@@ -138,9 +138,24 @@ This app was developed in node.js version 18.12.0. I can't guarantee functionali
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+**⚠️ This app is only functional when viewed in a mobile-style browser under 600px in width. ⚠️** 
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+If this is your first time using the app, register with a username, password, email, and phone number.
+
+Use the hamburger menu to navigate through the app.
+
+<img src="./documentation/images/menu-screenshot.png" height="500">
+
+Create an event by filling out the required fields and confirm the details.
+
+<img src="./documentation/images/createEvent-screenshot.png" height="500" >
+<img src="./documentation/images/previewEvent-screenshot.png" height="500" >
+
+You can edit and delete the event, and invite guests, from the event detail page. If your event is marked as public, the URL will be accessible to anyone, whether they have a FlyBy account or not. Visibility of private events is limited to the host and any invited guests.
+
+<img src="documentation/images/eventDetail-screenshot.png" height="400">
+
+Guests can add events, as well as *subscribe* to events. This is functionality for a future subscription feature, which will allow guests to receive text/email updates when event details change.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -149,10 +164,12 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+Potential future updates include:
+- Archive events
+- Server-side filtering
+- Profiles
+- Comments section for events
+- Fully implemented text & email notifications
 
 See the [open issues](https://github.com/ozzythecoder/flyby-events-solo-project/issues) for a full list of proposed features (and known issues).
 
@@ -201,9 +218,10 @@ Project Link: [https://github.com/ozzythecoder/flyby-events-solo-project](https:
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+Thank you to:
+* The Shawl cohort family at Prime Coding Academy
+* My instructors Dane, Key, Liz, and Kris
+* My family, friends, and partner
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
