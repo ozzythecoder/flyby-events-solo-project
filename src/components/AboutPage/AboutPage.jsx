@@ -42,11 +42,11 @@ function AboutPage() {
               <li>Fully implemented email & text notifications</li>
             </ul>
           </Typography>
-          <Typography variant="h3">Acknowledgements</Typography>
+          <Typography variant="h3">Acknowledgments</Typography>
           <Typography>
             Thank you to:
             <ul>
-              <li>My Prime Academy instructors Dane, Key, and Liz.</li>
+              <li>My Prime Academy instructors Dane, Key, Kris, and Liz.</li>
               <li>The Prime Academy Shawl cohort</li>
               <li>My friends, family, and partner Marit</li>
               <li>You!</li>
