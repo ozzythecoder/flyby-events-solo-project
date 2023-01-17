@@ -31,10 +31,10 @@ function Nav() {
   const [eventMenuOpen, openEventMenu] = useState(false);
 
   const logoutUser = () => {
-    history.push('/');
+    history.push("/");
     dispatch({ type: "LOGOUT" });
   };
-  
+
   const clearEventToSubmit = () => dispatch({ type: "CLEAR_EVENT_TO_SUBMIT" });
 
   return (
@@ -67,18 +67,24 @@ function Nav() {
               <div>
                 {/* If no user is logged in, show these links */}
                 {!user.id && (
-                  <>
-                    <NavLink
-                      linkTitle="Login / Register"
-                      path={"/login"}
-                      openDrawer={openDrawer}
-                    />
-                    <NavLink
-                      linkTitle="About This App"
-                      path={"/about"}
-                      openDrawer={openDrawer}
-                    />
-                  </>
+                  <Box sx={{ mx: 4, mt: 2, mb: 3 }}>
+                    <List>
+                      <ListItemText sx={{ mb: 2 }}>
+                        <NavLink
+                          linkTitle="Login / Register"
+                          path={"/login"}
+                          openDrawer={openDrawer}
+                        />
+                      </ListItemText>
+                      <ListItemText>
+                        <NavLink
+                          linkTitle="About This App"
+                          path={"/about"}
+                          openDrawer={openDrawer}
+                        />
+                      </ListItemText>
+                    </List>
+                  </Box>
                 )}
 
                 {/* If a user is logged in, show these links */}
