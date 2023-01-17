@@ -27,7 +27,7 @@ export default function EventDetailItem({ eventID }) {
   const eventIsVisible = event.visible || userIsHost || userIsGuest
 
   // determines visibility of user guest functions
-  const guestFunctionsAreVisible = userIsGuest || (event.visible && user.id)
+  const guestFunctionsAreVisible = userIsGuest || (event.visible && user.id && !userIsHost)
 
   useEffect(() => {
     dispatch({ type: "FETCH_EVENT_BY_ID", payload: eventID });
