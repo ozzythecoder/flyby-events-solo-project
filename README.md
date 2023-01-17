@@ -27,7 +27,7 @@
 <h3 align="center">FlyBy Events</h3>
 
   <p align="center">
-    project_description
+    A mobile-first web app to create, track, and manage events.
     <br />
     <a href="https://github.com/ozzythecoder/flyby-events-solo-project/issues">Report Bug</a>
     ·
@@ -72,7 +72,13 @@
 <img src="./documentation/images/myEvents-screenshot.png" height="500" />
 </center>
 
+I created FlyBy Events as a prototype for a mobile-first web app where users can register, create events, invite guests, and track each others' events.
 
+FlyBy Events was created as my solo project at [Prime Digital Academy](https://www.primeacademy.io/).
+
+This project has given me a great understanding of my own ability to learn and refine my skills, and push through challenges and app-breaking bugs with curiosity rather than anger or frustration. FlyBy is a very long way from being a viable consumer app, but is a functioning prototype that I am proud of.
+
+A deployed version of this app can be accessed [here]().
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -80,15 +86,14 @@
 
 ### Built With
 
-* [![React][React.js]][React-url]
-* [![Node][Node.js]][Node-url]
-* [![MUI]][MUI-url]
-* [![Postgresql]][Postgresql-url]
-* [![Redux]][Redux-url]
-* [![Redux-Saga]][Redux-saga-url]
-* [![Swal2]][Swal2-url]
-* [![Luxon.js]][Luxon-url]
-
+[![React][React.js]][React-url]
+[![Node][Node.js]][Node-url]
+[![MUI]][MUI-url]
+[![Postgresql]][Postgresql-url]
+[![Redux-Saga]][Redux-saga-url]
+[![Redux]][Redux-url]
+[![Swal2]][Swal2-url]
+[![Luxon.js]][Luxon-url]
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -96,32 +101,35 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+This app was developed in node.js version 18.12.0. I can't guarantee functionality for any older versions of node.
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/ozzythecoder/flyby-events-solo-project.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Create a `.env` file and enter a randomized session key
    ```
+   SERVER_SESSION_SECRET = << RANDOM SESSION KEY HERE >>
+   ```
+4. Start your Postgres server and create a database under the name `flyby-events-app`
+5. Build the database from the queries listed in `database.sql`
+6. Spin up your backend server
+    ```sh
+    npm run server
+    ```
+7. Run your frontend client – this will navigate you to `localhost:3000`
+    ```sh
+    npm run client
+    ```
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -155,7 +163,7 @@ See the [open issues](https://github.com/ozzythecoder/flyby-events-solo-project/
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**, with the understanding that I am a student and this was mainly created as a learning opportunity for myself.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
