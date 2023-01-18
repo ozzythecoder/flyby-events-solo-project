@@ -19,7 +19,6 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AboutPage from "../AboutPage/AboutPage";
 import UserPage from "../UserPage/UserPage";
 import InfoPage from "../InfoPage/InfoPage";
-import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import MyEvents from "../MyEvents/MyEvents";
@@ -28,6 +27,7 @@ import CreateEvent from "../CreateEvent/CreateEvent";
 import CreateEventPreview from "../CreateEventPreview/CreateEventPreview";
 import EditEvent from "../EditEvent/EditEvent";
 import EditEventPreview from "../EditEventPreview/EditEventPreview";
+import Spacer from "../Spacer/Spacer";
 
 import "./App.css";
 
@@ -117,6 +117,7 @@ function App() {
               <h1>404</h1>
             </Route>
           </Switch>
+          <Spacer />
           <Footer />
         </Router>
       </ThemeProvider>
