@@ -77,18 +77,9 @@ export default function EventForm({ goNext, title }) {
     history.goBack();
   };
 
-  const autoFill = () => {
-    setName('Ozzy, Endless Grudge, and a Special Guest...')
-    setDate('2023-01-21')
-    setEventTime('22:00')
-    setLocation('331 Club')
-    setDescription('Free show! Music at 10pm sharp. Endless Grudge\'s debut, and Ozzy\'s first show in three years. The Whicks will be spinning.')
-    setVisible(true)
-  }
-
   return (
     <div>
-      <PageTitle title={title} onClick={autoFill} />
+      <PageTitle title={title} />
 
       <form onSubmit={handleSubmit}>
         <Stack sx={{ m: 2 }} spacing={1}>
