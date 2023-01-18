@@ -78,7 +78,7 @@ FlyBy Events was created as my solo project at [Prime Digital Academy](https://w
 
 This project has given me a great understanding of my own ability to learn and refine my skills, and push through challenges and app-breaking bugs with curiosity rather than anger or frustration. FlyBy is a very long way from being a viable consumer app, but is a functioning prototype that I am proud of.
 
-A deployed version of this app can be accessed [here]().
+A deployed version of this app can be accessed [here](https://flyby-events.herokuapp.com/).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
