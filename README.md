@@ -177,7 +177,7 @@ Potential future updates include:
 - Comments section for events
 - Fully implemented text & email notifications
 
-See the [open issues](https://github.com/ozzythecoder/flyby-events-solo-project/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/ozzythecoder/flyby-events-solo-project/issues) for a full list of known issues, or to suggest a new feature.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
