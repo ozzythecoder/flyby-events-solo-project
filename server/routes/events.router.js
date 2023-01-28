@@ -13,16 +13,6 @@ router.get('/allEvents', rejectUnauthenticated, (request, response) => {
 
 })
 
-//! SHOULD NOT BE USED
-router.get('/allUsers', rejectUnauthenticated, (request, response) => {
-
-  pool
-    .query(`SELECT username, id FROM "user"`)
-    .then(databaseResponse => response.send(databaseResponse.rows))
-    .catch(err => { console.log('/allUsers', err); response.sendStatus(500) })
-
-})
-
 router.get('/userByUsername', rejectUnauthenticated, (request, response) => {
 
   const { username } = request.query
