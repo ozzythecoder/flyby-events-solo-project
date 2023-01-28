@@ -41,7 +41,7 @@ router.get('/eventById', rejectUnauthenticated, async (request, response) => {
     if (event.visible === false && event.host_id !== userId) {
 
       const inviteQuery = `SELECT * FROM user_event WHERE user_id = $1 AND event_id = $2;`
-      const eventToCheck = await pool.query(inviteQuery, [ userId, eventId ])
+      const eventToCheck = await pool.query(inviteQuery, [userId, eventId])
 
       if (eventToCheck.rows.length === 0) {
         response.sendStatus(401);
@@ -136,7 +136,7 @@ router.post('/addToMyEvents', rejectUnauthenticated, (request, response) => {
 
   pool
     .query(queryText, [user_id, event_id])
-    .then( () => {
+    .then(() => {
       console.log('Added to events');
       response.sendStatus(201);
     })
@@ -216,52 +216,41 @@ router.post('/createEvent', rejectUnauthenticated, (request, response) => {
 
 });
 
-router.put('/editEvent', rejectUnauthenticated, (request, response) => {
+router.put('/editEvent', rejectUnauthenticated, async (request, response) => {
 
-  // authorization
-  pool
-    .query('SELECT host_id FROM event WHERE id = $1', [request.body.event_id])
-    .then(databaseResponse => {
+  const user_id = request.user.id
+  const { event_id, ...event } = request.body
+  
+  try {
+    // authorization
+    const { rows: [{ host_id }] } = await pool.query('SELECT host_id FROM event WHERE id = $1', [event_id])
+    
+    if (host_id !== user_id) {
+      console.log('Unauthorized')
+      response.sendStatus(401)
+    } else {
 
-      if (databaseResponse.rows[0].host_id === request.user.id) {
+      const queryText = `
+          UPDATE event
+          SET name = $1, date = $2, time = $3, location = $4, description = $5, ticket_link = $6, visible = $7
+          WHERE id = $8
+        ;`;
 
-
-        const event = {
-          name,
-          date,
-          time,
-          location,
-          description,
-          ticket_link,
-          visible,
-          event_id
-        } = request.body;
-
-        const queryText = `
-            UPDATE event
-            SET name = $1, date = $2, time = $3, location = $4, description = $5, ticket_link = $6, visible = $7
-            WHERE id = $8
-          ;`;
-
-        pool
-          .query(queryText, Object.values(event))
-          .then(() => {
-            console.log('Updated event');
-            response.sendStatus(200);
-          })
-          .catch(err => {
-            console.log('Failed to update event:', err)
-            response.sendStatus(500);
-          })
-
-
-      } else {
-        console.log('User unauthorized', request.user.id)
-        response.sendStatus(401)
-      }
-    }) // end authorization query
-    .catch(err => { console.log('Error in /editEvent:', err); response.sendStatus(500) })
-
+      pool
+        .query(queryText, [ ...Object.values(event), event_id ])
+        .then(() => {
+          console.log('Updated event');
+          response.sendStatus(200);
+        })
+        .catch(err => {
+          console.log('Failed to update event:', err)
+          response.sendStatus(500);
+        })
+    }
+  } catch (err) {
+    console.log('Error authorizing user in /editEvent:', err);
+    response.sendStatus(500)
+} 
 
 })
 
