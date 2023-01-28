@@ -24,16 +24,40 @@ router.get('/userByUsername', rejectUnauthenticated, (request, response) => {
 })
 
 //! SHOULD BE PROTECTED ON SERVER - UNAUTHORIZED USER SHOULD NEVER MAKE THIS REQ
-router.get('/eventById', rejectUnauthenticated, (request, response) => {
+router.get('/eventById', rejectUnauthenticated, async (request, response) => {
 
   const { eventId } = request.query
-
+  const userId = request.user.id
   console.log('getting event with ID', eventId)
 
-  pool
-    .query(`SELECT * FROM event WHERE id = $1`, [eventId])
-    .then(databaseResponse => response.send(databaseResponse.rows))
-    .catch(err => { console.log('GET /eventById', err); response.sendStatus(500) })
+  // who is authorized to view event?
+  // if public event: anybody
+  // if private event: host or guest
+
+  try {
+    const dbEvent = await pool.query('SELECT * FROM event WHERE id = $1', [eventId])
+    const event = dbEvent.rows[0];
+
+    if (event.visible === false && event.host_id !== userId) {
+
+      const inviteQuery = `SELECT * FROM user_event WHERE user_id = $1 AND event_id = $2;`
+      const eventToCheck = await pool.query(inviteQuery, [ userId, eventId ])
+
+      if (eventToCheck.rows.length === 0) {
+        response.sendStatus(401);
+      } else {
+        response.send(event);
+      }
+
+    } else {
+      response.send(event);
+    }
+
+  } catch (err) {
+    console.log("Get /eventById", err);
+    response.sendStatus(500);
+  }
+
 })
 
 router.get('/eventsByHost', rejectUnauthenticated, (request, response) => {
