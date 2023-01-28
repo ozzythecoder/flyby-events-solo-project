@@ -11,16 +11,6 @@ function alertError(error) {
   })
 }
 
-function* fetchAllEvents() {
-  try {
-    const events = yield axios.get('api/events/allEvents')
-    yield put({ type: 'SET_ALL_EVENTS', payload: events.data })
-  } catch (error) {
-    console.log('Error fetching all events', error);
-    alertError('Error fetching events. Please try again later.')
-  }
-}
-
 function* fetchMyEvents() {
   try {
 
@@ -95,7 +85,6 @@ function* deleteEvent(action) {
 }
 
 function* eventsSaga() {
-  yield takeLatest('FETCH_ALL_EVENTS', fetchAllEvents)
   yield takeLatest('FETCH_MY_EVENTS', fetchMyEvents)
   yield takeLatest('FETCH_EVENT_BY_ID', fetchEventById)
   yield takeLatest('FETCH_EDIT_EVENT', fetchEditEvent)

@@ -10,12 +10,6 @@ const eventObj = {
   visible: false
 }
 
-const allEvents = (state = [], action) => {
-  switch (action.type) {
-    case 'SET_ALL_EVENTS': return action.payload;
-    default: return state;
-  }
-}
 
 const thisEvent = (state = eventObj, action) => {
   switch (action.type) {
@@ -52,6 +46,5 @@ export default combineReducers({
   myEvents,
   thisEvent,
   eventEditId,
-  allEvents,
   eventToSubmit
 });

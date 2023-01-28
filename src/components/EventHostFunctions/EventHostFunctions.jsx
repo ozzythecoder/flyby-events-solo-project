@@ -42,9 +42,9 @@ export default function EventHostFunctions({ event }) {
       type: "DELETE_EVENT",
       payload: event.id,
     });
-    dispatch({ type: "FETCH_ALL_EVENTS" });
+    dispatch({ type: "FETCH_MY_EVENTS" });
   }
-
+  
   return (
     <div>
       <Stack

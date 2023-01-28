@@ -3,15 +3,6 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 const pool = require('../modules/pool');
 const router = express.Router();
 
-//! SHOULD NOT BE USED
-router.get('/allEvents', rejectUnauthenticated, (request, response) => {
-
-  pool
-    .query(`SELECT * FROM event WHERE visible = true`)
-    .then(databaseResponse => response.send(databaseResponse.rows))
-    .catch(err => { console.log('allEvents', err); response.sendStatus(500) })
-
-})
 
 router.get('/userByUsername', rejectUnauthenticated, (request, response) => {
 
