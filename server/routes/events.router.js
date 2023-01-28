@@ -23,7 +23,7 @@ router.get('/userByUsername', rejectUnauthenticated, (request, response) => {
     .catch(err => { console.log('/userByUsername', err); response.sendStatus(500) })
 })
 
-//! SHOULD BE PROTECTED ON SERVER - UNAUTHORIZED USER SHOULD NEVER MAKE THIS REQ
+
 router.get('/eventById', rejectUnauthenticated, async (request, response) => {
 
   const { eventId } = request.query
@@ -68,6 +68,7 @@ router.get('/eventsByHost', rejectUnauthenticated, (request, response) => {
       response.send(databaseResponse.rows)
     })
     .catch(err => { console.log('Error in GET /byHost', err); response.sendStatus(500) })
+
 })
 
 router.get('/eventsByGuest', rejectUnauthenticated, async (request, response) => {
@@ -90,8 +91,7 @@ router.get('/eventsByGuest', rejectUnauthenticated, async (request, response) =>
     const hostEvents = await connection.query(hostQuery, [user_id])
     await connection.query('COMMIT;')
 
-    const eventArray = [...guestEvents.rows, ...hostEvents.rows]
-    response.send(eventArray)
+    response.send([...guestEvents.rows, ...hostEvents.rows])
   } catch (error) {
 
     await connection.query('ROLLBACK;');
@@ -136,7 +136,7 @@ router.post('/addToMyEvents', rejectUnauthenticated, (request, response) => {
 
   pool
     .query(queryText, [user_id, event_id])
-    .then(databaseResponse => {
+    .then( () => {
       console.log('Added to events');
       response.sendStatus(201);
     })
@@ -218,24 +218,24 @@ router.post('/createEvent', rejectUnauthenticated, (request, response) => {
 
 router.put('/editEvent', rejectUnauthenticated, (request, response) => {
 
-  // check if user is authorized to edit event
-  pool.query('SELECT host_id FROM event WHERE id = $1', [request.body.event_id])
+  // authorization
+  pool
+    .query('SELECT host_id FROM event WHERE id = $1', [request.body.event_id])
     .then(databaseResponse => {
+
       if (databaseResponse.rows[0].host_id === request.user.id) {
 
-        //? Maybe a cleaner way to do this?
-        const event = [
-          request.body.name,
-          request.body.date,
-          request.body.time,
-          request.body.location,
-          request.body.description,
-          request.body.ticket_link,
-          request.body.visible,
-          request.body.event_id
-        ]
 
-        console.log(event);
+        const event = {
+          name,
+          date,
+          time,
+          location,
+          description,
+          ticket_link,
+          visible,
+          event_id
+        } = request.body;
 
         const queryText = `
             UPDATE event
@@ -244,7 +244,7 @@ router.put('/editEvent', rejectUnauthenticated, (request, response) => {
           ;`;
 
         pool
-          .query(queryText, event)
+          .query(queryText, Object.values(event))
           .then(() => {
             console.log('Updated event');
             response.sendStatus(200);
