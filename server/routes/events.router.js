@@ -220,11 +220,11 @@ router.put('/editEvent', rejectUnauthenticated, async (request, response) => {
 
   const user_id = request.user.id
   const { event_id, ...event } = request.body
-  
+
   try {
     // authorization
     const { rows: [{ host_id }] } = await pool.query('SELECT host_id FROM event WHERE id = $1', [event_id])
-    
+
     if (host_id !== user_id) {
       console.log('Unauthorized')
       response.sendStatus(401)
@@ -237,7 +237,7 @@ router.put('/editEvent', rejectUnauthenticated, async (request, response) => {
         ;`;
 
       pool
-        .query(queryText, [ ...Object.values(event), event_id ])
+        .query(queryText, [...Object.values(event), event_id])
         .then(() => {
           console.log('Updated event');
           response.sendStatus(200);
@@ -250,7 +250,7 @@ router.put('/editEvent', rejectUnauthenticated, async (request, response) => {
   } catch (err) {
     console.log('Error authorizing user in /editEvent:', err);
     response.sendStatus(500)
-} 
+  }
 
 })
 
@@ -331,25 +331,19 @@ router.delete('/deleteGuest', rejectUnauthenticated, async (request, response) =
 
 })
 
-router.delete('/removeEventFromMyEvents', rejectUnauthenticated, (request, response) => {
-
+router.delete('/removeEventFromMyEvents', rejectUnauthenticated, async (request, response) => {
 
   const user_id = request.user.id;
   const { event_id } = request.body;
 
-  pool
-    .query(
-      'DELETE FROM user_event WHERE user_id = $1 AND event_id = $2',
-      [user_id, event_id]
-    )
-    .then(() => {
-      console.log('Deleted user', user_id, 'from event', event_id);
-      response.sendStatus(200)
-    })
-    .catch(err => {
-      console.log('Error deleting user from event')
-      response.sendStatus(500)
-    })
+  try {
+    await pool.query('DELETE FROM user_event WHERE user_id = $1 AND event_id = $2', [user_id, event_id])
+    console.log('Deleted user', user_id, 'from event', event_id);
+    response.sendStatus(200)
+  } catch (err) {
+    console.log('Error deleting user from event')
+    response.sendStatus(500)
+  }
 
 })
 
