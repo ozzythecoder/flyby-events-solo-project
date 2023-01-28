@@ -5,7 +5,7 @@ import { put, takeLatest } from 'redux-saga/effects'
 
 function* fetchEventGuests(action) {
   try {
-    const guests = yield axios.get('/api/events/guestsByEvent',
+    const guests = yield axios.get('/api/guests/byEvent',
       { params: { event_id: action.payload } })
     yield put({ type: 'SET_EVENT_GUESTS', payload: guests.data })
   } catch (error) {
@@ -16,7 +16,7 @@ function* fetchEventGuests(action) {
 function* addEventGuest(action) {
   try {
     console.log(action.payload)
-    yield axios.post('/api/events/addGuest', action.payload)
+    yield axios.post('/api/guests/addToEvent', action.payload)
     yield put({
       type: 'FETCH_EVENT_GUESTS',
       payload: action.payload.event_id
@@ -31,7 +31,7 @@ function* addEventGuest(action) {
 function* addSelfToEvent(action) {
 
   try {
-    yield axios.post('/api/events/addSelf', action.payload)
+    yield axios.post('/api/events/addToMyEvents', action.payload)
     yield put({ type: 'FETCH_EVENT_GUESTS', payload: action.payload.event_id })
   } catch (error) {
     console.log('addSelfToEvent saga', error)
@@ -66,7 +66,7 @@ function* findGuestByUsername(action) {
 
 function* editGuestState(action) {
   try {
-    yield axios.put('/api/events/editStatus', action.payload)
+    yield axios.put('/api/guests/editStatus', action.payload)
     yield put({ type: 'FETCH_EVENT_GUESTS', payload: action.payload.event_id })
   } catch (error) {
     alert('Error encountered:', error)
@@ -77,7 +77,7 @@ function* editGuestState(action) {
 function* deleteGuestFromEvent(action) {
   const { guest_id, event_id } = action.payload;
   try {
-    yield axios.delete('/api/events/deleteGuest', { data: { guest_id, event_id } })
+    yield axios.delete('/api/guests/deleteFromEvent', { data: { guest_id, event_id } })
     yield put({ type: 'FETCH_EVENT_GUESTS', payload: event_id })
   } catch (error) {
     console.log(error)
@@ -90,9 +90,7 @@ function* guestsSaga() {
   yield takeLatest('FIND_GUEST_BY_USERNAME', findGuestByUsername)
   yield takeLatest('ADD_EVENT_GUEST', addEventGuest)
   yield takeLatest('ADD_SELF_TO_EVENT', addSelfToEvent)
-
   yield takeLatest('EDIT_GUEST_STATE', editGuestState)
-
   yield takeLatest('DELETE_GUEST', deleteGuestFromEvent)
 }
 
