@@ -306,39 +306,29 @@ router.delete('/deleteEvent/:idToDelete', rejectUnauthenticated, async (request,
 
 })
 
-router.delete('/deleteGuest', rejectUnauthenticated, (request, response) => {
+router.delete('/deleteGuest', rejectUnauthenticated, async (request, response) => {
 
-
+  const user_id = request.user.id;
   const { event_id, guest_id } = request.body;
 
-  pool.query('SELECT host_id FROM event WHERE id = $1', [event_id])
-    .then(databaseResponse => {
-      console.log(event_id)
-      console.log(databaseResponse.rows)
-      if (databaseResponse.rows[0].host_id === request.user.id
-        || guest_id === request.user.id) {
+  try {
+    const { rows: [{ host_id }] } = await pool.query('SELECT host_id FROM event WHERE id = $1', [event_id])
 
-        const queryText = 'DELETE FROM user_event WHERE user_id = $1 AND event_id = $2';
+    console.log(host_id)
 
-        pool.query(queryText, [guest_id, event_id])
-          .then(() => {
-            console.log('User', guest_id, 'deleted from event', event_id);
-            response.sendStatus(200)
-          })
-          .catch(err => {
-            console.log('Error deleting event', err);
-            response.sendStatus(500);
-          })
+    if (host_id !== user_id && guest_id !== user_id) {
+      console.log('Unauthorized');
+      response.sendStatus(401);
+    } else {
+      await pool.query('DELETE FROM user_event WHERE user_id = $1 AND event_id = $2', [guest_id, event_id])
+      console.log('Deleted guest', guest_id, 'from event');
+      response.sendStatus(200);
+    }
+  } catch (err) {
+    console.log('Error deleting guest', err);
+    response.sendStatus(500);
+  }
 
-      } else {
-        console.log('Unauthorized user');
-        response.sendStatus(401);
-      }
-    })
-    .catch(err => {
-      console.log('Error authorizing user to delete guest', err);
-      response.sendStatus(500);
-    })
 })
 
 router.delete('/removeEventFromMyEvents', rejectUnauthenticated, (request, response) => {
