@@ -17,24 +17,19 @@ router.get('/userByUsername', rejectUnauthenticated, (request, response) => {
 
 router.get('/eventById', rejectUnauthenticated, async (request, response) => {
 
-  const { eventId } = request.query
-  const userId = request.user.id
-  console.log('getting event with ID', eventId)
-
-  // who is authorized to view event?
-  // if public event: anybody
-  // if private event: host or guest
+  const { eventId: event_id } = request.query
+  const user_id = request.user.id
+  console.log('getting event with ID', event_id)
 
   try {
-    const dbEvent = await pool.query('SELECT * FROM event WHERE id = $1', [eventId])
-    const event = dbEvent.rows[0];
+    const { rows: [ event ] } = await pool.query('SELECT * FROM event WHERE id = $1', [event_id])
 
-    if (event.visible === false && event.host_id !== userId) {
+    if (event.visible === false && event.host_id !== user_id) {
 
       const inviteQuery = `SELECT * FROM user_event WHERE user_id = $1 AND event_id = $2;`
-      const eventToCheck = await pool.query(inviteQuery, [userId, eventId])
+      const { rows } = await pool.query(inviteQuery, [user_id, event_id])
 
-      if (eventToCheck.rows.length === 0) {
+      if (rows.length === 0) {
         response.sendStatus(401);
       } else {
         response.send(event);
