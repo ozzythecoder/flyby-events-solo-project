@@ -28,7 +28,8 @@ function* fetchEventById(action) {
         eventId: action.payload
       }
     })
-    yield put({ type: 'SET_THIS_EVENT', payload: thisEvent.data[0] })
+    console.log('thisEvent:', thisEvent)
+    yield put({ type: 'SET_THIS_EVENT', payload: thisEvent.data })
   } catch (error) {
     console.log('Error fetching event by ID', error)
     alertError('Error fetching events. Please try again later.')

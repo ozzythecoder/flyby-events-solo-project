@@ -21,6 +21,7 @@ router.get('/byId', rejectUnauthenticated, async (request, response) => {
       const { rows } = await pool.query(inviteQuery, [user_id, event_id])
 
       if (rows.length === 0) {
+        console.log('Unauthorized');
         response.sendStatus(401);
       } else {
         response.send(event);
