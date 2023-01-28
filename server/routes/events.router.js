@@ -283,36 +283,26 @@ router.put('/editStatus', rejectUnauthenticated, (request, response) => {
 
 })
 
-router.delete('/deleteEvent/:idToDelete', rejectUnauthenticated, (request, response) => {
+router.delete('/deleteEvent/:idToDelete', rejectUnauthenticated, async (request, response) => {
 
   const { idToDelete } = request.params
+  const user_id = request.user.id
 
-  pool
-    .query('SELECT * FROM event WHERE id = $1', [idToDelete])
-    .then(databaseResponse => {
-      if (databaseResponse.rows[0].host_id === request.user.id) {
+  try {
+    const { rows: [{ host_id }] } = await pool.query('SELECT host_id FROM event WHERE id = $1', [idToDelete])
 
-        pool
-          .query('DELETE FROM event WHERE id = $1', [idToDelete])
-          .then(() => {
-            console.log('Deleted event');
-            response.sendStatus(200);
-          })
-          .catch(err => {
-            console.log('Error deleting event', err)
-            response.sendStatus(500);
-          })
+    if (host_id !== user_id) {
+      response.sendStatus(401)
+    } else {
+      await pool.query('DELETE FROM event WHERE id = $1', [idToDelete])
+      console.log('Deleted event');
+      response.sendStatus(200);
+    }
 
-      } else {
-        console.log('Unauthorized user')
-        response.sendStatus(401);
-      }
-
-    })
-    .catch(err => {
-      console.log('Error authorizing user to delete event', err)
-      response.sendStatus(500);
-    })
+  } catch (err) {
+    console.log('Error deleting event', err);
+    response.sendStatus(500);
+  }
 
 })
 
