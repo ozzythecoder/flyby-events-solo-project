@@ -41,7 +41,7 @@ function* addSelfToEvent(action) {
 
 function* findGuestByUsername(action) {
   try {
-    const guestObj = yield axios.get('/api/events/userByUsername',
+    const guestObj = yield axios.get('/api/guests/byUsername',
     { params: { username: action.payload.username } })
 
     const user_id = guestObj.data[0]?.id || null
