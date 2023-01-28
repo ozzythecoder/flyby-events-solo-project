@@ -3,6 +3,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 const pool = require('../modules/pool');
 const router = express.Router();
 
+//! SHOULD NOT BE USED
 router.get('/allEvents', rejectUnauthenticated, (request, response) => {
 
   pool
@@ -12,6 +13,7 @@ router.get('/allEvents', rejectUnauthenticated, (request, response) => {
 
 })
 
+//! SHOULD NOT BE USED
 router.get('/allUsers', rejectUnauthenticated, (request, response) => {
 
   pool
@@ -31,6 +33,7 @@ router.get('/userByUsername', rejectUnauthenticated, (request, response) => {
     .catch(err => { console.log('/userByUsername', err); response.sendStatus(500) })
 })
 
+//! SHOULD BE PROTECTED ON SERVER - UNAUTHORIZED USER SHOULD NEVER MAKE THIS REQ
 router.get('/eventById', rejectUnauthenticated, (request, response) => {
 
   const { eventId } = request.query
@@ -206,7 +209,7 @@ router.put('/editEvent', rejectUnauthenticated, (request, response) => {
     .then(databaseResponse => {
       if (databaseResponse.rows[0].host_id === request.user.id) {
 
-        // Maybe a cleaner way to do this?
+        //? Maybe a cleaner way to do this?
         const event = [
           request.body.name,
           request.body.date,
