@@ -3,6 +3,8 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 const pool = require('../modules/pool');
 const router = express.Router();
 
+// =======================
+// GET USERS BY USERNAME
 
 router.get('/byUsername', rejectUnauthenticated, (request, response) => {
 
@@ -13,6 +15,9 @@ router.get('/byUsername', rejectUnauthenticated, (request, response) => {
     .then(databaseResponse => response.send(databaseResponse.rows))
     .catch(err => { console.log('/guests/byUsername', err); response.sendStatus(500) })
 })
+
+// =======================
+// GET GUEST BY EVENT
 
 router.get('/byEvent', rejectUnauthenticated, (request, response) => {
 
@@ -33,6 +38,9 @@ router.get('/byEvent', rejectUnauthenticated, (request, response) => {
     .catch(err => { console.log('Error in GET /guestsByEvent', err); response.sendStatus(500) })
 
 })
+
+// =======================
+// ADD GUEST TO EVENT
 
 router.post('/addToEvent', rejectUnauthenticated, (request, response) => {
 
@@ -60,6 +68,9 @@ router.post('/addToEvent', rejectUnauthenticated, (request, response) => {
 
 })
 
+// =======================
+// EDIT STATUS OF GUEST
+
 router.put('/editStatus', rejectUnauthenticated, (request, response) => {
 
   const { event_id, guest_id, guest_state } = request.body;
@@ -79,8 +90,10 @@ router.put('/editStatus', rejectUnauthenticated, (request, response) => {
       console.log('Error updating guest status', err);
       response.sendStatus(500)
     })
-
 })
+
+// =======================
+// DELETE A GUEST FROM AN EVENT
 
 router.delete('/deleteFromEvent', rejectUnauthenticated, async (request, response) => {
 

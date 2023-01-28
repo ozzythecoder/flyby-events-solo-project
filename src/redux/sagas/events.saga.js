@@ -13,12 +13,8 @@ function alertError(error) {
 
 function* fetchMyEvents() {
   try {
-
-    console.log('in fetchmyevents');
-    const myEvents = yield axios.get('/api/events/eventsByGuest')
-    console.log('just finished GET request');
+    const myEvents = yield axios.get('/api/events/byUser')
     yield put({ type: 'SET_MY_EVENTS', payload: myEvents.data })
-    console.log('and one more for good measure');
   } catch (error) {
     console.log('Error fetching events', error)
     alertError('Error fetching events. Please try again later.')
@@ -27,7 +23,7 @@ function* fetchMyEvents() {
 
 function* fetchEventById(action) {
   try {
-    const thisEvent = yield axios.get('/api/events/eventById', {
+    const thisEvent = yield axios.get('/api/events/byId', {
       params: {
         eventId: action.payload
       }
@@ -55,7 +51,7 @@ function* fetchEditEvent(action) {
 
 function* addNewEvent(action) {
   try {
-    yield axios.post('/api/events/createEvent', action.payload)
+    yield axios.post('/api/events/create', action.payload)
     yield put({ type: 'FETCH_MY_EVENTS' })
   } catch (error) {
     console.log('Error posting new event')
@@ -66,7 +62,7 @@ function* addNewEvent(action) {
 
 function* editEvent(action) {
   try {
-    yield axios.put('/api/events/editEvent', action.payload)
+    yield axios.put('/api/events/edit', action.payload)
     yield put({ type: 'FETCH_EVENT_BY_ID', payload: action.payload.event_id })
   } catch (error) {
     console.log('Error editing event', error)
@@ -76,7 +72,7 @@ function* editEvent(action) {
 
 function* deleteEvent(action) {
   try {
-    yield axios.delete('/api/events/deleteEvent/' + action.payload)
+    yield axios.delete('/api/events/delete/' + action.payload)
     yield put({ type: 'FETCH_MY_EVENTS' })
   } catch (error) {
     console.log('Error deleting event', error)

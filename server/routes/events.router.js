@@ -3,15 +3,17 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 const pool = require('../modules/pool');
 const router = express.Router();
 
+// =======================
+// GET EVENT BY ID
 
-router.get('/eventById', rejectUnauthenticated, async (request, response) => {
+router.get('/byId', rejectUnauthenticated, async (request, response) => {
 
   const { eventId: event_id } = request.query
   const user_id = request.user.id
   console.log('getting event with ID', event_id)
 
   try {
-    const { rows: [ event ] } = await pool.query('SELECT * FROM event WHERE id = $1', [event_id])
+    const { rows: [event] } = await pool.query('SELECT * FROM event WHERE id = $1', [event_id])
 
     if (event.visible === false && event.host_id !== user_id) {
 
@@ -35,18 +37,10 @@ router.get('/eventById', rejectUnauthenticated, async (request, response) => {
 
 })
 
-router.get('/eventsByHost', rejectUnauthenticated, (request, response) => {
+// =======================
+// GET ALL USER'S EVENTS
 
-  pool
-    .query(`SELECT * FROM event WHERE host_id = $1`, [request.user.id])
-    .then(databaseResponse => {
-      response.send(databaseResponse.rows)
-    })
-    .catch(err => { console.log('Error in GET /byHost', err); response.sendStatus(500) })
-
-})
-
-router.get('/eventsByGuest', rejectUnauthenticated, async (request, response) => {
+router.get('/byUser', rejectUnauthenticated, async (request, response) => {
 
   const user_id = request.user.id
   const connection = await pool.connect();
@@ -77,6 +71,9 @@ router.get('/eventsByGuest', rejectUnauthenticated, async (request, response) =>
 
 })
 
+// =======================
+// ADD TO MY EVENTS
+
 router.post('/addToMyEvents', rejectUnauthenticated, (request, response) => {
 
   const user_id = request.user.id
@@ -99,30 +96,10 @@ router.post('/addToMyEvents', rejectUnauthenticated, (request, response) => {
 
 })
 
-router.post('/addToMyEvents', rejectUnauthenticated, (request, response) => {
+// =======================
+// CREATE NEW EVENT
 
-  const { user_id, event_id } = request.body;
-
-  const queryText = `
-    INSERT INTO user_event
-      (user_id, event_id, guest_state, is_read)
-    VALUES
-      ($1, $2, 'added', 'false')
-    ;`;
-
-  pool
-    .query(queryText, [user_id, event_id])
-    .then(databaseResponse => {
-      response.sendStatus(201)
-    })
-    .catch(error => {
-      console.log('/addToMyEvents', error)
-      response.sendStatus(500)
-    })
-
-})
-
-router.post('/createEvent', rejectUnauthenticated, (request, response) => {
+router.post('/create', rejectUnauthenticated, (request, response) => {
 
   const { name, date, time, location, description, ticket_link, visible } = request.body;
   const host_id = request.user.id;
@@ -144,7 +121,10 @@ router.post('/createEvent', rejectUnauthenticated, (request, response) => {
 
 });
 
-router.put('/editEvent', rejectUnauthenticated, async (request, response) => {
+// =======================
+// EDIT EVENT
+
+router.put('/edit', rejectUnauthenticated, async (request, response) => {
 
   const user_id = request.user.id
   const { event_id, ...event } = request.body
@@ -164,25 +144,22 @@ router.put('/editEvent', rejectUnauthenticated, async (request, response) => {
           WHERE id = $8
         ;`;
 
-      pool
-        .query(queryText, [...Object.values(event), event_id])
-        .then(() => {
-          console.log('Updated event');
-          response.sendStatus(200);
-        })
-        .catch(err => {
-          console.log('Failed to update event:', err)
-          response.sendStatus(500);
-        })
+      await pool.query(queryText, [...Object.values(event), event_id])
+      console.log('Updated event');
+      response.sendStatus(200);
+
     }
   } catch (err) {
-    console.log('Error authorizing user in /editEvent:', err);
+    console.log('Error updating event:', err);
     response.sendStatus(500)
   }
 
 })
 
-router.delete('/deleteEvent/:idToDelete', rejectUnauthenticated, async (request, response) => {
+// =======================
+// DELETE EVENT
+
+router.delete('/delete/:idToDelete', rejectUnauthenticated, async (request, response) => {
 
   const { idToDelete } = request.params
   const user_id = request.user.id
@@ -204,6 +181,9 @@ router.delete('/deleteEvent/:idToDelete', rejectUnauthenticated, async (request,
   }
 
 })
+
+// =======================
+// DELETE FROM MY EVENTS
 
 router.delete('/removeEventFromMyEvents', rejectUnauthenticated, async (request, response) => {
 
