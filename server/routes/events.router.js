@@ -15,7 +15,9 @@ router.get('/byId', rejectUnauthenticated, async (request, response) => {
   try {
     const { rows: [event] } = await pool.query('SELECT * FROM event WHERE id = $1', [event_id])
 
-    if (event.visible === false && event.host_id !== user_id) {
+    if (!event) {
+      response.sendStatus(400)
+    } else if (event.visible === false && event.host_id !== user_id) {
 
       const inviteQuery = `SELECT * FROM user_event WHERE user_id = $1 AND event_id = $2;`
       const { rows } = await pool.query(inviteQuery, [user_id, event_id])

@@ -38,12 +38,12 @@ function* fetchEventById(action) {
 
 function* fetchEditEvent(action) {
   try {
-    const thisEvent = yield axios.get('/api/events/eventById', {
+    const thisEvent = yield axios.get('/api/events/byId', {
       params: {
         eventId: action.payload
       }
     })
-    yield put({ type: 'SET_EVENT_TO_SUBMIT', payload: thisEvent.data[0] })
+    yield put({ type: 'SET_EVENT_TO_SUBMIT', payload: thisEvent.data })
   } catch (error) {
     console.log('fetchEditEvent', error);
     alertError('Error fetching event. Please try again later.')
